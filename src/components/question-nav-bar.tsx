@@ -48,7 +48,7 @@ export function QuestionNavBar({
 
         let cls = "yf-navpill";
         if (submitted && result) {
-          cls += result.correct ? " correct-pill" : " incorrect-pill";
+          cls += result.isCorrect ? " correct-pill" : " incorrect-pill";
         } else if (answered) {
           cls += " answered";
         }

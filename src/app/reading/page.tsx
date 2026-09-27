@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import Image from "next/image";
 import { YouFatNavbar } from "@/components/navbar";
 
 export const metadata = {
@@ -37,15 +38,6 @@ const TYPE_LABELS: Record<string, string> = {
   SENTENCE_COMPLETION: "Sentence Completion",
   TABLE_COMPLETION: "Table Completion",
   MAP_DIAGRAM_LABEL: "Map, Diagram Label",
-};
-
-// Thumb fallback emoji by passage number
-const THUMB_EMOJI: Record<number, string> = {
-  1: "🏛️", 2: "🔬", 3: "🌍",
-};
-
-const BADGE_COLORS: Record<number, string> = {
-  1: "yf-badge-1", 2: "yf-badge-2", 3: "yf-badge-3",
 };
 
 export default async function ReadingListingPage() {
@@ -94,7 +86,8 @@ export default async function ReadingListingPage() {
         <aside className="yf-sidebar">
           <div className="yf-sidebar-group">
             <Link href="/reading" className="yf-sidebar-group-header active">
-              📖 Reading
+              <Image src="/nav_reading.webp" alt="Reading" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Reading</span>
             </Link>
             <div className="yf-sidebar-sub">
               <Link href="/reading" className="yf-sidebar-sub-item active">
@@ -109,7 +102,8 @@ export default async function ReadingListingPage() {
           </div>
           <div className="yf-sidebar-group">
             <Link href="/listening" className="yf-sidebar-group-header">
-              🎧 Listening
+              <Image src="/nav_listening.webp" alt="Listening" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Listening</span>
             </Link>
             <div className="yf-sidebar-sub">
               <Link href="/listening" className="yf-sidebar-sub-item">
@@ -128,7 +122,8 @@ export default async function ReadingListingPage() {
           </div>
           <div className="yf-sidebar-group">
             <Link href="/writing" className="yf-sidebar-group-header">
-              ✏️ Writing
+              <Image src="/nav_writing.svg" alt="Writing" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Writing</span>
             </Link>
             <div className="yf-sidebar-sub">
               <Link href="/writing" className="yf-sidebar-sub-item">
@@ -139,8 +134,15 @@ export default async function ReadingListingPage() {
           </div>
           <div className="yf-sidebar-group">
             <Link href="/speaking" className="yf-sidebar-group-header">
-              🎤 Speaking
+              <Image src="/nav_speaking.webp" alt="Speaking" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Speaking</span>
             </Link>
+            <div className="yf-sidebar-sub">
+              <Link href="/speaking" className="yf-sidebar-sub-item">
+                <span className="yf-sidebar-radio" />
+                Luyện nói
+              </Link>
+            </div>
           </div>
         </aside>
 
@@ -148,7 +150,15 @@ export default async function ReadingListingPage() {
         <main className="yf-content">
           {/* Promo banner */}
           <div className="yf-promo">
-            <span className="yf-promo-emoji">🐥</span>
+            <div className="w-9 h-9 relative flex-shrink-0">
+              <Image
+                src="/mascot.webp"
+                alt="YouFat Mascot"
+                width={36}
+                height={36}
+                className="w-full h-full object-contain"
+              />
+            </div>
             <div className="yf-promo-text">
               <div className="yf-promo-title">
                 Phá đảo tất cả dạng đề IELTS cùng YouFat!
@@ -169,14 +179,6 @@ export default async function ReadingListingPage() {
           {/* Books */}
           {books.map((book) => {
             const items = byBook.get(book) ?? [];
-            // Group by test
-            const byTest = new Map<number, typeof items>();
-            for (const item of items) {
-              const tn = item.test.test_number;
-              if (!byTest.has(tn)) byTest.set(tn, []);
-              byTest.get(tn)!.push(item);
-            }
-
             return (
               <div key={book}>
                 <div className="yf-section-header">Cambridge {book}</div>
@@ -185,10 +187,6 @@ export default async function ReadingListingPage() {
                     const types = Array.from(
                       typesBySection.get(section.id) ?? []
                     ).slice(0, 3);
-                    const badgeCls =
-                      BADGE_COLORS[section.section_number] ?? "yf-badge-1";
-                    const emoji =
-                      THUMB_EMOJI[section.section_number] ?? "📄";
 
                     return (
                       <Link
@@ -197,27 +195,40 @@ export default async function ReadingListingPage() {
                         className="yf-card"
                       >
                         {/* Thumbnail */}
-                        <div className="yf-card-thumb">
-                          <div
-                            className="yf-card-thumb-fallback"
+                        <div
+                          className="yf-card-thumb relative overflow-hidden"
+                          style={{
+                            background:
+                              section.section_number === 1
+                                ? "linear-gradient(135deg, #FFF4EC 0%, #FCE8DD 100%)"
+                                : section.section_number === 2
+                                ? "linear-gradient(135deg, #F0EEFF 0%, #E3DEFF 100%)"
+                                : "linear-gradient(135deg, #E8F8F0 0%, #D4F4E4 100%)",
+                          }}
+                        >
+                          {/* Centered Book Graphic */}
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
+                            <svg className="w-20 h-20 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            </svg>
+                          </div>
+
+                          <span className="yf-card-plays">
+                            {section.total_questions} câu
+                          </span>
+
+                          <span
+                            className="yf-card-badge"
                             style={{
-                              background:
-                                section.section_number === 1
-                                  ? "#fff3e0"
-                                  : section.section_number === 2
-                                  ? "#ede7f6"
-                                  : "#e0f7fa",
+                              background: "rgba(255,255,255,0.85)",
+                              color: "#475569",
+                              fontWeight: 700,
+                              borderRadius: 6,
+                              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                             }}
                           >
-                            {emoji}
-                          </div>
-                          <span
-                            className={`yf-card-badge ${badgeCls}`}
-                          >
                             Passage {section.section_number}
-                          </span>
-                          <span className="yf-card-plays">
-                            👁 {section.total_questions} câu
                           </span>
                         </div>
 

@@ -1,4 +1,4 @@
-﻿export type SkillType = 'reading' | 'listening';
+export type SkillType = 'reading' | 'listening';
 export type AnswerMode = 'single' | 'any_of' | 'all_of';
 
 export interface Test {
@@ -43,7 +43,7 @@ export interface Question {
   prompt: string;
   answer: string[]; // ['A'] hoặc ['4 sides', 'four sides']
   explanation?: string;
-  locate_info?: any;
+  locate_info?: unknown;
   image_url?: string;
   options?: QuestionOption[];
   created_at: string;
@@ -79,7 +79,7 @@ export interface UserSubmission {
   total_correct?: number;
   total_questions?: number;
   essay_text?: string;
-  ai_feedback?: any;
+  ai_feedback?: unknown;
   duration_seconds?: number;
   submitted_at: string;
 }

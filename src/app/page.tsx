@@ -196,7 +196,7 @@ export default function HomePage() {
 
         <div className="w-full max-w-[1304px] mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
           {/* Main Heading with Authentic YouPass Typography and Two-Stage Green Blob Animation */}
-          <div className="md:max-w-[713px] max-w-[370px] text-center md:text-[48px] text-[26px] font-bold md:leading-[60px] leading-[34px] tracking-tight relative z-10 mx-auto mb-4">
+          <div className="md:max-w-[713px] max-w-[370px] text-center md:text-[48px] text-[24px] font-bold md:leading-[60px] leading-[34px] tracking-tight relative z-10 mx-auto mb-4">
             <div className="relative inline-block z-10">
               {/* Stage 2: Green SVG Blob sweeps in behind text and highlighted words transition to white */}
               <div className="absolute xl:-top-2.5 xl:-left-[18px] md:-top-2 md:-left-[16px] -left-2 -z-10 xl:w-[466px] xl:h-[133px] md:w-[452px] md:h-[128px] w-[265px] h-[68px] -top-1 pointer-events-none select-none animate-heading-blob">

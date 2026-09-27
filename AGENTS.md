@@ -23,7 +23,7 @@ IELTS Cambridge 10-20 practice web app. Students pick a test, do Reading/Listeni
 
 ## UI Design Direction
 
-**Clone the YouPass UI as closely as possible.** Reference site: https://youpass.vn/luyen-thi
+**Clone the YouPass UI as closely as possible.** Reference site: https://youpass.vn
 
 Key UI patterns to replicate from YouPass:
 - **Test listing page:** Grid/card layout grouped by Cambridge book (10-20), with skill tabs (Reading / Listening / Writing)
@@ -129,6 +129,9 @@ src/
 | `NEXT_PUBLIC_R2_AUDIO_BASE_URL` | Client | Yes (audio playback) |
 
 **Never** put `SUPABASE_SERVICE_ROLE_KEY` in a `NEXT_PUBLIC_` variable or import it in Client Components.
+
+# Antigravity options
+If you are antigravity, you should follow more antigravity agent rules by follow `.agents/rules/antigarvity-rtk-rules.md`
 
 ## Git Conventions
 

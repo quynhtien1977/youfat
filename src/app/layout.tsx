@@ -23,7 +23,7 @@ export default function RootLayout({ children }: LayoutProps) {
       lang="vi"
       className={`${nunito.variable} h-full antialiased font-sans`}
     >
-      <body className="min-h-full bg-[#fbf9f5] text-[#1d1d1f] font-sans antialiased">{children}</body>
+      <body className="min-h-full bg-[#fbf9f5] text-[#1e293b] font-sans antialiased">{children}</body>
     </html>
   );
 }

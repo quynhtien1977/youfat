@@ -42,7 +42,7 @@ export function YouFatNavbar() {
   const handlePracticeMouseLeave = () => {
     practiceTimerRef.current = setTimeout(() => {
       setPracticeOpen(false);
-    }, 280);
+    }, 120);
   };
 
   const handleCoursesMouseEnter = () => {
@@ -61,7 +61,7 @@ export function YouFatNavbar() {
   const handleCoursesMouseLeave = () => {
     coursesTimerRef.current = setTimeout(() => {
       setCoursesOpen(false);
-    }, 280);
+    }, 120);
   };
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export function YouFatNavbar() {
       </div>
 
       <header
-        className={`w-full sticky top-0 z-50 bg-white transition-transform duration-200 ${
+        className={`w-full sticky top-0 z-50 bg-white transition-transform duration-200 relative ${
           isScrolled ? "-translate-y-[50px] shadow" : "translate-y-0"
         }`}
       >
@@ -255,9 +255,8 @@ export function YouFatNavbar() {
                 onMouseLeave={handlePracticeMouseLeave}
               >
                 {isHome ? (
-                  <button
-                    type="button"
-                    onClick={() => setPracticeOpen((prev) => !prev)}
+                  <Link
+                    href="/reading"
                     aria-expanded={practiceOpen}
                     className={`group inline-flex items-center gap-2 px-3.5 py-1.5 transition-all whitespace-nowrap cursor-pointer ${
                       isPractice || practiceOpen
@@ -271,7 +270,7 @@ export function YouFatNavbar() {
                       }`}
                     />
                     <span>Luyện tập 4 kỹ năng</span>
-                  </button>
+                  </Link>
                 ) : (
                   <Link
                     href="/reading"
@@ -336,11 +335,12 @@ export function YouFatNavbar() {
           </div>
         </nav>
 
-      {/* 3. Horizontal Secondary Sub-Nav Bar (1:1 Exact YouPass Folder Tab Submenu) */}
+      {/* 3. Practice Sub-Nav — absolute so it overlays content without layout shift */}
       {showPracticeOptions && (
         <div
           data-practice-options
-          className="bg-[#FFF8F2] border-b border-[#ebd7cb]/50 w-full transition-all duration-200"
+          className="absolute left-0 right-0 bg-[#FFF8F2] border-b border-[#ebd7cb]/50 w-full z-40 shadow-sm"
+          style={{ top: "100%" }}
           onMouseEnter={handlePracticeMouseEnter}
           onMouseLeave={handlePracticeMouseLeave}
         >
@@ -414,7 +414,8 @@ export function YouFatNavbar() {
       {showCourseOptions && (
         <div
           data-course-options
-          className="bg-[#FFF8F2] border-b border-[#ebd7cb]/50 w-full transition-all duration-200"
+          className="absolute left-0 right-0 bg-[#FFF8F2] border-b border-[#ebd7cb]/50 w-full z-40 shadow-sm"
+          style={{ top: "100%" }}
           onMouseEnter={handleCoursesMouseEnter}
           onMouseLeave={handleCoursesMouseLeave}
         >

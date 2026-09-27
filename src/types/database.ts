@@ -17,6 +17,7 @@ export interface Section {
   title: string;
   section_title?: string;
   passage_text?: string;
+  thumbnail_url?: string;
   audio_url?: string;
   listen_from_second?: number;
   listen_to_second?: number;
@@ -56,6 +57,7 @@ export interface WritingTask {
   title: string;
   prompt: string;
   image_url?: string;
+  thumbnail_url?: string;
   time_limit_minutes: number;
   min_words: number;
   sample_essay?: string;

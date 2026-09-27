@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 /* ============================================================
@@ -7,112 +7,367 @@
 
 :root {
   /* Brand */
-  --yf-green:        #2e7d32;   /* YouPass dark green (top bar bg) */
-  --yf-green-light:  #4caf50;   /* hover / accent */
-  --yf-orange:       #f97316;   /* CTA buttons, active tabs */
-  --yf-orange-dark:  #ea6c10;
-
-  /* Sidebar / sidebar active */
-  --yf-sidebar-active-bg:    #e8f5e9;
-  --yf-sidebar-active-text:  #2e7d32;
-  --yf-sidebar-active-border:#2e7d32;
-
-  /* Badge colors – passage / section */
-  --yf-badge-p1:  #f97316;
-  --yf-badge-p2:  #8b5cf6;
-  --yf-badge-p3:  #14b8a6;
-  --yf-badge-s1:  #f97316;
-  --yf-badge-s2:  #8b5cf6;
-  --yf-badge-s3:  #3b82f6;
-  --yf-badge-s4:  #14b8a6;
+  --yf-green:        #10b981;   /* Emerald 500 (YouPass primary badges) */
+  --yf-green-dark:   #13a62e;   /* YouPass button active green */
+  --yf-orange:       #ff6d3a;   /* YouPass Primary Orange */
+  --yf-orange-light: #fff0eb;   /* YouPass Orange Tint */
+  --yf-orange-dark:  #ea5520;   /* YouPass Orange Hover */
 
   /* Surfaces */
-  --yf-bg-page:    #f5f5f5;
+  --yf-bg-page:    #fbf9f5;
   --yf-bg-card:    #ffffff;
   --yf-bg-passage: #fafaf9;
-  --yf-border:     #e0e0e0;
+  --yf-border:     #e5e7eb;
 
   /* Text */
-  --yf-text-primary:  #1a1a1a;
-  --yf-text-muted:    #757575;
-  --yf-text-link:     #2e7d32;
-  --yf-text-card-title: #1b5e20;
-
-  /* Answer states */
-  --yf-correct:   #16a34a;
-  --yf-incorrect: #dc2626;
+  --yf-text-primary:  #1d1d1f;
+  --yf-text-muted:    #4b5563;
+  --yf-text-link:     #ff6d3a;
 
   /* Legacy compat */
-  --background: #ffffff;
-  --foreground: #111827;
+  --background: #fbf9f5;
+  --foreground: #1d1d1f;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-nunito), 'Nunito', system-ui, sans-serif;
+  --font-mono: monospace;
 }
 
-/* ============================================================
-   Base reset
-   ============================================================ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body { height: 100%; }
-
-body {
-  background: var(--yf-bg-page);
-  color: var(--yf-text-primary);
-  font-family: 'Inter', var(--font-geist-sans, system-ui), sans-serif;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background: var(--yf-bg-page);
+    color: var(--yf-text-primary);
+    font-family: var(--font-nunito), 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
-/* ============================================================
-   Top announcement bar (dark green, YouPass style)
-   ============================================================ */
-.yf-topbar {
-  background: var(--yf-green);
-  color: #fff;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  font-size: 13px;
+/* Spark twinkle animation (exact YouPass seed animation) */
+@keyframes spark-twinkle { 
+  0%, 100% { opacity: 0.35; transform: scale(0.85) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.18) rotate(var(--sr, 15deg)); }
 }
-.yf-topbar-inner {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 12px;
-}
-.yf-logo {
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: -0.5px;
-  white-space: nowrap;
-  text-decoration: none;
-}
-.yf-logo-you { color: #fff; }
-.yf-logo-fat { color: #ffd600; }
 
-.yf-marquee-wrap {
-  flex: 1;
-  overflow: hidden;
-  white-space: nowrap;
-}
-.yf-marquee-text {
+.spark {
+  animation: spark-twinkle 3.2s ease-in-out infinite;
   display: inline-block;
-  animation: marquee 28s linear infinite;
-  color: #e8f5e9;
-  font-size: 12px;
 }
-@keyframes marquee {
-  0%   { transform: translateX(100%); }
+
+/* Staggered entrance animation (Exact YouPass editorial entrance) */
+@keyframes wipe-reveal {
+  0% {
+    clip-path: inset(-20% 100% -20% 0%);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(-20% 0% -20% 0%);
+    opacity: 1;
+  }
+}
+
+@keyframes fly-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fly-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fly-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-wipe-in {
+  opacity: 0;
+  animation: wipe-reveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+.animate-fly-up {
+  opacity: 0;
+  animation: fly-in-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+.animate-fly-left {
+  opacity: 0;
+  animation: fly-in-left 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+.animate-fly-right {
+  opacity: 0;
+  animation: fly-in-right 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+.animate-entrance-5 {
+  opacity: 0;
+  animation: fly-in-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
+/* ============================================================
+   Two-stage Heading Reveal Animation (Exact YouPass Signature)
+   Stage 1: Text reveals with left-to-right clip-path wipe
+   Stage 2: Green highlighter SVG blob sweeps in behind text
+   and highlighted words transition to crisp contrast text
+   ============================================================ */
+@keyframes heading-text-reveal {
+  0% {
+    clip-path: inset(-20% 100% -20% 0%);
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(-20% 0% -20% 0%);
+    opacity: 1;
+  }
+}
+
+@keyframes heading-blob-reveal {
+  0% {
+    clip-path: inset(-20% 100% -20% 0%);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(-20% 0% -20% 0%);
+    opacity: 1;
+  }
+}
+
+@keyframes heading-word-color {
+  0%, 45% {
+    color: #13A62E;
+  }
+  75%, 100% {
+    color: #FFFAF6;
+  }
+}
+
+.animate-heading-text {
+  clip-path: inset(-20% 100% -20% 0%);
+  animation: heading-text-reveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+.animate-heading-blob {
+  clip-path: inset(-20% 100% -20% 0%);
+  opacity: 0;
+  animation: heading-blob-reveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
+}
+
+.animate-heading-word {
+  color: #13A62E;
+  animation: heading-word-color 1.8s ease-in-out forwards;
+}
+
+.animate-sec2-blob {
+  clip-path: inset(-20% 100% -20% 0%);
+  opacity: 0;
+  animation: heading-blob-reveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards;
+}
+
+.animate-sec2-word {
+  color: #13A62E;
+  animation: heading-word-color 1.6s ease-in-out forwards;
+}
+
+/* ============================================================
+   Section 2 Tab Cascade Unfolding Animations (Exact YouPass Signature)
+   Button 1 appears first, then Button 2 & 3 shoot/slide out from under it
+   ============================================================ */
+@keyframes tab1-slide-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tab2-slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-135px) scale(0.96);
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tab3-slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-270px) scale(0.94);
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes card-bg-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes card-content-initial {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-swap {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-tab-1 {
+  opacity: 0;
+  animation: tab1-slide-left 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.animate-tab-2 {
+  opacity: 0;
+  animation: tab2-slide-down 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) 0.5s forwards;
+}
+
+.animate-tab-3 {
+  opacity: 0;
+  animation: tab3-slide-down 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) 0.75s forwards;
+}
+
+.animate-card-bg {
+  opacity: 0;
+  animation: card-bg-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.animate-card-content-first {
+  opacity: 0;
+  animation: card-content-initial 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+.animate-card-swap {
+  animation: card-swap 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* YouPass Exact Color Utility Classes */
+.bg-orange-01 { background-color: #fbefe4; }
+.bg-orange-02 { background-color: #fff8f2; }
+.bg-orange-03 { background-color: #fffaf6; }
+.bg-primary-01 { background-color: #ff6d3a; }
+.bg-primary-02 { background-color: #fff0eb; }
+.bg-secondary-01 { background-color: #13a62e; }
+.bg-secondary-02 { background-color: #e5f6e9; }
+.bg-pastel-03 { background-color: #8dd8b5; }
+.text-primary-01 { color: #ff6d3a; }
+.text-secondary-01 { color: #13a62e; }
+.text-dark-75 { color: #1d1d1f; }
+
+/* YouPass Exact Typography Scale */
+.text-h1-bold { font-size: 64px; line-height: 72px; font-weight: 700; letter-spacing: -0.02em; }
+.text-h2-bold { font-size: 56px; line-height: 64px; font-weight: 700; letter-spacing: -0.02em; }
+.text-h3-bold { font-size: 48px; line-height: 60px; font-weight: 700; letter-spacing: -0.02em; }
+.text-h4-bold { font-size: 36px; line-height: 44px; font-weight: 700; letter-spacing: -0.72px; }
+.text-h5-bold { font-size: 30px; line-height: 38px; font-weight: 700; }
+.text-h6-bold { font-size: 24px; line-height: 32px; font-weight: 700; }
+.text-t1-bold { font-size: 20px; line-height: 24px; font-weight: 700; }
+.text-t1-regular { font-size: 20px; line-height: 24px; font-weight: 400; }
+.text-t2-bold { font-size: 18px; line-height: 22px; font-weight: 700; }
+.text-t2-regular { font-size: 18px; line-height: 22px; font-weight: 400; }
+.text-t3-bold { font-size: 16px; line-height: 20px; font-weight: 700; }
+.text-t3-semibold { font-size: 16px; line-height: 20px; font-weight: 600; }
+.text-t3-regular { font-size: 16px; line-height: 24px; font-weight: 400; }
+
+/* ============================================================
+   Standard layout container
+   ============================================================ */
+.yf-container {
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .yf-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .yf-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ============================================================
+   Seamless Marquee Ticker
+   ============================================================ */
+.animate-marquee-smooth {
+  display: inline-flex;
+  animation: marquee-smooth 35s linear infinite;
+}
+@keyframes marquee-smooth {
+  0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
 

@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import Image from "next/image";
 import { YouFatNavbar } from "@/components/navbar";
 
 export const metadata = {
@@ -38,27 +39,6 @@ const TYPE_LABELS: Record<string, string> = {
   SHORT_ANSWER: "Short Answer",
   FILL_BLANK: "Form / Note Completion",
   TABLE_COMPLETION: "Table Completion",
-};
-
-const SECTION_BADGE: Record<number, { cls: string; label: string }> = {
-  1: { cls: "yf-badge-s1", label: "Section 1" },
-  2: { cls: "yf-badge-s2", label: "Section 2" },
-  3: { cls: "yf-badge-s3", label: "Section 3" },
-  4: { cls: "yf-badge-s4", label: "Section 4" },
-};
-
-const SECTION_EMOJI: Record<number, string> = {
-  1: "🎧",
-  2: "📻",
-  3: "🎙️",
-  4: "🏛️",
-};
-
-const SECTION_BG: Record<number, string> = {
-  1: "#fff3e0",
-  2: "#e3f2fd",
-  3: "#ede7f6",
-  4: "#e0f7fa",
 };
 
 export default async function ListeningListingPage() {
@@ -106,18 +86,24 @@ export default async function ListeningListingPage() {
         <aside className="yf-sidebar">
           <div className="yf-sidebar-group">
             <Link href="/reading" className="yf-sidebar-group-header">
-              📖 Reading
+              <Image src="/nav_reading.webp" alt="Reading" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Reading</span>
             </Link>
             <div className="yf-sidebar-sub">
               <Link href="/reading" className="yf-sidebar-sub-item">
                 <span className="yf-sidebar-radio" />
                 Bài lẻ
               </Link>
+              <Link href="/reading/full" className="yf-sidebar-sub-item">
+                <span className="yf-sidebar-radio" />
+                Full đề
+              </Link>
             </div>
           </div>
           <div className="yf-sidebar-group">
             <Link href="/listening" className="yf-sidebar-group-header active">
-              🎧 Listening
+              <Image src="/nav_listening.webp" alt="Listening" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Listening</span>
             </Link>
             <div className="yf-sidebar-sub">
               <Link href="/listening" className="yf-sidebar-sub-item active">
@@ -136,7 +122,8 @@ export default async function ListeningListingPage() {
           </div>
           <div className="yf-sidebar-group">
             <Link href="/writing" className="yf-sidebar-group-header">
-              ✏️ Writing
+              <Image src="/nav_writing.svg" alt="Writing" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Writing</span>
             </Link>
             <div className="yf-sidebar-sub">
               <Link href="/writing" className="yf-sidebar-sub-item">
@@ -147,8 +134,15 @@ export default async function ListeningListingPage() {
           </div>
           <div className="yf-sidebar-group">
             <Link href="/speaking" className="yf-sidebar-group-header">
-              🎤 Speaking
+              <Image src="/nav_speaking.webp" alt="Speaking" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Speaking</span>
             </Link>
+            <div className="yf-sidebar-sub">
+              <Link href="/speaking" className="yf-sidebar-sub-item">
+                <span className="yf-sidebar-radio" />
+                Luyện nói
+              </Link>
+            </div>
           </div>
         </aside>
 
@@ -156,13 +150,21 @@ export default async function ListeningListingPage() {
         <main className="yf-content">
           {/* Promo banner */}
           <div className="yf-promo">
-            <span className="yf-promo-emoji">🎧</span>
+            <div className="w-9 h-9 relative flex-shrink-0">
+              <Image
+                src="/mascot.webp"
+                alt="YouFat Mascot"
+                width={36}
+                height={36}
+                className="w-full h-full object-contain"
+              />
+            </div>
             <div className="yf-promo-text">
               <div className="yf-promo-title">
                 Luyện Listening cùng audio Cambridge gốc!
               </div>
               <div className="yf-promo-subtitle">
-                175 sections · Audio chuẩn British & American accent · Tự chấm điểm tức thì
+                175 sections · Audio chuẩn British &amp; American accent · Tự chấm điểm tức thì
               </div>
             </div>
             <button className="yf-promo-btn">Tạo Practice Plan</button>
@@ -183,12 +185,6 @@ export default async function ListeningListingPage() {
                     const types = Array.from(
                       typesBySection.get(section.id) ?? []
                     ).slice(0, 3);
-                    const badge =
-                      SECTION_BADGE[section.section_number] ??
-                      SECTION_BADGE[1];
-                    const emoji = SECTION_EMOJI[section.section_number] ?? "🎧";
-                    const bg = SECTION_BG[section.section_number] ?? "#e8f5e9";
-                    const hasAudio = !!section.audio_url;
 
                     return (
                       <Link
@@ -196,15 +192,41 @@ export default async function ListeningListingPage() {
                         href={`/listening/${section.id}`}
                         className="yf-card"
                       >
-                        <div className="yf-card-thumb" style={{ background: bg }}>
-                          <div className="yf-card-thumb-fallback" style={{ background: bg }}>
-                            {emoji}
+                        <div
+                          className="yf-card-thumb relative overflow-hidden"
+                          style={{
+                            background:
+                              section.section_number === 1
+                                ? "linear-gradient(135deg, #FFF9F2 0%, #FFEEDD 100%)"
+                                : section.section_number === 2
+                                ? "linear-gradient(135deg, #F0F7FF 0%, #DBEAFE 100%)"
+                                : section.section_number === 3
+                                ? "linear-gradient(135deg, #FDF4FF 0%, #F3E8FF 100%)"
+                                : "linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%)",
+                          }}
+                        >
+                          {/* Centered Headphones Graphic */}
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+                            <svg className="w-20 h-20 text-[#ffa41b]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
+                            </svg>
                           </div>
-                          <span className={`yf-card-badge ${badge.cls}`}>
-                            {badge.label}
-                          </span>
+
                           <span className="yf-card-plays">
-                            {hasAudio ? "🎵" : "📄"} {section.total_questions} câu
+                            {section.total_questions} câu
+                          </span>
+
+                          <span
+                            className="yf-card-badge"
+                            style={{
+                              background: "rgba(255,255,255,0.85)",
+                              color: "#475569",
+                              fontWeight: 700,
+                              borderRadius: 6,
+                              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                            }}
+                          >
+                            Section {section.section_number}
                           </span>
                         </div>
                         <div className="yf-card-body">

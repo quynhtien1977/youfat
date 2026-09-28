@@ -7,7 +7,6 @@ import {
   RadioGroup,
   CheckboxGroup,
   MatchingSelect,
-  DiagramImage,
 } from "./question-inputs";
 
 // ============================================================
@@ -36,8 +35,6 @@ interface QuestionItemProps {
   onChange: (val: string | string[]) => void;
   submitted: boolean;
   result?: QuestionGradingResult;
-  groupImageUrl?: string | null;
-  showDiagram?: boolean;
 }
 
 function ExplanationBlock({ html }: { html: string }) {
@@ -59,13 +56,122 @@ export function QuestionItem({
   onChange,
   submitted,
   result,
-  groupImageUrl,
-  showDiagram,
 }: QuestionItemProps) {
   const isCorrect = result?.isCorrect ?? false;
+  const isMcq = question.type === "MULTIPLE_CHOICE_ONE";
+  const isMcqMany = question.type === "MULTIPLE_CHOICE_MANY";
+  const isDiagram = question.type === "MAP_DIAGRAM_LABEL";
+
+  if (isMcq || isMcqMany) {
+    const mcqCls =
+      "yf-question yf-question--mcq" +
+      (submitted ? (isCorrect ? " correct" : " incorrect") : "");
+
+    const ansCount = question.answer ? question.answer.length : 1;
+    const isRange = isMcqMany && ansCount > 1;
+    const startOrder = question.question_order;
+    const endOrder = startOrder + ansCount - 1;
+
+    const userAnswers = Array.isArray(answer)
+      ? answer
+      : typeof answer === "string" && answer
+      ? [answer]
+      : [];
+    const correctAnswers = result?.correctAnswers || question.answer || [];
+    const matchedCount = userAnswers.filter((a) =>
+      correctAnswers.includes(a)
+    ).length;
+
+    return (
+      <div id={`q-${question.question_order}`} className={mcqCls}>
+        {/* If range, also add anchor for the second order number */}
+        {isRange && <span id={`q-${endOrder}`} style={{ display: "none" }} />}
+
+        <div className="yf-mcq-header">
+          {isRange ? (
+            <div className="yf-mcq-many-badges">
+              <span className="yf-question-number">{startOrder}</span>
+              <span className="yf-mcq-many-dash">-</span>
+              <span className="yf-question-number">{endOrder}</span>
+            </div>
+          ) : (
+            <span className="yf-question-number">{question.question_order}</span>
+          )}
+          {question.prompt && (
+            <p
+              className="yf-q-prompt"
+              dangerouslySetInnerHTML={{ __html: question.prompt }}
+            />
+          )}
+        </div>
+
+        <div className="yf-mcq-body">
+          {isMcq ? (
+            <RadioGroup
+              question={question}
+              value={typeof answer === "string" ? answer : ""}
+              onChange={(v) => onChange(v)}
+              submitted={submitted}
+              isCorrect={isCorrect}
+              correctAnswers={result?.correctAnswers}
+              hidePrompt={true}
+            />
+          ) : (
+            <CheckboxGroup
+              question={question}
+              value={userAnswers}
+              onChange={(v) => onChange(v)}
+              submitted={submitted}
+              isCorrect={isCorrect}
+              correctAnswers={result?.correctAnswers}
+              hidePrompt={true}
+            />
+          )}
+
+          {submitted && result && (
+            <div className="yf-q-feedback">
+              {isCorrect ? (
+                <span className="yf-q-feedback-correct">
+                  ✅ Đúng {isRange ? `(${matchedCount}/${ansCount})` : ""}
+                </span>
+              ) : matchedCount > 0 ? (
+                <>
+                  <span className="yf-q-feedback-partial">
+                    {`⚠️ Đúng một phần (${matchedCount}/${ansCount})`}
+                  </span>
+                  <div className="yf-q-answer-reveal">
+                    Đáp án đúng:{" "}
+                    <strong style={{ color: "var(--yf-correct)" }}>
+                      {correctAnswers.join(", ")}
+                    </strong>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className="yf-q-feedback-incorrect">
+                    ❌ Sai {isRange ? `(0/${ansCount})` : ""}
+                  </span>
+                  <div className="yf-q-answer-reveal">
+                    Đáp án đúng:{" "}
+                    <strong style={{ color: "var(--yf-correct)" }}>
+                      {correctAnswers.join(", ")}
+                    </strong>
+                  </div>
+                </>
+              )}
+              {result.explanation && (
+                <ExplanationBlock html={result.explanation} />
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   const containerCls =
     "yf-question" +
+    (isDiagram ? " yf-question--diagram" : "") +
     (submitted ? (isCorrect ? " correct" : " incorrect") : "");
 
   const renderInput = () => {
@@ -129,32 +235,9 @@ export function QuestionItem({
 
   return (
     <div id={`q-${question.question_order}`} className={containerCls}>
-      {/* Diagram – MAP_DIAGRAM_LABEL, 1 lần per group */}
-      {question.type === "MAP_DIAGRAM_LABEL" && showDiagram && (
-        <DiagramImage
-          imageUrl={groupImageUrl}
-          groupTitle={question.question_set_title}
-        />
-      )}
-
       {/* Number + content */}
-      <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-        <span
-          style={{
-            flexShrink: 0,
-            width: 24,
-            height: 24,
-            borderRadius: "50%",
-            background: "var(--yf-green)",
-            color: "#fff",
-            fontSize: 11,
-            fontWeight: 700,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: 2,
-          }}
-        >
+      <div className="yf-question-content">
+        <span className="yf-question-number">
           {question.question_order}
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>

@@ -89,10 +89,24 @@ export default function ReadingPracticePage() {
 
   const handlePillClick = useCallback(
     (questionOrder: number) => {
-      const el = document.getElementById(`q-${questionOrder}`);
+      const q = questions.find((item) => {
+        if (item.question_order === questionOrder) return true;
+        if (
+          item.type === "MULTIPLE_CHOICE_MANY" &&
+          item.answer &&
+          item.answer.length > 1
+        ) {
+          return (
+            questionOrder >= item.question_order &&
+            questionOrder < item.question_order + item.answer.length
+          );
+        }
+        return false;
+      });
+      const targetOrder = q ? q.question_order : questionOrder;
+      const el = document.getElementById(`q-${targetOrder}`);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
-        const q = questions.find((q) => q.question_order === questionOrder);
         if (q) setActiveQuestionId(q.id);
       }
     },
@@ -191,13 +205,22 @@ export default function ReadingPracticePage() {
         <h1 className="yf-room-title" title={topTitle}>
           📖 {topTitle}
         </h1>
-        <span className="yf-room-meta">{questions.length} câu hỏi</span>
+        <span className="yf-room-meta">
+          {section.total_questions || questions.length} câu hỏi
+        </span>
       </header>
 
       {/* ─── Body: passage | questions ─────────────────── */}
       <div className="yf-room-body">
         {/* Left: Passage */}
-        <PassagePanel section={section} />
+        <PassagePanel
+          section={section}
+          questions={questions}
+          answers={answers}
+          onAnswer={handleAnswer}
+          submitted={submitted}
+          results={results}
+        />
 
         {/* Right: Questions */}
         <div

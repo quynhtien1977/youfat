@@ -20,11 +20,6 @@ interface QuestionNavBarProps {
   fullWidth?: boolean;
 }
 
-function isAnswered(answer: string | string[] | undefined): boolean {
-  if (answer === undefined || answer === null) return false;
-  if (Array.isArray(answer)) return answer.length > 0;
-  return answer.trim() !== "";
-}
 
 export function QuestionNavBar({
   questions,
@@ -41,30 +36,46 @@ export function QuestionNavBar({
       className="yf-navbar"
       style={fullWidth ? { width: "100%", left: 0, right: 0 } : undefined}
     >
-      {questions.map((q) => {
-        const answered = isAnswered(answers[q.id]);
-        const active = activeId === q.id;
+      {questions.flatMap((q) => {
+        const isMultiMany =
+          q.type === "MULTIPLE_CHOICE_MANY" && q.answer && q.answer.length > 1;
+        const count = isMultiMany ? q.answer.length : 1;
+        const userAns = answers[q.id];
+        const userList = Array.isArray(userAns)
+          ? userAns
+          : typeof userAns === "string" && userAns
+          ? [userAns]
+          : [];
+        const correctList = q.answer || [];
+        const matched = userList.filter((a) => correctList.includes(a)).length;
         const result = results[q.id];
+        const active = activeId === q.id;
 
-        let cls = "yf-navpill";
-        if (submitted && result) {
-          cls += result.isCorrect ? " correct-pill" : " incorrect-pill";
-        } else if (answered) {
-          cls += " answered";
-        }
-        if (active) cls += " current";
+        return Array.from({ length: count }, (_, idx) => {
+          const pillOrder = q.question_order + idx;
+          const answered = userList.length > idx;
 
-        return (
-          <button
-            key={q.id}
-            className={cls}
-            onClick={() => onPillClick(q.question_order)}
-            type="button"
-            title={`Câu ${q.question_order}`}
-          >
-            {q.question_order}
-          </button>
-        );
+          let cls = "yf-navpill";
+          if (submitted && result) {
+            const isPointCorrect = matched > idx;
+            cls += isPointCorrect ? " correct-pill" : " incorrect-pill";
+          } else if (answered) {
+            cls += " answered";
+          }
+          if (active) cls += " current";
+
+          return (
+            <button
+              key={`${q.id}-${pillOrder}`}
+              className={cls}
+              onClick={() => onPillClick(q.question_order)}
+              type="button"
+              title={`Câu ${pillOrder}`}
+            >
+              {pillOrder}
+            </button>
+          );
+        });
       })}
 
       <button

@@ -67,7 +67,8 @@ export function FillBlankInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={submitted}
-        placeholder="Nhập câu trả lời..."
+        placeholder={question.type === "MAP_DIAGRAM_LABEL" ? undefined : "Nhập câu trả lời..."}
+        autoComplete="off"
         aria-label={`Câu ${question.question_order}`}
       />
     </div>
@@ -84,6 +85,8 @@ interface RadioGroupProps {
   onChange: (val: string) => void;
   submitted: boolean;
   isCorrect?: boolean;
+  correctAnswers?: string[];
+  hidePrompt?: boolean;
 }
 
 const CHIP_LABELS: Record<string, string[]> = {
@@ -96,7 +99,8 @@ export function RadioGroup({
   value,
   onChange,
   submitted,
-  isCorrect,
+  correctAnswers,
+  hidePrompt,
 }: RadioGroupProps) {
   const chipLabels = CHIP_LABELS[question.type];
 
@@ -104,7 +108,7 @@ export function RadioGroup({
   if (chipLabels) {
     return (
       <div>
-        {question.prompt && (
+        {!hidePrompt && question.prompt && (
           <p
             className="yf-q-prompt"
             dangerouslySetInnerHTML={{ __html: question.prompt }}
@@ -131,11 +135,11 @@ export function RadioGroup({
     );
   }
 
-  // MULTIPLE_CHOICE_ONE → radio option cards
+  // MULTIPLE_CHOICE_ONE → flat YouPass style
   const opts = question.options ?? [];
   return (
-    <div>
-      {question.prompt && (
+    <div className="yf-mcq-group">
+      {!hidePrompt && question.prompt && (
         <p
           className="yf-q-prompt"
           dangerouslySetInnerHTML={{ __html: question.prompt }}
@@ -143,17 +147,41 @@ export function RadioGroup({
       )}
       {opts.map((opt) => {
         const selected = value === opt.option;
-        let cls = "yf-radio-option" + (selected ? " selected" : "");
-        if (submitted) cls += " disabled";
+        const isAnswer = correctAnswers?.includes(opt.option);
+
+        let statusCls = "";
+        if (submitted) {
+          if (isAnswer) {
+            statusCls = " is-correct";
+          } else if (selected && !isAnswer) {
+            statusCls = " is-incorrect";
+          }
+        }
+
+        const cls = `yf-mcq-option${selected ? " selected" : ""}${
+          submitted ? " disabled" : ""
+        }${statusCls}`;
+
         return (
           <div
             key={opt.option}
             className={cls}
             onClick={() => !submitted && onChange(opt.option)}
           >
-            <span className="yf-radio-dot" />
-            <span className="yf-radio-letter">{opt.option}.</span>
-            <span dangerouslySetInnerHTML={{ __html: opt.text }} />
+            <span className="yf-mcq-letter">{opt.option}</span>
+            <span className={`yf-mcq-radio ${selected ? "checked" : ""}`}>
+              {selected && <span className="yf-mcq-radio-inner" />}
+            </span>
+            <span
+              className="yf-mcq-text"
+              dangerouslySetInnerHTML={{ __html: opt.text }}
+            />
+            {submitted && isAnswer && (
+              <span className="yf-mcq-status-badge correct">✓</span>
+            )}
+            {submitted && selected && !isAnswer && (
+              <span className="yf-mcq-status-badge incorrect">✕</span>
+            )}
           </div>
         );
       })}
@@ -171,6 +199,8 @@ interface CheckboxGroupProps {
   onChange: (val: string[]) => void;
   submitted: boolean;
   isCorrect?: boolean;
+  correctAnswers?: string[];
+  hidePrompt?: boolean;
 }
 
 export function CheckboxGroup({
@@ -178,7 +208,8 @@ export function CheckboxGroup({
   value,
   onChange,
   submitted,
-  isCorrect,
+  correctAnswers,
+  hidePrompt,
 }: CheckboxGroupProps) {
   const opts = question.options ?? [];
 
@@ -190,8 +221,8 @@ export function CheckboxGroup({
   };
 
   return (
-    <div>
-      {question.prompt && (
+    <div className="yf-mcq-group">
+      {!hidePrompt && question.prompt && (
         <p
           className="yf-q-prompt"
           dangerouslySetInnerHTML={{ __html: question.prompt }}
@@ -199,17 +230,41 @@ export function CheckboxGroup({
       )}
       {opts.map((opt) => {
         const selected = value.includes(opt.option);
-        let cls = "yf-checkbox-option" + (selected ? " selected" : "");
-        if (submitted) cls += " disabled";
+        const isAnswer = correctAnswers?.includes(opt.option);
+
+        let statusCls = "";
+        if (submitted) {
+          if (isAnswer) {
+            statusCls = " is-correct";
+          } else if (selected && !isAnswer) {
+            statusCls = " is-incorrect";
+          }
+        }
+
+        const cls = `yf-mcq-option yf-mcq-option--checkbox${
+          selected ? " selected" : ""
+        }${submitted ? " disabled" : ""}${statusCls}`;
+
         return (
           <div
             key={opt.option}
             className={cls}
             onClick={() => toggle(opt.option)}
           >
-            <span className="yf-checkbox-box">{selected ? "✓" : ""}</span>
-            <span className="yf-radio-letter">{opt.option}.</span>
-            <span dangerouslySetInnerHTML={{ __html: opt.text }} />
+            <span className="yf-mcq-letter">{opt.option}</span>
+            <span className={`yf-mcq-checkbox ${selected ? "checked" : ""}`}>
+              {selected && <span className="yf-mcq-checkmark">✓</span>}
+            </span>
+            <span
+              className="yf-mcq-text"
+              dangerouslySetInnerHTML={{ __html: opt.text }}
+            />
+            {submitted && isAnswer && (
+              <span className="yf-mcq-status-badge correct">✓</span>
+            )}
+            {submitted && selected && !isAnswer && (
+              <span className="yf-mcq-status-badge incorrect">✕</span>
+            )}
           </div>
         );
       })}
@@ -234,7 +289,6 @@ export function MatchingSelect({
   value,
   onChange,
   submitted,
-  isCorrect,
 }: MatchingSelectProps) {
   const opts = question.options ?? [];
 
@@ -282,18 +336,8 @@ interface DiagramImageProps {
 export function DiagramImage({ imageUrl, groupTitle }: DiagramImageProps) {
   if (!imageUrl) {
     return (
-      <div
-        style={{
-          padding: "12px",
-          marginBottom: "12px",
-          background: "#f5f5f5",
-          borderRadius: 8,
-          textAlign: "center",
-          color: "var(--yf-text-muted)",
-          fontSize: 13,
-        }}
-      >
-        🗺️ {groupTitle ?? "Sơ đồ / Diagram"} (ảnh đang cập nhật)
+      <div className="yf-diagram-missing" role="alert">
+        Thiếu ảnh sơ đồ từ nguồn dữ liệu YouPass.
       </div>
     );
   }
@@ -303,12 +347,7 @@ export function DiagramImage({ imageUrl, groupTitle }: DiagramImageProps) {
     <img
       src={imageUrl}
       alt={groupTitle ?? "Diagram"}
-      style={{
-        maxWidth: "100%",
-        borderRadius: 8,
-        marginBottom: 12,
-        border: "1px solid var(--yf-border)",
-      }}
+      className="yf-diagram-image"
     />
   );
 }

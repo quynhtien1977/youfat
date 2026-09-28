@@ -82,7 +82,8 @@ export function PassagePanel({
               return (
                 <div
                   key={`heading-slot-${orderNum}`}
-                  id={`heading-${orderNum}`}
+                  id={`q-${orderNum}`}
+                  data-heading-id={`heading-${orderNum}`}
                   className={`yf-passage-heading-slot${
                     currentAns ? " has-value" : ""
                   }${

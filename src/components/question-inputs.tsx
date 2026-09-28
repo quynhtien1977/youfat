@@ -203,6 +203,25 @@ interface CheckboxGroupProps {
   hidePrompt?: boolean;
 }
 
+function getMaxSelections(question: Question): number {
+  if (Array.isArray(question.answer) && question.answer.length > 0) {
+    return question.answer.length;
+  }
+  const text = `${question.prompt || ""} ${question.instruction || ""}`.toLowerCase();
+  const match = text.match(/choose\s+(one|two|three|four|five|\d+)/i);
+  if (match) {
+    const word = match[1].toLowerCase();
+    if (word === "one" || word === "1") return 1;
+    if (word === "two" || word === "2") return 2;
+    if (word === "three" || word === "3") return 3;
+    if (word === "four" || word === "4") return 4;
+    if (word === "five" || word === "5") return 5;
+    const num = parseInt(word, 10);
+    if (!isNaN(num)) return num;
+  }
+  return 2;
+}
+
 export function CheckboxGroup({
   question,
   value,
@@ -212,12 +231,20 @@ export function CheckboxGroup({
   hidePrompt,
 }: CheckboxGroupProps) {
   const opts = question.options ?? [];
+  const maxAllowed = getMaxSelections(question);
 
   const toggle = (opt: string) => {
     if (submitted) return;
-    onChange(
-      value.includes(opt) ? value.filter((v) => v !== opt) : [...value, opt]
-    );
+    if (value.includes(opt)) {
+      onChange(value.filter((v) => v !== opt));
+    } else {
+      if (value.length < maxAllowed) {
+        onChange([...value, opt]);
+      } else {
+        // Enforce maximum selections: replace earliest selected item so count never exceeds maxAllowed
+        onChange([...value.slice(1), opt]);
+      }
+    }
   };
 
   return (

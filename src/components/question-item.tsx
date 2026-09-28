@@ -103,6 +103,11 @@ export function QuestionItem({
               dangerouslySetInnerHTML={{ __html: question.prompt }}
             />
           )}
+          {!isMcq && !submitted && (
+            <span className="yf-mcq-many-count-pill" title={`Chọn tối đa ${correctAnswers.length || 2} đáp án`}>
+              Đã chọn: {userAnswers.length}/{correctAnswers.length || 2}
+            </span>
+          )}
         </div>
 
         <div className="yf-mcq-body">

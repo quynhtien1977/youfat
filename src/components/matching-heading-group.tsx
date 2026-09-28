@@ -14,7 +14,6 @@ interface MatchingHeadingGroupProps {
 export function MatchingHeadingGroup({
   questions,
   answers,
-  onAnswer,
   submitted,
   results,
 }: MatchingHeadingGroupProps) {
@@ -71,85 +70,60 @@ export function MatchingHeadingGroup({
         </div>
       </div>
 
-      {/* ── Question rows for each paragraph ── */}
-      <div className="yf-heading-questions-list">
-        {questions.map((q) => {
-          const currentAns = (answers[q.id] as string) || "";
-          const result = results[q.id];
-          const isCorrect = result?.isCorrect;
-          const targetAns = q.answer?.[0] || "";
+      {/* ── Question review and explanations (only shown after submit) ── */}
+      {submitted && (
+        <div className="yf-heading-review-box mt-6 border-t pt-4">
+          <div className="yf-heading-review-title font-bold text-sm text-gray-700 mb-3">
+            Giải thích chi tiết Matching Headings:
+          </div>
+          <div className="space-y-3">
+            {questions.map((q) => {
+              const currentAns = (answers[q.id] as string) || "";
+              const result = results[q.id];
+              const isCorrect = result?.isCorrect;
+              const targetAns = q.answer?.[0] || "";
+              const targetText = optionMap.get(targetAns) || "";
 
-          return (
-            <div
-              key={q.id}
-              id={`q-${q.question_order}`}
-              className={`yf-heading-q-card${
-                submitted
-                  ? isCorrect
-                    ? " is-correct"
-                    : " is-incorrect"
-                  : ""
-              }`}
-            >
-              <div className="yf-heading-q-header">
-                <span className="yf-q-order">{q.question_order}</span>
-                <span
-                  className="yf-heading-q-prompt"
-                  dangerouslySetInnerHTML={{ __html: q.prompt }}
-                />
-              </div>
-
-              <div className="yf-heading-q-select-wrap">
-                <select
-                  value={currentAns}
-                  disabled={submitted}
-                  onChange={(e) => onAnswer(q.id, e.target.value)}
-                  className={`yf-heading-q-select${
-                    currentAns ? " has-value" : ""
-                  }`}
-                >
-                  <option value="">— Chọn heading cho đoạn này —</option>
-                  {options.map((opt) => (
-                    <option key={opt.option} value={opt.option}>
-                      {opt.option}. {opt.text}
-                    </option>
-                  ))}
-                </select>
-
-                {currentAns && !submitted && (
-                  <button
-                    type="button"
-                    className="yf-heading-q-clear-btn"
-                    onClick={() => onAnswer(q.id, "")}
-                    title="Xóa lựa chọn"
-                  >
-                    ×
-                  </button>
-                )}
-              </div>
-
-              {submitted && (
+              return (
                 <div
-                  className={`yf-q-feedback ${
-                    isCorrect ? "correct" : "incorrect"
+                  key={q.id}
+                  className={`p-3 rounded-lg border text-sm ${
+                    isCorrect
+                      ? "border-emerald-200 bg-emerald-50/50"
+                      : "border-rose-200 bg-rose-50/50"
                   }`}
                 >
-                  {isCorrect ? (
-                    <span>✓ Đúng</span>
-                  ) : (
-                    <span>
-                      ✕ Sai. Đáp án đúng: <strong>{targetAns}</strong>
-                      {optionMap.get(targetAns)
-                        ? ` (${optionMap.get(targetAns)})`
-                        : ""}
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-semibold text-gray-800">
+                      Câu {q.question_order}: {q.prompt?.replace(/<[^>]+>/g, "")}
                     </span>
+                    <span
+                      className={`font-bold ${
+                        isCorrect ? "text-emerald-600" : "text-rose-600"
+                      }`}
+                    >
+                      {isCorrect ? (
+                        "✓ Đúng"
+                      ) : (
+                        <span>
+                          ✕ Sai {currentAns ? `(Bạn chọn: ${currentAns}) • ` : ""}Đáp án: <strong>{targetAns}</strong>
+                          {targetText ? ` - ${targetText}` : ""}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                  {q.explanation && (
+                    <div
+                      className="text-xs text-gray-600 mt-2 bg-white/70 p-2 rounded border border-gray-100"
+                      dangerouslySetInnerHTML={{ __html: q.explanation }}
+                    />
                   )}
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

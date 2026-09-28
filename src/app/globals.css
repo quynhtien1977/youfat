@@ -1329,6 +1329,18 @@
   line-height: 1.5;
   margin: 0;
 }
+.yf-mcq-many-count-pill {
+  font-size: 12px;
+  font-weight: 600;
+  color: #059669;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  margin-left: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
 .yf-mcq-group {
   display: flex;
   flex-direction: column;

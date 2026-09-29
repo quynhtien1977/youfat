@@ -300,108 +300,6 @@ export default function ListeningPracticePage() {
         <span className="yf-room-meta">{questions.length} câu hỏi</span>
       </header>
 
-      {/* ─── Audio Player Bar (Sticky) ────────────────── */}
-      {audioUrl ? (
-        <div className="yf-audio-bar">
-          {/* Main Controls: Play / Pause */}
-          <button
-            className="yf-audio-play-btn"
-            onClick={togglePlay}
-            type="button"
-            aria-label={playing ? "Tạm dừng" : "Phát"}
-            title={playing ? "Tạm dừng" : "Phát"}
-          >
-            {playing ? <Pause size={18} fill="#fff" /> : <Play size={18} fill="#fff" className="ml-0.5" />}
-          </button>
-
-          {/* Quick jump -5s / +5s */}
-          <div className="yf-audio-skip-btns">
-            <button
-              className="yf-audio-icon-btn"
-              onClick={() => handleRelativeSeek(-5)}
-              type="button"
-              title="Lùi 5 giây"
-            >
-              <RotateCcw size={16} />
-              <span className="yf-skip-tag">5s</span>
-            </button>
-            <button
-              className="yf-audio-icon-btn"
-              onClick={() => handleRelativeSeek(5)}
-              type="button"
-              title="Tiến 5 giây"
-            >
-              <RotateCw size={16} />
-              <span className="yf-skip-tag">5s</span>
-            </button>
-          </div>
-
-          {/* Title on larger screens */}
-          <span className="yf-audio-title hidden md:inline">
-            {section.section_title ?? section.title}
-          </span>
-
-          {/* Time + Progress Seekbar */}
-          <div className="yf-audio-progress-wrap">
-            <span className="yf-audio-time">{formatTime(currentTime)}</span>
-            <input
-              type="range"
-              className="yf-audio-slider"
-              min={0}
-              max={duration || 0}
-              step={0.5}
-              value={currentTime}
-              onChange={handleSeek}
-              style={{
-                background: `linear-gradient(to right, #ff7700 0%, #ff7700 ${progressPercent}%, #475569 ${progressPercent}%, #475569 100%)`,
-              }}
-            />
-            <span className="yf-audio-time">{formatTime(duration)}</span>
-          </div>
-
-          {/* Playback speed toggle button */}
-          <button
-            className="yf-audio-speed-btn"
-            onClick={cycleSpeed}
-            type="button"
-            title="Tốc độ phát audio"
-          >
-            {playbackRate}x
-          </button>
-
-          {/* Volume Control */}
-          <div className="yf-audio-vol-wrap">
-            <button
-              className="yf-audio-icon-btn yf-audio-vol-btn"
-              onClick={toggleMute}
-              type="button"
-              title={volume === 0 ? "Bật âm thanh" : "Tắt âm thanh"}
-            >
-              {volume === 0 ? (
-                <VolumeX size={18} />
-              ) : volume < 0.5 ? (
-                <Volume1 size={18} />
-              ) : (
-                <Volume2 size={18} />
-              )}
-            </button>
-            <input
-              type="range"
-              className="yf-audio-slider yf-volume-slider"
-              min={0}
-              max={1}
-              step={0.05}
-              value={volume}
-              onChange={handleVolume}
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="yf-audio-bar yf-audio-bar--empty">
-          <span>⚠️ Chưa có file audio cho bài này.</span>
-        </div>
-      )}
-
       {/* ─── Question Content Area ────────────────────── */}
       <main className="yf-listening-content">
         <div className="yf-listening-container">
@@ -417,7 +315,7 @@ export default function ListeningPracticePage() {
             </div>
 
             {/* Quick jump to section range if available */}
-            {section.listen_from_second && section.listen_from_second > 0 && (
+            {Boolean(section.listen_from_second && section.listen_from_second > 0) && (
               <button
                 type="button"
                 onClick={() => handleJumpToTime(section.listen_from_second!)}
@@ -451,17 +349,124 @@ export default function ListeningPracticePage() {
         </div>
       </main>
 
-      {/* ─── Bottom Navigation Bar ────────────────────── */}
-      <QuestionNavBar
-        questions={questions}
-        answers={answers}
-        activeId={activeQuestionId}
-        onPillClick={handlePillClick}
-        onSubmit={handleSubmit}
-        submitted={submitted}
-        results={results}
-        fullWidth
-      />
+      {/* ─── Bottom Docked Audio Player & Question Nav Bar ──── */}
+      <div className="yf-listening-bottom-dock">
+        {audioUrl ? (
+          <div className="yf-audio-bar-light">
+            {/* Main Controls: Play / Pause */}
+            <button
+              className="yf-audio-light-play"
+              onClick={togglePlay}
+              type="button"
+              aria-label={playing ? "Tạm dừng" : "Phát"}
+              title={playing ? "Tạm dừng" : "Phát"}
+            >
+              {playing ? (
+                <Pause size={15} fill="#fff" />
+              ) : (
+                <Play size={15} fill="#fff" className="ml-0.5" />
+              )}
+            </button>
+
+            {/* Quick jump -5s / +5s */}
+            <div className="yf-audio-light-skips">
+              <button
+                className="yf-audio-light-btn"
+                onClick={() => handleRelativeSeek(-5)}
+                type="button"
+                title="Lùi 5 giây"
+              >
+                <RotateCcw size={14} />
+                <span className="yf-skip-tag-light">5s</span>
+              </button>
+              <button
+                className="yf-audio-light-btn"
+                onClick={() => handleRelativeSeek(5)}
+                type="button"
+                title="Tiến 5 giây"
+              >
+                <RotateCw size={14} />
+                <span className="yf-skip-tag-light">5s</span>
+              </button>
+            </div>
+
+            {/* Time display */}
+            <span className="yf-audio-light-time">
+              {formatTime(currentTime)}{" "}
+              <span style={{ color: "#94a3b8" }}>/</span> {formatTime(duration)}
+            </span>
+
+            {/* Progress Seekbar */}
+            <div className="yf-audio-light-timeline">
+              <input
+                type="range"
+                className="yf-audio-light-slider"
+                min={0}
+                max={duration || 0}
+                step={0.5}
+                value={currentTime}
+                onChange={handleSeek}
+                style={{
+                  background: `linear-gradient(to right, #f99d1c 0%, #f99d1c ${progressPercent}%, #e2e8f0 ${progressPercent}%, #e2e8f0 100%)`,
+                }}
+              />
+            </div>
+
+            {/* Playback speed toggle */}
+            <button
+              className="yf-audio-light-speed"
+              onClick={cycleSpeed}
+              type="button"
+              title="Tốc độ phát audio"
+            >
+              {playbackRate}x
+            </button>
+
+            {/* Volume Control */}
+            <div className="yf-audio-light-vol">
+              <button
+                className="yf-audio-light-btn"
+                onClick={toggleMute}
+                type="button"
+                title={volume === 0 ? "Bật âm thanh" : "Tắt âm thanh"}
+              >
+                {volume === 0 ? (
+                  <VolumeX size={15} />
+                ) : volume < 0.5 ? (
+                  <Volume1 size={15} />
+                ) : (
+                  <Volume2 size={15} />
+                )}
+              </button>
+              <input
+                type="range"
+                className="yf-audio-light-vol-slider"
+                min={0}
+                max={1}
+                step={0.05}
+                value={volume}
+                onChange={handleVolume}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="yf-audio-bar-light yf-audio-bar-light--empty">
+            <span>⚠️ Chưa có file audio cho bài này.</span>
+          </div>
+        )}
+
+        {/* Bottom Navigation Bar */}
+        <QuestionNavBar
+          questions={questions}
+          answers={answers}
+          activeId={activeQuestionId}
+          onPillClick={handlePillClick}
+          onSubmit={handleSubmit}
+          submitted={submitted}
+          results={results}
+          fullWidth
+        />
+      </div>
     </div>
   );
 }

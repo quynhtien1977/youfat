@@ -362,19 +362,17 @@ interface DiagramImageProps {
 
 export function DiagramImage({ imageUrl, groupTitle }: DiagramImageProps) {
   if (!imageUrl) {
-    return (
-      <div className="yf-diagram-missing" role="alert">
-        Thiếu ảnh sơ đồ từ nguồn dữ liệu YouPass.
-      </div>
-    );
+    return null;
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={imageUrl}
-      alt={groupTitle ?? "Diagram"}
-      className="yf-diagram-image"
-    />
+    <div className="yf-diagram-wrapper">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={imageUrl}
+        alt={groupTitle ?? "Diagram"}
+        className="yf-diagram-image"
+      />
+    </div>
   );
 }

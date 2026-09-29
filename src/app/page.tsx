@@ -248,6 +248,7 @@ export default function HomePage() {
                   src="/youpass_card1.webp"
                   alt="Luyện đề IELTS 4 kỹ năng"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 600px"
                   className="absolute inset-0 w-full h-full object-cover object-bottom group-hover:scale-105 transition-transform duration-500"
                   priority
                 />
@@ -308,6 +309,7 @@ export default function HomePage() {
                   src="/youpass_card2.webp"
                   alt="Khoá học IELTS Intensive 7.0"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 600px"
                   className="absolute inset-0 w-full h-full object-cover object-bottom group-hover:scale-105 transition-transform duration-500"
                   priority
                 />
@@ -676,6 +678,7 @@ export default function HomePage() {
                       }
                       alt="Tính năng YouFat"
                       fill
+                      sizes="(max-width: 1280px) 100vw, 521px"
                       className="object-contain object-bottom xl:object-right-bottom"
                       preload
                       unoptimized
@@ -871,6 +874,7 @@ export default function HomePage() {
               src="/youpass_mascot_float.webp"
               alt="Mascot Feedback"
               fill
+              sizes="56px"
               className="object-contain"
             />
           </div>
@@ -889,6 +893,7 @@ export default function HomePage() {
             src="/youpass_zalo.webp"
             alt="Zalo Chat"
             fill
+            sizes="48px"
             className="object-contain"
           />
         </a>

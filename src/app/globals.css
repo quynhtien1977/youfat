@@ -1104,22 +1104,24 @@
 }
 .yf-qset-title {
   margin-bottom: 6px;
-  color: var(--yf-text-primary);
-  font-size: 13px;
+  color: #1d1d1f;
+  font-size: 15px;
   font-weight: 700;
 }
 .yf-qset-instruction {
-  font-size: 13px;
-  color: var(--yf-text-muted);
-  margin-bottom: 12px;
-  padding: 10px 14px;
-  background: #f9fbe7;
-  border-left: 3px solid #cddc39;
-  border-radius: 0 4px 4px 0;
-  line-height: 1.6;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 16px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  line-height: 1.5;
+}
+.yf-qset-instruction p {
+  margin: 0 0 4px;
 }
 .yf-qset-instruction b,
-.yf-qset-instruction strong { color: var(--yf-text-primary); }
+.yf-qset-instruction strong { color: #111827; }
 .yf-qset--diagram .yf-qset-title {
   margin-bottom: 10px;
   font-size: 16px;
@@ -1152,20 +1154,21 @@
 .yf-qset--gap .yf-qset-instruction p {
   margin: 0 0 3px;
 }
+.yf-diagram-wrapper {
+  margin: 14px 0 20px;
+  display: flex;
+  justify-content: center;
+}
 .yf-diagram-image {
   display: block;
-  width: 100%;
-  height: auto;
-  margin: 0 0 8px;
-}
-.yf-diagram-missing {
-  margin: 8px 0 12px;
-  padding: 10px 12px;
-  border: 1px solid #f3a38a;
-  border-radius: 4px;
-  background: #fff3ee;
-  color: #b74324;
-  font-size: 13px;
+  max-width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  margin: 0 auto;
+  border-radius: 8px;
+  border: 1px solid var(--yf-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  background: #fff;
 }
 
 /* Individual question */
@@ -1571,11 +1574,12 @@
 .yf-fill-input.disabled { pointer-events: none; }
 
 /* Gap Filling template: summary, sentence list, table and note completion */
+/* Gap Filling template: summary, sentence list, table and note completion */
 .yf-gap-template {
   width: 100%;
   overflow-x: auto;
   color: #242424;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 24px;
 }
 .yf-gap-template > :first-child { margin-top: 0; }
@@ -1587,66 +1591,108 @@
 .yf-gap-template h4 {
   margin: 0 0 10px;
   color: #1d1d1f;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.35;
   text-align: center;
 }
-.yf-gap-template ul,
-.yf-gap-template ol {
-  margin: 0;
-  padding-left: 18px;
+.yf-gap-template ul {
+  margin: 12px 0 16px;
+  padding-left: 24px;
+  list-style-type: disc !important;
 }
-.yf-gap-template li { margin-bottom: 8px; }
+.yf-gap-template ol {
+  margin: 12px 0 16px;
+  padding-left: 24px;
+  list-style-type: decimal !important;
+}
+.yf-gap-template li {
+  list-style-type: inherit !important;
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+/* Table Completion: faithful clone of YouPass table */
 .yf-gap-template table {
   width: 100% !important;
   max-width: 100%;
   min-width: 0;
-  border-collapse: collapse;
+  border-collapse: collapse !important;
+  margin: 16px 0 !important;
+  border: 1px solid #000000 !important;
   table-layout: auto;
+  background: #ffffff;
 }
 .yf-gap-template th,
 .yf-gap-template td {
-  padding: 10px;
-  border: 1px solid #1d1d1f;
+  padding: 8px 12px !important;
+  border: 1px solid #000000 !important;
   vertical-align: top;
   overflow-wrap: break-word;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.yf-gap-template td p {
+  margin: 3px 0 !important;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.yf-gap-template td h4 {
+  margin: 4px 0 !important;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
 }
 .yf-gap-template th {
   font-weight: 700;
-  text-align: left;
+  text-align: center;
+  background: #fcfcfc;
 }
+
+/* Blank slots inside sentences & tables */
 .yf-gap-template [data-question-id] {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 8px 4px;
+  margin: 0 4px 2px;
   font-size: 0;
-  white-space: nowrap;
+  vertical-align: middle;
 }
 .yf-gap-slot {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 14px;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 .yf-gap-number {
   display: inline-flex;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: #e4f7e8;
-  color: #05a93f;
+  border-radius: 9999px;
+  background: rgb(229, 246, 233); /* YouPass bg-secondary-02 */
+  color: rgb(19, 166, 46);         /* YouPass text-secondary-01 */
   font-size: 14px;
   font-weight: 700;
+  line-height: 1;
+}
+.yf-gap-input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 .yf-gap-template-input {
   width: 175px;
-  height: 19px;
-  padding: 0;
+  min-width: 90px;
+  max-width: 240px;
+  height: 28px;
+  padding: 0 6px;
   border: 0;
   border-bottom: 1px solid #1d1d1f;
   border-radius: 0;
@@ -1655,12 +1701,31 @@
   color: #1d1d1f;
   font-size: 14px;
   font-weight: 700;
-  line-height: 19px;
+  line-height: 28px;
   transition: border-color 150ms ease, background-color 150ms ease;
 }
-.yf-gap-template-input:focus-visible {
+/* In table cells, ensure inputs stay compact so inline words and bullets stay aligned */
+.yf-gap-template td [data-question-id] {
+  margin: 0 2px;
+}
+.yf-gap-template td .yf-gap-slot {
+  gap: 4px;
+}
+.yf-gap-template td .yf-gap-number {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  font-size: 12px;
+}
+.yf-gap-template td .yf-gap-template-input {
+  width: 78px;
+  min-width: 55px;
+  max-width: 100px;
+}
+.yf-gap-template-input:focus {
   border-bottom-color: #05a93f;
-  box-shadow: 0 2px 0 #05a93f;
+  box-shadow: 0 1px 0 #05a93f;
+  background: rgba(5, 169, 63, 0.04);
 }
 .yf-gap-template-input.correct {
   border-bottom-color: var(--yf-correct);
@@ -1674,6 +1739,7 @@
 }
 .yf-gap-template-input:disabled { cursor: default; }
 .yf-gap-status {
+  margin-left: 4px;
   font-size: 14px;
   font-weight: 700;
 }
@@ -1690,6 +1756,127 @@
 }
 .yf-gap-feedback:empty { display: none; }
 .yf-gap-feedback-row + .yf-gap-feedback-row { margin-top: 3px; }
+
+/* ─── Options Box for Matching & Word Bank in Gap Filling ─── */
+.yf-matching-options-box {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.yf-matching-options-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.yf-matching-options-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.yf-matching-options-icon {
+  font-size: 16px;
+}
+
+.yf-matching-options-hint {
+  font-size: 12.5px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.yf-matching-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.yf-matching-option-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  text-align: left;
+  cursor: pointer;
+  transition: all 150ms ease;
+  user-select: none;
+}
+
+.yf-matching-option-card:hover:not(:disabled) {
+  border-color: #ff6d3a;
+  background: #fff9f6;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(255, 109, 58, 0.08);
+}
+
+.yf-matching-option-card.is-used {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  opacity: 0.65;
+}
+
+.yf-matching-option-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  border-radius: 6px;
+  background: #ff6d3a;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.yf-matching-option-card.is-used .yf-matching-option-badge {
+  background: #94a3b8;
+}
+
+.yf-matching-option-text {
+  font-size: 13.5px;
+  color: #334155;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.yf-gap-template-input.is-letter-matching {
+  width: 50px;
+  min-width: 45px;
+  max-width: 60px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #1d1d1f;
+}
+
+.yf-gap-correct-val {
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #dc2626;
+  background: #fee2e2;
+  padding: 1px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
 
 /* ============================================================
    Bottom question nav bar
@@ -1807,34 +1994,44 @@
 }
 
 /* ============================================================
-   Audio player (Listening)
+   Audio player (Listening) – Docked at Bottom, YouPass Style
    ============================================================ */
-.yf-audio-bar {
-  background: #0f172a;
-  color: #fff;
-  padding: 8px 20px;
+.yf-listening-bottom-dock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+}
+
+.yf-audio-bar-light {
+  height: 44px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 0 20px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  height: 58px;
-  flex-shrink: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  z-index: 25;
+  gap: 12px;
 }
 
-.yf-audio-bar--empty {
+.yf-audio-bar-light--empty {
   justify-content: center;
-  color: #94a3b8;
-  font-size: 13.5px;
-  background: #1e293b;
+  color: #64748b;
+  font-size: 13px;
+  background: #f8fafc;
 }
 
-.yf-audio-play-btn {
-  width: 40px;
-  height: 40px;
+.yf-audio-light-play {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: #ff7700;
+  background: #f99d1c;
   border: none;
   color: #fff;
   cursor: pointer;
@@ -1843,127 +2040,134 @@
   justify-content: center;
   flex-shrink: 0;
   transition: all 0.15s ease-in-out;
-  box-shadow: 0 2px 8px rgba(255, 119, 0, 0.35);
+  box-shadow: 0 1px 4px rgba(249, 157, 28, 0.35);
 }
-.yf-audio-play-btn:hover {
-  background: #ea580c;
+.yf-audio-light-play:hover {
+  background: #f15f22;
   transform: scale(1.06);
 }
 
-.yf-audio-skip-btns {
+.yf-audio-light-skips {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
-.yf-audio-icon-btn {
+.yf-audio-light-btn {
   background: transparent;
   border: none;
-  color: #cbd5e1;
+  color: #64748b;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s;
 }
-.yf-audio-icon-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+.yf-audio-light-btn:hover {
+  color: #0f172a;
+  background: #f1f5f9;
 }
 
-.yf-skip-tag {
+.yf-skip-tag-light {
   position: absolute;
-  bottom: 2px;
-  font-size: 8px;
+  bottom: 1px;
+  font-size: 7.5px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 
-.yf-audio-title {
-  font-size: 13px;
+.yf-audio-light-time {
+  font-size: 12px;
   font-weight: 600;
-  color: #e2e8f0;
+  color: #475569;
+  font-family: monospace;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
 }
 
-.yf-audio-progress-wrap {
+.yf-audio-light-timeline {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
-.yf-audio-time {
-  font-size: 12.5px;
-  font-weight: 500;
-  color: #94a3b8;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.yf-audio-slider {
-  flex: 1;
-  height: 6px;
+.yf-audio-light-slider {
+  width: 100%;
+  height: 5px;
   border-radius: 3px;
   cursor: pointer;
   appearance: none;
   outline: none;
   transition: opacity 0.15s;
 }
-.yf-audio-slider::-webkit-slider-thumb {
+.yf-audio-light-slider::-webkit-slider-thumb {
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   background: #ffffff;
-  border: 2px solid #ff7700;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  border: 2.5px solid #f99d1c;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.1s;
 }
-.yf-audio-slider::-webkit-slider-thumb:hover {
+.yf-audio-light-slider::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
 
-.yf-audio-speed-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #f1f5f9;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.yf-audio-light-speed {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
   border-radius: 6px;
-  padding: 3px 8px;
-  font-size: 12px;
+  padding: 2px 7px;
+  font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;
 }
-.yf-audio-speed-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ff7700;
+.yf-audio-light-speed:hover {
+  background: #e2e8f0;
+  color: #f99d1c;
 }
 
-.yf-audio-vol-wrap {
+.yf-audio-light-vol {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
-.yf-volume-slider {
-  width: 72px;
+.yf-audio-light-vol-slider {
+  width: 60px;
   flex: none;
   height: 4px;
-  background: #475569;
+  background: #cbd5e1;
+  border-radius: 2px;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
 }
-.yf-volume-slider::-webkit-slider-thumb {
-  width: 12px;
-  height: 12px;
-  border-width: 1px;
+.yf-audio-light-vol-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #64748b;
+  cursor: pointer;
+}
+
+/* Ensure question nav inside bottom dock doesn't duplicate fixed positioning */
+.yf-listening-bottom-dock .yf-navbar {
+  position: static !important;
+  width: 100% !important;
+  left: auto !important;
+  right: auto !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  padding: 8px 20px !important;
 }
 
 /* ============================================================
@@ -1976,7 +2180,7 @@
 .yf-listening-content {
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 90px;
+  padding-bottom: 140px;
   background: #f8fafc;
 }
 
@@ -2860,4 +3064,225 @@
   color: #4b5563;
   margin-top: 4px;
 }
+
+/* ──────────────────────────────────────────────────────────── */
+/* IELTS Writing Practice Room (YouPass Clone)                 */
+/* ──────────────────────────────────────────────────────────── */
+
+.yf-writing-prompt-card {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #1f2937;
+  line-height: 1.65;
+  font-size: 15px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.yf-writing-meta-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.yf-writing-task-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.yf-writing-task-badge.task-1 {
+  background: #e8f5e9;
+  color: #13a62e;
+}
+
+.yf-writing-task-badge.task-2 {
+  background: #ede7f6;
+  color: #7c3aed;
+}
+
+.yf-writing-guidance {
+  font-size: 13.5px;
+  color: #4b5563;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.yf-writing-image-card {
+  background: #fbfbfc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.yf-writing-image-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.yf-writing-editor-wrap {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fafafa;
+  border-left: 1px solid var(--yf-border);
+}
+
+.yf-writing-editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+
+.yf-writing-word-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.yf-writing-word-count.is-valid {
+  color: #15803d;
+}
+
+.yf-writing-timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  background: #f3f4f6;
+  padding: 4px 10px;
+  border-radius: 16px;
+}
+
+.yf-writing-textarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  padding: 18px 22px;
+  font-size: 15px;
+  line-height: 1.75;
+  font-family: inherit;
+  outline: none;
+  color: #1f2937;
+  background: #ffffff;
+}
+
+.yf-writing-textarea::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.yf-writing-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.yf-writing-sample-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #13a62e;
+  color: #13a62e;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.yf-writing-sample-btn:hover {
+  background: #e8f5e9;
+}
+
+/* Submitted / Result View */
+.yf-writing-result-card {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  border: 1px solid #a5d6a7;
+  border-radius: 12px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.yf-writing-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.yf-writing-tab-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #4b5563;
+  transition: all 0.15s ease;
+}
+
+.yf-writing-tab-btn.active {
+  background: #13a62e;
+  color: #ffffff;
+  border-color: #13a62e;
+}
+
+.yf-writing-essay-box {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 14.5px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: #1f2937;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.yf-writing-sample-box {
+  background: #fcfdf8;
+  border: 1.5px solid #d4edda;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 14.5px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: #1f2937;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
 

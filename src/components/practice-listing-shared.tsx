@@ -17,6 +17,7 @@ export interface SidebarFilterOption {
   value: string;
   label: string;
   disabled?: boolean;
+  icon?: string;
 }
 
 interface PracticeSidebarProps {
@@ -58,7 +59,11 @@ const SOURCE_FILTERS: Record<PracticeSkill, SidebarFilterOption[]> = {
 };
 
 function RadioMark({ checked }: { checked: boolean }) {
-  return <span className={`yf-sidebar-radio${checked ? " checked" : ""}`} aria-hidden="true" />;
+  return (
+    <span className={`yf-sidebar-radio${checked ? " checked" : ""}`} aria-hidden="true">
+      {checked && <span className="yf-sidebar-radio-inner" />}
+    </span>
+  );
 }
 
 function NestedOptions({ kind, values, selected, onChange }: { kind: "Passage" | "Section" | "Task" | "Part"; values: readonly number[]; selected: number | "all"; onChange?: (value: number) => void }) {
@@ -115,6 +120,10 @@ function SidebarCheckboxGroup({
             key={option.value}
           >
             <input type="checkbox" checked={selected.includes(option.value)} disabled={option.disabled} onChange={() => onToggle?.(option.value)} />
+            {option.icon && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={option.icon} alt="" className="yf-sidebar-filter-icon" />
+            )}
             <span>{option.label}</span>
           </label>
         ))}

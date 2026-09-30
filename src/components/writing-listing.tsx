@@ -25,6 +25,16 @@ export interface WritingListingItem {
   category: string | null;
 }
 
+const WRITING_ICONS: Record<string, string> = {
+  "Line Graph": "https://cms.youpass.vn/assets/ff989aa7-ae91-4d20-af00-1ddb08ec36ab?width=1000",
+  "Bar Chart": "https://cms.youpass.vn/assets/3c700a46-9d03-4bc2-b8a7-ff99f0a6fbf5?width=1000",
+  "Pie Chart": "https://cms.youpass.vn/assets/6f819885-1c00-4a4f-8611-e23614d45737?width=1000",
+  "Table": "https://cms.youpass.vn/assets/8869774c-167f-468e-8737-ff19e6d075d7?width=1000",
+  "Mixed Graph": "https://cms.youpass.vn/assets/ff989aa7-ae91-4d20-af00-1ddb08ec36ab?width=1000",
+  "Map": "https://cms.youpass.vn/assets/9b14e5c9-e6c4-4027-bbaa-09fd1f9fbe01?width=1000",
+  "Process": "https://cms.youpass.vn/assets/a3fddb32-b2ee-467b-80c3-0fed660855aa?width=1000",
+};
+
 const CATEGORY_OPTIONS: SidebarFilterOption[] = [
   "Line Graph",
   "Bar Chart",
@@ -33,7 +43,7 @@ const CATEGORY_OPTIONS: SidebarFilterOption[] = [
   "Mixed Graph",
   "Map",
   "Process",
-].map((label) => ({ value: label, label }));
+].map((label) => ({ value: label, label, icon: WRITING_ICONS[label] }));
 
 const PAGE_SIZE = 20;
 

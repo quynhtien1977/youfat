@@ -237,18 +237,18 @@ export function GapFillingGroup({
       {submitted && (
         <div className="yf-gap-feedback" aria-live="polite">
           {questions
-            .filter((question) => results[question.id] && !results[question.id].isCorrect)
+            .filter((question) => results[question.id]?.explanation)
             .map((question) => {
               const result = results[question.id];
-              const correctCode = result.correctAnswers[0];
-              const optText = optionsList.find(
-                (o) => o.option.toUpperCase() === correctCode?.toUpperCase()
-              )?.text;
               return (
                 <div className="yf-gap-feedback-row" key={question.id}>
-                  <strong>Câu {question.question_order}:</strong>{" "}
-                  đáp án đúng <strong>{result.correctAnswers.join(" / ")}</strong>
-                  {optText ? ` (${optText})` : ""}
+                  <div className="yf-gap-explanation-header">
+                    <strong>Giải thích câu {question.question_order}:</strong>
+                  </div>
+                  <div
+                    className="html-content"
+                    dangerouslySetInnerHTML={{ __html: result.explanation! }}
+                  />
                 </div>
               );
             })}

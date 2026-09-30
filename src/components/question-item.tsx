@@ -140,29 +140,13 @@ export function QuestionItem({
                   ✅ Đúng {isRange ? `(${matchedCount}/${ansCount})` : ""}
                 </span>
               ) : matchedCount > 0 ? (
-                <>
-                  <span className="yf-q-feedback-partial">
-                    {`⚠️ Đúng một phần (${matchedCount}/${ansCount})`}
-                  </span>
-                  <div className="yf-q-answer-reveal">
-                    Đáp án đúng:{" "}
-                    <strong style={{ color: "var(--yf-correct)" }}>
-                      {correctAnswers.join(", ")}
-                    </strong>
-                  </div>
-                </>
+                <span className="yf-q-feedback-partial">
+                  {`⚠️ Đúng một phần (${matchedCount}/${ansCount})`}
+                </span>
               ) : (
-                <>
-                  <span className="yf-q-feedback-incorrect">
-                    ❌ Sai {isRange ? `(0/${ansCount})` : ""}
-                  </span>
-                  <div className="yf-q-answer-reveal">
-                    Đáp án đúng:{" "}
-                    <strong style={{ color: "var(--yf-correct)" }}>
-                      {correctAnswers.join(", ")}
-                    </strong>
-                  </div>
-                </>
+                <span className="yf-q-feedback-incorrect">
+                  ❌ Sai {isRange ? `(0/${ansCount})` : ""}
+                </span>
               )}
               {result.explanation && (
                 <ExplanationBlock html={result.explanation} />

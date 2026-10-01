@@ -7,7 +7,6 @@ import {
   AllFilterTab,
   EmptyListing,
   Pagination,
-  PracticePromo,
   PracticeSidebar,
   type SidebarFilterOption,
   type WritingTaskFilter,
@@ -66,24 +65,41 @@ function WritingFallback({ task }: { task: number }) {
 
 function WritingCard({ item }: { item: WritingListingItem }) {
   return (
-    <Link href={`/writing/${item.taskId}`} className="yf-writing-card">
-      <div className="yf-writing-card-thumb">
-        {item.thumbnailUrl ? (
-          <Image
-            src={item.thumbnailUrl}
-            alt=""
-            fill
-            sizes="(max-width: 700px) 34vw, 150px"
-            className="yf-card-image"
-          />
-        ) : (
-          <WritingFallback task={item.taskNumber} />
-        )}
-        <span className="yf-writing-card-tag">{item.category ?? `Task ${item.taskNumber}`}</span>
+    <Link href={`/writing/${item.taskId}`} className="yf-writing-card group">
+      <div className="yf-writing-card-inner">
+        <div className="yf-writing-card-thumb">
+          <div className="yf-writing-card-tag">
+            <span className="yf-writing-card-tag-text">{item.category ?? `Task ${item.taskNumber}`}</span>
+          </div>
+          <div className="yf-writing-card-img-box">
+            {item.thumbnailUrl ? (
+              <Image
+                src={item.thumbnailUrl}
+                alt=""
+                fill
+                sizes="(max-width: 700px) 34vw, 140px"
+                className="yf-writing-card-img"
+              />
+            ) : (
+              <WritingFallback task={item.taskNumber} />
+            )}
+          </div>
+        </div>
+        <div className="yf-writing-card-body">
+          <div className="yf-writing-card-title">{item.title}</div>
+          <p className="yf-writing-card-prompt">{item.prompt}</p>
+        </div>
       </div>
-      <div className="yf-writing-card-body">
-        <div className="yf-writing-card-title">{item.title}</div>
-        <p className="yf-writing-card-prompt">{item.prompt}</p>
+
+      <div className="yf-writing-card-hover-overlay" aria-hidden="true">
+        <div className="yf-writing-card-hover-content">
+          <div className="yf-writing-card-hover-prompt">{item.prompt}</div>
+          <div className="yf-writing-card-hover-btn-wrap">
+            <span className="yf-writing-card-hover-btn">
+              Viết bài này
+            </span>
+          </div>
+        </div>
       </div>
     </Link>
   );
@@ -144,10 +160,6 @@ export function WritingListing({ items }: { items: WritingListingItem[] }) {
         onDetailFilterToggle={toggleCategory}
       />
       <main className="yf-content">
-        <PracticePromo
-          title="Phá đảo tất cả dạng đề IELTS cùng YouFat!"
-          subtitle={'Chốt đầu vào, mục tiêu, thời gian và nhận Practice Plan được "may đo" miễn phí cho bạn!'}
-        />
         <AllFilterTab />
         <div className="yf-writing-grid">
           {paged.map((item) => (

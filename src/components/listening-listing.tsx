@@ -7,7 +7,6 @@ import {
   AllFilterTab,
   EmptyListing,
   Pagination,
-  PracticePromo,
   PracticeSidebar,
   type ListeningMode,
   type ListeningSectionFilter,
@@ -161,19 +160,15 @@ export function ListeningListing({ items }: { items: ListeningListingItem[] }) {
         onListeningSectionChange={(s) => { setSection(s); resetPage(); }}
         selectedSourceFilters={selectedSources}
         onSourceFilterToggle={toggleSource}
-        detailFilterTitle="Loai cau hoi"
+        detailFilterTitle="Loại câu hỏi"
         detailFilters={FILTER_OPTIONS}
         selectedDetailFilters={selectedTypes}
         onDetailFilterToggle={toggleType}
       />
       <main className="yf-content">
-        <PracticePromo
-          title="Pha dao tat ca dang de IELTS cung YouFat!"
-          subtitle={'Chot dau vao, muc tieu, thoi gian va nhan Practice Plan duoc "may do" mien phi cho ban!'}
-        />
         <AllFilterTab />
         {mode === "dictation" ? (
-          <EmptyListing>Chua co bai Dictation trong du lieu Cambridge 10-20 hien tai.</EmptyListing>
+          <EmptyListing>Chưa có bài Dictation trong dữ liệu Cambridge 10-20 hiện tại.</EmptyListing>
         ) : (
           <>
             <div className="yf-grid">
@@ -181,7 +176,7 @@ export function ListeningListing({ items }: { items: ListeningListingItem[] }) {
                 ? (bookSections as ListeningListingItem[]).map((item) => <ListeningCard item={item} key={item.sectionId} />)
                 : (bookSections as ListeningListingItem[][]).map((testItems) => <FullListeningCard items={testItems} key={testItems[0].testId} />)}
             </div>
-            {filteredItems.length === 0 && <EmptyListing>Khong co bai Listening phu hop voi bo loc hien tai.</EmptyListing>}
+            {filteredItems.length === 0 && <EmptyListing>Không có bài Listening phù hợp với bộ lọc hiện tại.</EmptyListing>}
             {totalPages > 1 && <Pagination current={page} total={totalPages} onChange={setPage} />}
           </>
         )}

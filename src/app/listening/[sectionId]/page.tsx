@@ -320,11 +320,11 @@ export default function ListeningPracticePage() {
                 type="button"
                 onClick={() => handleJumpToTime(section.listen_from_second!)}
                 className="yf-listening-timestamp-btn"
-                title={`Nhảy tới ${formatTime(section.listen_from_second)}`}
+                title={`Nhảy tới ${formatTime(section.listen_from_second ?? 0)}`}
               >
                 <Headphones size={14} />
                 <span>
-                  Bắt đầu nghe từ {formatTime(section.listen_from_second)}
+                  Bắt đầu nghe từ {formatTime(section.listen_from_second ?? 0)}
                   {section.listen_to_second
                     ? ` – ${formatTime(section.listen_to_second)}`
                     : ""}

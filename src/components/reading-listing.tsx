@@ -171,15 +171,15 @@ export function ReadingListing({ items }: { items: ReadingListingItem[] }) {
         onReadingPassageChange={(p) => { setPassage(p); resetPage(); }}
         selectedSourceFilters={selectedSources}
         onSourceFilterToggle={toggleSource}
-        detailFilterTitle="Loai cau hoi"
+        detailFilterTitle="Loại câu hỏi"
         detailFilters={FILTER_OPTIONS}
         selectedDetailFilters={selectedTypes}
         onDetailFilterToggle={toggleType}
       />
       <main className="yf-content">
         <PracticePromo
-          title="Pha dao tat ca dang de IELTS cung YouFat!"
-          subtitle={'Chot dau vao, muc tieu, thoi gian va nhan Practice Plan duoc "may do" mien phi cho ban!'}
+          title="Phá đảo tất cả dạng đề IELTS cùng YouFat!"
+          subtitle={'Chốt đầu vào, mục tiêu, thời gian và nhận Practice Plan được "may đo" miễn phí cho bạn!'}
         />
         <AllFilterTab />
         <div className="yf-grid">
@@ -188,7 +188,7 @@ export function ReadingListing({ items }: { items: ReadingListingItem[] }) {
             : (paged as ReadingListingItem[][]).map((testItems) => <FullTestCard items={testItems} key={testItems[0].testId} />)}
         </div>
         {filteredItems.length === 0 && (
-          <EmptyListing>Khong co bai Reading phu hop voi bo loc hien tai.</EmptyListing>
+          <EmptyListing>Không có bài Reading phù hợp với bộ lọc hiện tại.</EmptyListing>
         )}
         {totalPages > 1 && <Pagination current={page} total={totalPages} onChange={setPage} />}
       </main>

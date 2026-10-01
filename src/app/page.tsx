@@ -196,7 +196,7 @@ export default function HomePage() {
 
         <div className="w-full max-w-[1304px] mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
           {/* Main Heading with Authentic YouPass Typography and Two-Stage Green Blob Animation */}
-          <div className="md:max-w-[713px] max-w-[370px] text-center md:text-[48px] text-[26px] font-bold md:leading-[60px] leading-[34px] tracking-tight relative z-10 mx-auto mb-4">
+          <div className="md:max-w-[713px] max-w-[370px] text-center md:text-[48px] text-[24px] font-bold md:leading-[60px] leading-[34px] tracking-tight relative z-10 mx-auto mb-4">
             <div className="relative inline-block z-10">
               {/* Stage 2: Green SVG Blob sweeps in behind text and highlighted words transition to white */}
               <div className="absolute xl:-top-2.5 xl:-left-[18px] md:-top-2 md:-left-[16px] -left-2 -z-10 xl:w-[466px] xl:h-[133px] md:w-[452px] md:h-[128px] w-[265px] h-[68px] -top-1 pointer-events-none select-none animate-heading-blob">
@@ -248,6 +248,7 @@ export default function HomePage() {
                   src="/youpass_card1.webp"
                   alt="Luyện đề IELTS 4 kỹ năng"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 600px"
                   className="absolute inset-0 w-full h-full object-cover object-bottom group-hover:scale-105 transition-transform duration-500"
                   priority
                 />
@@ -308,6 +309,7 @@ export default function HomePage() {
                   src="/youpass_card2.webp"
                   alt="Khoá học IELTS Intensive 7.0"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 600px"
                   className="absolute inset-0 w-full h-full object-cover object-bottom group-hover:scale-105 transition-transform duration-500"
                   priority
                 />
@@ -676,6 +678,7 @@ export default function HomePage() {
                       }
                       alt="Tính năng YouFat"
                       fill
+                      sizes="(max-width: 1280px) 100vw, 521px"
                       className="object-contain object-bottom xl:object-right-bottom"
                       preload
                       unoptimized
@@ -871,6 +874,7 @@ export default function HomePage() {
               src="/youpass_mascot_float.webp"
               alt="Mascot Feedback"
               fill
+              sizes="56px"
               className="object-contain"
             />
           </div>
@@ -889,6 +893,7 @@ export default function HomePage() {
             src="/youpass_zalo.webp"
             alt="Zalo Chat"
             fill
+            sizes="48px"
             className="object-contain"
           />
         </a>

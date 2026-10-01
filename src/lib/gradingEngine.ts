@@ -1,4 +1,4 @@
-﻿import { Question } from '../types/database';
+import { Question } from '../types/database';
 
 export interface QuestionGradingResult {
   questionId: string;
@@ -6,6 +6,8 @@ export interface QuestionGradingResult {
   userAnswer: string | string[];
   correctAnswers: string[];
   isCorrect: boolean;
+  pointsAwarded?: number;
+  maxPoints?: number;
   explanation?: string;
 }
 
@@ -38,6 +40,8 @@ export function gradeSingleQuestion(
 ): QuestionGradingResult {
   const correctList = q.answer || [];
   let isCorrect = false;
+  let pointsAwarded = 0;
+  let maxPoints = 1;
 
   if (q.answer_mode === 'all_of') {
     // MULTIPLE_CHOICE_MANY: Bắt buộc chọn đúng và đủ tất cả các đáp án
@@ -48,6 +52,9 @@ export function gradeSingleQuestion(
     const targetSet = new Set(correctList.map((s) => s.trim().toUpperCase()));
     const userSet = new Set(userList);
 
+    const matched = userList.filter((val) => targetSet.has(val));
+    maxPoints = targetSet.size > 0 ? targetSet.size : 1;
+    pointsAwarded = matched.length;
     isCorrect = targetSet.size > 0 && targetSet.size === userSet.size && [...targetSet].every((val) => userSet.has(val));
   } else if (q.answer_mode === 'any_of') {
     // Chấp nhận trúng 1 trong các cách viết / từ đồng nghĩa
@@ -55,11 +62,13 @@ export function gradeSingleQuestion(
     if (userStr) {
       isCorrect = correctList.some((target) => normalizeAnswerString(target) === userStr);
     }
+    pointsAwarded = isCorrect ? 1 : 0;
   } else {
     // 'single': Trắc nghiệm 1 đáp án, True/False/NG, Matching
     const userStr = typeof rawUserAnswer === 'string' ? rawUserAnswer.trim().toUpperCase() : '';
     const firstTarget = (correctList[0] || '').trim().toUpperCase();
     isCorrect = Boolean(userStr && userStr === firstTarget);
+    pointsAwarded = isCorrect ? 1 : 0;
   }
 
   return {
@@ -68,6 +77,8 @@ export function gradeSingleQuestion(
     userAnswer: rawUserAnswer || '',
     correctAnswers: correctList,
     isCorrect,
+    pointsAwarded,
+    maxPoints,
     explanation: q.explanation,
   };
 }
@@ -120,8 +131,18 @@ export function gradeExam(
   skill: 'reading' | 'listening'
 ): ExamGradingSummary {
   const results = questions.map((q) => gradeSingleQuestion(q, answersMap[q.id]));
-  const totalCorrect = results.filter((r) => r.isCorrect).length;
-  const totalQuestions = questions.length;
+  const totalCorrect = results.reduce(
+    (sum, r) => sum + (r.pointsAwarded !== undefined ? r.pointsAwarded : r.isCorrect ? 1 : 0),
+    0
+  );
+  const totalQuestions = questions.reduce(
+    (sum, q) =>
+      sum +
+      (q.type === 'MULTIPLE_CHOICE_MANY' && q.answer && q.answer.length > 1
+        ? q.answer.length
+        : 1),
+    0
+  );
   const scorePercentage = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
   const bandScore = calculateBandScore(totalCorrect, skill);
 

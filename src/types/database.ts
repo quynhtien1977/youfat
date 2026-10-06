@@ -56,6 +56,7 @@ export interface SubmissionQuestionResult {
   question_key: string;
   section_id: string;
   question_order: number;
+  question_type: Question['type'];
   answer_mode: AnswerMode;
   user_answer: string | string[];
   correct_answers: string[];

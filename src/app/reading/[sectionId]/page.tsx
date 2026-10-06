@@ -10,6 +10,7 @@ import { PassagePanel } from "@/components/passage-panel";
 import { QuestionPanel } from "@/components/question-panel";
 import { QuestionNavBar } from "@/components/question-nav-bar";
 import { ResultsScreen } from "@/components/results-screen";
+import { SubmissionSaveStatus, type PendingSubmission } from "@/components/submission-save-status";
 import { SubmitConfirmation } from "@/components/submit-confirmation";
 import { usePracticeTimer } from "@/components/use-practice-timer";
 import { countUnansweredMarks, formatElapsedTime } from "@/lib/submission-controls";
@@ -35,6 +36,7 @@ export default function ReadingPracticePage() {
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [reviewing, setReviewing] = useState(false);
+  const [pendingSave, setPendingSave] = useState<PendingSubmission | null>(null);
   const { elapsedSeconds, stop: stopTimer } = usePracticeTimer(!loading && !error, sectionId);
 
   // ── Fetch ─────────────────────────────────────────────────
@@ -89,7 +91,9 @@ export default function ReadingPracticePage() {
     try {
       // This route loads one section and includes real options via options(*).
       const examSummary = gradeExam(questions, answers, "reading", "section");
-      stopTimer();
+      const timing = stopTimer();
+      if (section) setPendingSave({...timing,graded:examSummary,sections:[section],questions,answers,
+        skill:"reading",mode:"practice",scope:"section"});
       setSummary(examSummary);
       const rMap: Record<string, QuestionGradingResult> = {};
       for (const r of examSummary.results) rMap[r.questionId] = r;
@@ -103,7 +107,7 @@ export default function ReadingPracticePage() {
       });
       setGradingError("Không chấm được bài này, thử lại hoặc báo lỗi");
     }
-  }, [submitted, questions, answers, stopTimer]);
+  }, [submitted, questions, answers, stopTimer, section]);
 
   const handlePillClick = useCallback(
     (questionOrder: number) => {
@@ -231,7 +235,8 @@ export default function ReadingPracticePage() {
 
       {submitted && summary && !reviewing ? (
         <ResultsScreen questions={questions} summary={summary} skill="reading"
-          elapsedSeconds={elapsedSeconds} onReview={() => setReviewing(true)} />
+          elapsedSeconds={elapsedSeconds} onReview={() => setReviewing(true)}
+          feedback={pendingSave && <SubmissionSaveStatus input={pendingSave} />} />
       ) : <>
       {/* ─── Body: passage | questions ─────────────────── */}
       <div className="yf-room-body">

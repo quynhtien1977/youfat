@@ -25,6 +25,7 @@ import { Question, Section } from "@/types/database";
 import { QuestionPanel } from "@/components/question-panel";
 import { QuestionNavBar } from "@/components/question-nav-bar";
 import { ResultsScreen } from "@/components/results-screen";
+import { SubmissionSaveStatus, type PendingSubmission } from "@/components/submission-save-status";
 import { SubmitConfirmation } from "@/components/submit-confirmation";
 import { usePracticeTimer } from "@/components/use-practice-timer";
 import { countUnansweredMarks, formatElapsedTime } from "@/lib/submission-controls";
@@ -60,6 +61,7 @@ export default function ListeningPracticePage() {
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [reviewing, setReviewing] = useState(false);
+  const [pendingSave, setPendingSave] = useState<PendingSubmission | null>(null);
   const { elapsedSeconds, stop: stopTimer } = usePracticeTimer(!loading && !error, sectionId);
 
   // Audio state
@@ -218,7 +220,9 @@ export default function ListeningPracticePage() {
     try {
       // One real section, including options; never scale missing content to 40.
       const examSummary = gradeExam(questions, answers, "listening", "section");
-      stopTimer();
+      const timing = stopTimer();
+      if (section) setPendingSave({...timing,graded:examSummary,sections:[section],questions,answers,
+        skill:"listening",mode:"practice",scope:"section"});
       audioRef.current?.pause();
       setSummary(examSummary);
       const rMap: Record<string, QuestionGradingResult> = {};
@@ -231,7 +235,7 @@ export default function ListeningPracticePage() {
       });
       setGradingError("Không chấm được bài này, thử lại hoặc báo lỗi");
     }
-  }, [submitted, questions, answers, stopTimer]);
+  }, [submitted, questions, answers, stopTimer, section]);
 
   const handlePillClick = useCallback(
     (questionOrder: number) => {
@@ -322,7 +326,8 @@ export default function ListeningPracticePage() {
 
       {submitted && summary && !reviewing ? (
         <ResultsScreen questions={questions} summary={summary} skill="listening"
-          elapsedSeconds={elapsedSeconds} onReview={() => setReviewing(true)} />
+          elapsedSeconds={elapsedSeconds} onReview={() => setReviewing(true)}
+          feedback={pendingSave && <SubmissionSaveStatus input={pendingSave} />} />
       ) : <>
       {/* ─── Question Content Area ────────────────────── */}
       <main className="yf-listening-content">

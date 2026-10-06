@@ -80,3 +80,13 @@ test('shared filter mapping retains Reading 10 and Listening 7 categories', () =
   assert.equal(getTypeFilterOptions('reading').length, 10);
   assert.equal(getTypeFilterOptions('listening').length, 7);
 });
+
+test('historical results render exclusively from snapshot, without an explanation action', () => {
+  const {ResultsScreen}=load('../src/components/results-screen.tsx');
+  const snapshot={skill:'reading',scope:'section',time_spent_seconds:61,results:[{
+    question_type:'MULTIPLE_CHOICE_MANY',answer_mode:'all_of',max_marks:2,points_awarded:1,user_answer:['B'],
+  }]};
+  const html=renderToStaticMarkup(ResultsScreen({snapshot}));
+  assert.match(html,/1\/2/);assert.match(html,/01:01/);
+  assert.match(html,/Multiple Choice/);assert.doesNotMatch(html,/Xem giải thích|Band|PRO/);
+});

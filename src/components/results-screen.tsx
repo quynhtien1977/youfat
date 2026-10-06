@@ -1,14 +1,17 @@
 'use client';
 
-import type { ExamGradingSummary, Question, SkillType } from '@/types/database';
-import { summarizeResults } from '@/lib/result-statistics';
+import type { ReactNode } from 'react';
+import type { ExamGradingSummary, Question, SkillType, SubmissionSnapshot } from '@/types/database';
+import { summarizeResults, summarizeSnapshot } from '@/lib/result-statistics';
 import styles from './results-screen.module.css';
 
-export function ResultsScreen({ questions, summary, skill, elapsedSeconds, onReview }: {
-  questions: Question[]; summary: ExamGradingSummary; skill: SkillType;
-  elapsedSeconds: number; onReview: () => void;
-}) {
-  const stats = summarizeResults(questions, summary, skill);
+type ResultsScreenProps = ({snapshot:SubmissionSnapshot; questions?:never;summary?:never;skill?:never;elapsedSeconds?:never}
+  | {snapshot?:never;questions:Question[];summary:ExamGradingSummary;skill:SkillType;elapsedSeconds:number})
+  & {onReview?:()=>void; feedback?:ReactNode};
+export function ResultsScreen(props: ResultsScreenProps) {
+  const {onReview, feedback} = props;
+  const stats = props.snapshot ? summarizeSnapshot(props.snapshot) : summarizeResults(props.questions, props.summary, props.skill);
+  const elapsedSeconds = props.snapshot ? props.snapshot.time_spent_seconds : props.elapsedSeconds;
   const circumference = 2 * Math.PI * 95;
   const correctLength = stats.total ? stats.correct / stats.total * circumference : 0;
   const wrongLength = stats.total ? stats.wrong / stats.total * circumference : 0;
@@ -39,7 +42,7 @@ export function ResultsScreen({ questions, summary, skill, elapsedSeconds, onRev
               <div><dt><i className={styles.skipped} />Bỏ qua:</dt><dd>{stats.skipped} câu</dd></div>
             </dl>
           </div>
-          <div className={styles.actions}><button type="button" onClick={onReview}>Xem giải thích <span>FREE</span></button></div>
+          {onReview && <div className={styles.actions}><button type="button" onClick={onReview}>Xem giải thích <span>FREE</span></button></div>}
         </section>
         <section className={styles.details} aria-labelledby="results-details-title">
           <h2 id="results-details-title">Bảng dữ liệu chi tiết</h2>
@@ -55,6 +58,7 @@ export function ResultsScreen({ questions, summary, skill, elapsedSeconds, onRev
             </table>
           </div>
         </section>
+        {feedback}
       </div>
     </main>
   );

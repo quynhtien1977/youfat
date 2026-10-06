@@ -1,0 +1,38 @@
+/* History is an original YouFat layout, not an unverified YouPass clone. */
+.page { max-width: 1040px; margin: 0 auto; padding: 24px; color: #213547; }
+.header { display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; margin-bottom:24px; }
+.header h1 { font-size:24px; font-weight:800; margin:0; }
+.header nav, .actions { display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+.page a, .notice a { color:#176649; text-decoration:underline; text-underline-offset:3px; }
+.notice { padding:16px; border:1px solid #b2dbc9; border-radius:6px; background:#f1faf5; margin:16px 0; }
+.notice p { margin:0 0 8px; }
+.actions button, .page button, .fileLabel { min-height:44px; border:1px solid #cbd5e1; border-radius:6px; padding:8px 16px; background:#fff; color:#213547; cursor:pointer; font:inherit; }
+.actions button:hover, .page button:hover, .fileLabel:hover { border-color:#176649; }
+.page button:disabled { opacity:.5; cursor:not-allowed; }
+.page button:focus-visible, .page a:focus-visible, .notice button:focus-visible, .notice a:focus-visible, .fileLabel:focus-within { outline:2px solid #176649; outline-offset:3px; }
+.card { background:#fff; padding:16px; border:1px solid #dce2e9; border-radius:6px; margin-top:16px; }
+.card h2 { font-size:18px; font-weight:700; margin:0 0 12px; }
+.list { list-style:none; margin:16px 0; padding:0; display:grid; gap:12px; }
+.item { display:flex; gap:16px; justify-content:space-between; align-items:center; padding:16px; border:1px solid #dce2e9; border-radius:6px; background:#fff; min-width:0; }
+.item p { margin:6px 0 0; font-size:14px; color:#475569; }
+.item strong { font-size:16px; }
+.item a { font-weight:700; }
+.item > div { min-width:0; overflow-wrap:anywhere; }
+.score { display:block; font-size:20px; font-weight:800; color:#176649; }
+.empty { text-align:center; padding:32px 16px; }
+.muted { color:#475569; font-size:14px; }
+.error { color:#9f261d; padding:12px; border:1px solid #efb3ac; border-radius:6px; background:#fff5f3; overflow-wrap:anywhere; }
+.dialog { border:1px solid #dce2e9; border-radius:12px; padding:24px; margin:auto; width:min(440px,calc(100vw - 32px)); }
+.dialog::backdrop { background:#0006; }
+.dialog h2 { font-size:20px; font-weight:700; margin:0 0 12px; }
+.dialog p { margin-bottom:16px; }
+.primary { background:#176649 !important; color:#fff !important; }
+.fileInput { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+.preview { overflow-wrap:anywhere; margin-top:16px; }
+.preview h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+.preview p { margin:8px 0; }
+.preview ul { max-height:240px; overflow:auto; padding-left:20px; margin:12px 0; }
+.review { min-height:100dvh; display:flex; flex-direction:column; }
+.reviewHeader { padding:16px; background:#fff; border-bottom:1px solid #dce2e9; }
+.reviewHeader h1 { font-size:18px; font-weight:700; margin:8px 0; }
+@media (max-width:540px) { .page { padding:16px; }.item { align-items:flex-start; flex-direction:column; }.item .actions { width:100%; justify-content:space-between; }.header { align-items:flex-start; }.dialog { padding:16px; } }

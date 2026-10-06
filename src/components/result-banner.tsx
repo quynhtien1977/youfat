@@ -12,15 +12,15 @@ interface ResultBannerProps {
 }
 
 export function ResultBanner({ summary, skill }: ResultBannerProps) {
-  const { totalCorrect, totalQuestions, bandScore } = summary;
-  const percentage = Math.round((totalCorrect / totalQuestions) * 100);
+  const { correctMarks, totalMarks } = summary;
+  const percentage = totalMarks > 0 ? Math.round((correctMarks / totalMarks) * 100) : 0;
 
   return (
     <div className="yf-result-banner">
       {/* Circle */}
       <div className="yf-result-score-circle">
-        <span className="yf-result-band">{bandScore.toFixed(1)}</span>
-        <span className="yf-result-band-label">Band</span>
+        <span className="yf-result-band">{correctMarks}/{totalMarks}</span>
+        <span className="yf-result-band-label">câu đúng</span>
       </div>
 
       {/* Details */}
@@ -30,8 +30,8 @@ export function ResultBanner({ summary, skill }: ResultBannerProps) {
         </div>
         <div className="yf-result-sub">
           Đúng{" "}
-          <strong style={{ color: "var(--yf-green)" }}>{totalCorrect}</strong>/
-          {totalQuestions} câu ({percentage}%)
+          <strong style={{ color: "var(--yf-green)" }}>{correctMarks}</strong>/
+          {totalMarks} câu ({percentage}%)
         </div>
         <div className="yf-result-progress">
           <div

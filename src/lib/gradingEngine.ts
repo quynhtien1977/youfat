@@ -1,23 +1,22 @@
-import { Question } from '../types/database';
+import type {
+  BandReason, ExamGradingSummary, Question, QuestionGradingResult, SkillType, SubmissionScope,
+} from '../types/database';
 
-export interface QuestionGradingResult {
-  questionId: string;
-  questionOrder: number;
-  userAnswer: string | string[];
-  correctAnswers: string[];
-  isCorrect: boolean;
-  pointsAwarded?: number;
-  maxPoints?: number;
-  explanation?: string;
+// Keep existing import paths working; contracts live with other app types.
+export type { ExamGradingSummary, QuestionGradingResult } from '../types/database';
+
+export class GradingValidationError extends Error {
+  constructor(
+    public readonly code: 'VALIDATION_ERROR' | 'CONTENT_ERROR',
+    message: string,
+    public readonly questionId?: string,
+  ) {
+    super(message);
+    this.name = 'GradingValidationError';
+  }
 }
 
-export interface ExamGradingSummary {
-  totalQuestions: number;
-  totalCorrect: number;
-  scorePercentage: number;
-  bandScore: number;
-  results: QuestionGradingResult[];
-}
+const normalizeChoice = (value: string): string => value.trim().toUpperCase();
 
 /**
  * Chuẩn hóa chuỗi để so sánh (xóa khoảng trắng thừa, chuyển về chữ thường, bỏ dấu câu thừa)
@@ -42,20 +41,40 @@ export function gradeSingleQuestion(
   let isCorrect = false;
   let pointsAwarded = 0;
   let maxPoints = 1;
+  let userAnswer: string | string[] = rawUserAnswer ?? '';
 
   if (q.answer_mode === 'all_of') {
-    // MULTIPLE_CHOICE_MANY: Bắt buộc chọn đúng và đủ tất cả các đáp án
-    const userList = Array.isArray(rawUserAnswer)
-      ? rawUserAnswer.map((s) => s.trim().toUpperCase())
-      : rawUserAnswer ? [rawUserAnswer.trim().toUpperCase()] : [];
-    
-    const targetSet = new Set(correctList.map((s) => s.trim().toUpperCase()));
-    const userSet = new Set(userList);
-
-    const matched = userList.filter((val) => targetSet.has(val));
-    maxPoints = targetSet.size > 0 ? targetSet.size : 1;
-    pointsAwarded = matched.length;
-    isCorrect = targetSet.size > 0 && targetSet.size === userSet.size && [...targetSet].every((val) => userSet.has(val));
+    if (!Array.isArray(correctList) || correctList.length === 0 ||
+        correctList.some((value) => typeof value !== 'string' || !value.trim())) {
+      throw new GradingValidationError('CONTENT_ERROR', 'all_of needs nonempty correct answers', q.id);
+    }
+    const targetSet = new Set(correctList.map(normalizeChoice));
+    if (targetSet.size !== correctList.length) {
+      throw new GradingValidationError('CONTENT_ERROR', 'Duplicate all_of targets', q.id);
+    }
+    if (!q.options?.length || q.options.some((option) =>
+      typeof option.option !== 'string' || !option.option.trim())) {
+      throw new GradingValidationError('CONTENT_ERROR', 'all_of needs option labels', q.id);
+    }
+    const allowed = new Set(q.options.map((option) => normalizeChoice(option.option)));
+    if ([...targetSet].some((label) => !allowed.has(label))) {
+      throw new GradingValidationError('CONTENT_ERROR', 'Correct answer missing from options', q.id);
+    }
+    // Missing answers are blanks; a nonempty scalar/object is not a selection array.
+    const selections = rawUserAnswer === undefined || rawUserAnswer === '' ? [] : rawUserAnswer;
+    if (!Array.isArray(selections) || selections.some((value) =>
+      typeof value !== 'string' || !value.trim())) {
+      throw new GradingValidationError('VALIDATION_ERROR', 'Expected a selection array', q.id);
+    }
+    const userSet = new Set(selections.map(normalizeChoice));
+    maxPoints = targetSet.size;
+    if (userSet.size > maxPoints || [...userSet].some((label) => !allowed.has(label))) {
+      throw new GradingValidationError('VALIDATION_ERROR', 'Invalid or too many selections', q.id);
+    }
+    // YouPass Reading audit: each distinct correct choice earns one mark.
+    pointsAwarded = [...userSet].filter((label) => targetSet.has(label)).length;
+    isCorrect = pointsAwarded === maxPoints;
+    userAnswer = [...userSet];
   } else if (q.answer_mode === 'any_of') {
     // Chấp nhận trúng 1 trong các cách viết / từ đồng nghĩa
     const userStr = typeof rawUserAnswer === 'string' ? normalizeAnswerString(rawUserAnswer) : '';
@@ -74,7 +93,7 @@ export function gradeSingleQuestion(
   return {
     questionId: q.id,
     questionOrder: q.question_order,
-    userAnswer: rawUserAnswer || '',
+    userAnswer,
     correctAnswers: correctList,
     isCorrect,
     pointsAwarded,
@@ -123,34 +142,45 @@ export function calculateBandScore(correctCount: number, skill: 'reading' | 'lis
 }
 
 /**
- * Chấm toàn bộ bài thi
+ * Grade the supplied scope by marks. Unscoped legacy calls default to section.
+ * Band is intentionally absent in MVP; calculateBandScore is not called here.
+ * Throws GradingValidationError for malformed content or submitted selections.
  */
 export function gradeExam(
   questions: Question[],
   answersMap: Record<string, string | string[]>,
-  skill: 'reading' | 'listening'
+  skill: SkillType,
+  scope: SubmissionScope = 'section',
 ): ExamGradingSummary {
+  if (!['reading', 'listening'].includes(skill) ||
+      !['section', 'full_skill', 'custom'].includes(scope)) {
+    throw new GradingValidationError('VALIDATION_ERROR', 'Invalid skill or scope');
+  }
+  const ids = new Set(questions.map((q) => q.id));
+  if (ids.size !== questions.length) {
+    throw new GradingValidationError('CONTENT_ERROR', 'Duplicate question IDs');
+  }
+  if (Object.keys(answersMap).some((id) => !ids.has(id))) {
+    throw new GradingValidationError('VALIDATION_ERROR', 'Answer outside supplied scope');
+  }
   const results = questions.map((q) => gradeSingleQuestion(q, answersMap[q.id]));
-  const totalCorrect = results.reduce(
-    (sum, r) => sum + (r.pointsAwarded !== undefined ? r.pointsAwarded : r.isCorrect ? 1 : 0),
-    0
-  );
-  const totalQuestions = questions.reduce(
-    (sum, q) =>
-      sum +
-      (q.type === 'MULTIPLE_CHOICE_MANY' && q.answer && q.answer.length > 1
-        ? q.answer.length
-        : 1),
-    0
-  );
-  const scorePercentage = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
-  const bandScore = calculateBandScore(totalCorrect, skill);
+  const correctMarks = results.reduce((sum, result) => sum + result.pointsAwarded, 0);
+  const totalMarks = results.reduce((sum, result) => sum + result.maxPoints, 0);
+  const scorePercentage = totalMarks > 0 ? Math.round((correctMarks / totalMarks) * 100) : 0;
+  const bandReason: BandReason = scope !== 'full_skill'
+    ? 'partial_scope'
+    : totalMarks !== 40 ? 'incomplete_content' : 'not_displayed_mvp';
 
   return {
-    totalQuestions,
-    totalCorrect,
+    questionCount: questions.length,
+    correctMarks,
+    totalMarks,
+    totalQuestions: totalMarks,
+    totalCorrect: correctMarks,
     scorePercentage,
-    bandScore,
+    scope,
+    bandScore: null,
+    bandReason,
     results,
   };
 }

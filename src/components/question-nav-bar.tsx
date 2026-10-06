@@ -84,7 +84,7 @@ export function QuestionNavBar({
         disabled={submitted}
         type="button"
       >
-        {submitted ? "✅ Đã nộp" : "Nộp bài 🔶"}
+        {submitted ? "Đã nộp" : "Hoàn thành"}
       </button>
     </div>
   );

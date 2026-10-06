@@ -19,6 +19,8 @@ export const TYPE_LABELS: Record<string, string> = {
   SENTENCE_COMPLETION: "Gap Filling",
   TABLE_COMPLETION: "Gap Filling",
   SHORT_ANSWER: "Gap Filling",
+  GAP_FILLING: "Gap Filling",
+  OTHER: "Other Types",
 };
 
 /** Deduplicated labels for a card (max 3 distinct) */
@@ -48,3 +50,13 @@ export const LISTENING_FILTER_GROUPS: Record<string, string[]> = {
   MATCHING: ["MATCHING", "MATCHING_FEATURES", "MATCHING_HEADING"],
   OTHER: ["TRUE_FALSE", "YES_NO"],
 };
+
+export function getQuestionTypeGroup(type: string, skill: 'reading' | 'listening'): string {
+  const groups = skill === 'reading' ? READING_FILTER_GROUPS : LISTENING_FILTER_GROUPS;
+  return Object.keys(groups).find(key => groups[key].includes(type)) ?? 'OTHER';
+}
+
+export function getTypeFilterOptions(skill: 'reading' | 'listening') {
+  const groups = skill === 'reading' ? READING_FILTER_GROUPS : LISTENING_FILTER_GROUPS;
+  return Object.keys(groups).map(value => ({ value, label: TYPE_LABELS[value] }));
+}

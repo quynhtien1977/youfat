@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+/* Test/browser artifacts are not UI sources (Chrome profile files may be locked). */
+@source not "../../scratch";
 
 /* ============================================================
    YouFat Design System – Clone YouPass 1:1
@@ -28,6 +30,19 @@
   /* Legacy compat */
   --background: #fbf9f5;
   --foreground: #1e293b;
+}
+
+/* Submission timer: green pill measured in the practice-room source/audit. */
+.yf-practice-timer {
+  flex-shrink: 0;
+  border-radius: 9999px;
+  padding: 6px 8px;
+  background: var(--yf-green-dark);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
 }
 
 @theme inline {

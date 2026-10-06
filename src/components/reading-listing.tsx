@@ -13,7 +13,7 @@ import {
   type ReadingMode,
   type SidebarFilterOption,
 } from "@/components/practice-listing-shared";
-import { getCardLabels, READING_FILTER_GROUPS } from "@/lib/type-labels";
+import { getCardLabels, getTypeFilterOptions, READING_FILTER_GROUPS } from "@/lib/type-labels";
 
 export interface ReadingListingItem {
   sectionId: string;
@@ -29,18 +29,7 @@ export interface ReadingListingItem {
 
 const FILTER_TYPES = READING_FILTER_GROUPS;
 
-const FILTER_OPTIONS: SidebarFilterOption[] = [
-  ["MATCHING_HEADING", "Matching Headings"],
-  ["TRUE_FALSE", "True - False - Not Given"],
-  ["YES_NO", "Yes - No - Not Given"],
-  ["MULTIPLE_CHOICE_ONE", "Multiple Choice (One Answer)"],
-  ["MATCHING_INFO", "Matching Information"],
-  ["MATCHING_FEATURES", "Matching Features"],
-  ["MULTIPLE_CHOICE_MANY", "Multiple Choice (Many Answers)"],
-  ["MAP_DIAGRAM_LABEL", "Map, Diagram Label"],
-  ["GAP_FILLING", "Gap Filling"],
-  ["OTHER", "Other Types"],
-].map(([value, label]) => ({ value, label }));
+const FILTER_OPTIONS: SidebarFilterOption[] = getTypeFilterOptions('reading');
 
 const PAGE_SIZE = 20;
 

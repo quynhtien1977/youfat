@@ -17,13 +17,17 @@ import {
 import { supabase } from "@/lib/supabase";
 import {
   gradeExam,
+  GradingValidationError,
   ExamGradingSummary,
   QuestionGradingResult,
 } from "@/lib/gradingEngine";
 import { Question, Section } from "@/types/database";
 import { QuestionPanel } from "@/components/question-panel";
 import { QuestionNavBar } from "@/components/question-nav-bar";
-import { ResultBanner } from "@/components/result-banner";
+import { ResultsScreen } from "@/components/results-screen";
+import { SubmitConfirmation } from "@/components/submit-confirmation";
+import { usePracticeTimer } from "@/components/use-practice-timer";
+import { countUnansweredMarks, formatElapsedTime } from "@/lib/submission-controls";
 
 // ============================================================
 // /listening/[sectionId] – Listening Practice Room
@@ -47,12 +51,16 @@ export default function ListeningPracticePage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [gradingError, setGradingError] = useState<string | null>(null);
 
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [submitted, setSubmitted] = useState(false);
   const [summary, setSummary] = useState<ExamGradingSummary | null>(null);
   const [results, setResults] = useState<Record<string, QuestionGradingResult>>({});
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
+  const { elapsedSeconds, stop: stopTimer } = usePracticeTimer(!loading && !error, sectionId);
 
   // Audio state
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -126,7 +134,7 @@ export default function ListeningPracticePage() {
       audio.removeEventListener("play", onPlay);
       audio.removeEventListener("pause", onPause);
     };
-  }, [section]);
+  }, [section, loading]);
 
   const togglePlay = useCallback(() => {
     const audio = audioRef.current;
@@ -205,14 +213,25 @@ export default function ListeningPracticePage() {
 
   const handleSubmit = useCallback(() => {
     if (submitted || questions.length === 0) return;
-    audioRef.current?.pause();
-    const examSummary = gradeExam(questions, answers, "listening");
-    setSummary(examSummary);
-    const rMap: Record<string, QuestionGradingResult> = {};
-    for (const r of examSummary.results) rMap[r.questionId] = r;
-    setResults(rMap);
-    setSubmitted(true);
-  }, [submitted, questions, answers]);
+    setConfirmOpen(false);
+    setGradingError(null);
+    try {
+      // One real section, including options; never scale missing content to 40.
+      const examSummary = gradeExam(questions, answers, "listening", "section");
+      stopTimer();
+      audioRef.current?.pause();
+      setSummary(examSummary);
+      const rMap: Record<string, QuestionGradingResult> = {};
+      for (const r of examSummary.results) rMap[r.questionId] = r;
+      setResults(rMap);
+      setSubmitted(true);
+    } catch (cause) {
+      console.error("[listening] Không chấm được bài", {
+        code: cause instanceof GradingValidationError ? cause.code : "UNKNOWN_ERROR",
+      });
+      setGradingError("Không chấm được bài này, thử lại hoặc báo lỗi");
+    }
+  }, [submitted, questions, answers, stopTimer]);
 
   const handlePillClick = useCallback(
     (questionOrder: number) => {
@@ -298,11 +317,17 @@ export default function ListeningPracticePage() {
           {topTitle}
         </h1>
         <span className="yf-room-meta">{questions.length} câu hỏi</span>
+        <span className="yf-practice-timer" aria-label="Thời gian làm bài">⏱ {formatElapsedTime(elapsedSeconds)}</span>
       </header>
 
+      {submitted && summary && !reviewing ? (
+        <ResultsScreen questions={questions} summary={summary} skill="listening"
+          elapsedSeconds={elapsedSeconds} onReview={() => setReviewing(true)} />
+      ) : <>
       {/* ─── Question Content Area ────────────────────── */}
       <main className="yf-listening-content">
         <div className="yf-listening-container">
+          {gradingError && <p role="alert" className="yf-error-text">{gradingError}</p>}
           {/* Header Banner */}
           <div className="yf-listening-header">
             <div className="yf-listening-title-wrap">
@@ -333,10 +358,6 @@ export default function ListeningPracticePage() {
             )}
           </div>
 
-          {/* Score / Results Banner when submitted */}
-          {submitted && summary && (
-            <ResultBanner summary={summary} skill="listening" />
-          )}
 
           {/* All Question Sets */}
           <QuestionPanel
@@ -461,12 +482,16 @@ export default function ListeningPracticePage() {
           answers={answers}
           activeId={activeQuestionId}
           onPillClick={handlePillClick}
-          onSubmit={handleSubmit}
+          onSubmit={() => { if (!submitted && questions.length > 0) setConfirmOpen(true); }}
           submitted={submitted}
           results={results}
           fullWidth
         />
       </div>
+      </>}
+      <SubmitConfirmation open={confirmOpen}
+        unansweredMarks={countUnansweredMarks(questions, answers)}
+        onCancel={() => setConfirmOpen(false)} onConfirm={handleSubmit} />
     </div>
   );
 }

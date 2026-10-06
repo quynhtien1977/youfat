@@ -4,12 +4,15 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { gradeExam, ExamGradingSummary, QuestionGradingResult } from "@/lib/gradingEngine";
+import { gradeExam, GradingValidationError, ExamGradingSummary, QuestionGradingResult } from "@/lib/gradingEngine";
 import { Question, Section } from "@/types/database";
 import { PassagePanel } from "@/components/passage-panel";
 import { QuestionPanel } from "@/components/question-panel";
 import { QuestionNavBar } from "@/components/question-nav-bar";
-import { ResultBanner } from "@/components/result-banner";
+import { ResultsScreen } from "@/components/results-screen";
+import { SubmitConfirmation } from "@/components/submit-confirmation";
+import { usePracticeTimer } from "@/components/use-practice-timer";
+import { countUnansweredMarks, formatElapsedTime } from "@/lib/submission-controls";
 
 // ============================================================
 // /reading/[sectionId] – Reading Practice Room, YouPass style
@@ -23,12 +26,16 @@ export default function ReadingPracticePage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [gradingError, setGradingError] = useState<string | null>(null);
 
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [submitted, setSubmitted] = useState(false);
   const [summary, setSummary] = useState<ExamGradingSummary | null>(null);
   const [results, setResults] = useState<Record<string, QuestionGradingResult>>({});
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
+  const { elapsedSeconds, stop: stopTimer } = usePracticeTimer(!loading && !error, sectionId);
 
   // ── Fetch ─────────────────────────────────────────────────
   useEffect(() => {
@@ -77,15 +84,26 @@ export default function ReadingPracticePage() {
 
   const handleSubmit = useCallback(() => {
     if (submitted || questions.length === 0) return;
-    const examSummary = gradeExam(questions, answers, "reading");
-    setSummary(examSummary);
-    const rMap: Record<string, QuestionGradingResult> = {};
-    for (const r of examSummary.results) rMap[r.questionId] = r;
-    setResults(rMap);
-    setSubmitted(true);
-    const qPanel = document.getElementById("qpanel-scroll");
-    if (qPanel) qPanel.scrollTop = 0;
-  }, [submitted, questions, answers]);
+    setConfirmOpen(false);
+    setGradingError(null);
+    try {
+      // This route loads one section and includes real options via options(*).
+      const examSummary = gradeExam(questions, answers, "reading", "section");
+      stopTimer();
+      setSummary(examSummary);
+      const rMap: Record<string, QuestionGradingResult> = {};
+      for (const r of examSummary.results) rMap[r.questionId] = r;
+      setResults(rMap);
+      setSubmitted(true);
+      const qPanel = document.getElementById("qpanel-scroll");
+      if (qPanel) qPanel.scrollTop = 0;
+    } catch (cause) {
+      console.error("[reading] Không chấm được bài", {
+        code: cause instanceof GradingValidationError ? cause.code : "UNKNOWN_ERROR",
+      });
+      setGradingError("Không chấm được bài này, thử lại hoặc báo lỗi");
+    }
+  }, [submitted, questions, answers, stopTimer]);
 
   const handlePillClick = useCallback(
     (questionOrder: number) => {
@@ -208,8 +226,13 @@ export default function ReadingPracticePage() {
         <span className="yf-room-meta">
           {section.total_questions || questions.length} câu hỏi
         </span>
+        <span className="yf-practice-timer" aria-label="Thời gian làm bài">⏱ {formatElapsedTime(elapsedSeconds)}</span>
       </header>
 
+      {submitted && summary && !reviewing ? (
+        <ResultsScreen questions={questions} summary={summary} skill="reading"
+          elapsedSeconds={elapsedSeconds} onReview={() => setReviewing(true)} />
+      ) : <>
       {/* ─── Body: passage | questions ─────────────────── */}
       <div className="yf-room-body">
         {/* Left: Passage */}
@@ -232,10 +255,7 @@ export default function ReadingPracticePage() {
             background: "#fff",
           }}
         >
-          {/* Result banner */}
-          {submitted && summary && (
-            <ResultBanner summary={summary} skill="reading" />
-          )}
+          {gradingError && <p role="alert" className="yf-error-text">{gradingError}</p>}
 
           {/* Scrollable questions */}
           <div
@@ -259,10 +279,14 @@ export default function ReadingPracticePage() {
         answers={answers}
         activeId={activeQuestionId}
         onPillClick={handlePillClick}
-        onSubmit={handleSubmit}
+        onSubmit={() => { if (!submitted && questions.length > 0) setConfirmOpen(true); }}
         submitted={submitted}
         results={results}
       />
+      </>}
+      <SubmitConfirmation open={confirmOpen}
+        unansweredMarks={countUnansweredMarks(questions, answers)}
+        onCancel={() => setConfirmOpen(false)} onConfirm={handleSubmit} />
     </div>
   );
 }

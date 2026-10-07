@@ -14,7 +14,12 @@ import styles from './submission-history.module.css';
 export type PendingSubmission = Omit<BuildSnapshotInput, 'test'>;
 
 /** Mounted after grading. Strict Mode repeats this effect; UUID/payload never change. */
-export function SubmissionSaveStatus({ input }: { input: PendingSubmission }) {
+export function SubmissionSaveStatus({ input, onSnapshotReady, onPreparationError }: {
+  input: PendingSubmission;
+  /** Delivered before storage; review must not depend on save succeeding. */
+  onSnapshotReady?: (snapshot: SubmissionSnapshot) => void;
+  onPreparationError?: (error: unknown) => void;
+}) {
   const [status, setStatus] = useState<{ kind: 'saving' | 'saved' | 'failed'; message?: string }>({kind:'saving'});
   const [retry, setRetry] = useState(0);
   const snapshot = useRef<SubmissionSnapshot | null>(null);
@@ -34,18 +39,22 @@ export function SubmissionSaveStatus({ input }: { input: PendingSubmission }) {
           }
           snapshot.current = await building.current;
         }
+        if (active) onSnapshotReady?.(snapshot.current);
         await getLocalRepository().save(snapshot.current);
         if (active) setStatus({kind:'saved'});
       } catch (error) {
         building.current = null; // Context failures may be retried, with frozen timing/UUID.
+        if (active && !snapshot.current) onPreparationError?.(error);
         console.error('[submission-save]', error instanceof SubmissionError
           ? {code:error.code,reason:error.reason} : {code:'UNKNOWN_ERROR'});
-        if (active) setStatus({kind:'failed',message:storageFailureMessage(error)});
+        if (active) setStatus({kind:'failed',message: snapshot.current
+          ? storageFailureMessage(error)
+          : 'Không chuẩn bị được dữ liệu bài làm. Hãy thử lại hoặc báo lỗi.'});
       }
     }
     void save();
     return () => { active = false; };
-  }, [input,retry]);
+  }, [input,retry,onSnapshotReady,onPreparationError]);
   return <aside className={`${styles.notice} ${status.kind === 'failed' ? styles.error : ''}`} aria-live="polite" aria-atomic="true" data-save-state={status.kind}>
     <p>{status.kind === 'saving' ? 'Đang lưu bài…' : status.kind === 'saved'
       ? 'Đã lưu bài trên trình duyệt này.' : `Lưu bài thất bại. ${status.message}`}</p>

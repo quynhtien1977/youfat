@@ -5,11 +5,12 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { gradeExam, GradingValidationError, ExamGradingSummary, QuestionGradingResult } from "@/lib/gradingEngine";
-import { Question, Section } from "@/types/database";
+import { Question, Section, SubmissionSnapshot } from "@/types/database";
 import { PassagePanel } from "@/components/passage-panel";
 import { QuestionPanel } from "@/components/question-panel";
 import { QuestionNavBar } from "@/components/question-nav-bar";
 import { ResultsScreen } from "@/components/results-screen";
+import { ReadingReviewRoom } from "@/components/reading-review/reading-review-room";
 import { SubmissionSaveStatus, type PendingSubmission } from "@/components/submission-save-status";
 import { SubmitConfirmation } from "@/components/submit-confirmation";
 import { usePracticeTimer } from "@/components/use-practice-timer";
@@ -36,6 +37,8 @@ export default function ReadingPracticePage() {
   const [activeQuestionId, setActiveQuestionId] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [reviewing, setReviewing] = useState(false);
+  const [snapshotInRam, setSnapshotInRam] = useState<SubmissionSnapshot | null>(null);
+  const [reviewPreparationError, setReviewPreparationError] = useState(false);
   const [pendingSave, setPendingSave] = useState<PendingSubmission | null>(null);
   const { elapsedSeconds, stop: stopTimer } = usePracticeTimer(!loading && !error, sectionId);
 
@@ -108,6 +111,12 @@ export default function ReadingPracticePage() {
       setGradingError("Không chấm được bài này, thử lại hoặc báo lỗi");
     }
   }, [submitted, questions, answers, stopTimer, section]);
+
+  const handleSnapshotReady = useCallback((snapshot: SubmissionSnapshot) => {
+    setSnapshotInRam(snapshot);
+    setReviewPreparationError(false);
+  }, []);
+  const handlePreparationError = useCallback(() => setReviewPreparationError(true), []);
 
   const handlePillClick = useCallback(
     (questionOrder: number) => {
@@ -216,6 +225,23 @@ export default function ReadingPracticePage() {
     section.title +
     (section.section_title ? " – " + section.section_title : "");
 
+  if (submitted && summary && reviewing) {
+    if (snapshotInRam) {
+      return <ReadingReviewRoom snapshot={snapshotInRam} onBack={() => setReviewing(false)} />;
+    }
+    return (
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", gap: 16 }}>
+        <p role={reviewPreparationError ? "alert" : "status"} style={{ color: "var(--yf-text-muted)" }}>
+          {reviewPreparationError ? "Không chuẩn bị được bài xem lại. Hãy thử lại bên dưới hoặc quay về kết quả." : "Đang chuẩn bị nội dung xem lại bài làm…"}
+        </p>
+        {pendingSave && <SubmissionSaveStatus input={pendingSave} onSnapshotReady={handleSnapshotReady} onPreparationError={handlePreparationError} />}
+        <button type="button" onClick={() => setReviewing(false)} style={{ padding: "6px 16px", borderRadius: 6, border: "1px solid #e5e7eb", background: "#f3f4f6", cursor: "pointer" }}>
+          ← Quay lại
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="yf-room-layout">
       {/* ─── Top bar ──────────────────────────────────── */}
@@ -236,7 +262,7 @@ export default function ReadingPracticePage() {
       {submitted && summary && !reviewing ? (
         <ResultsScreen questions={questions} summary={summary} skill="reading"
           elapsedSeconds={elapsedSeconds} onReview={() => setReviewing(true)}
-          feedback={pendingSave && <SubmissionSaveStatus input={pendingSave} />} />
+          feedback={pendingSave && <SubmissionSaveStatus input={pendingSave} onSnapshotReady={handleSnapshotReady} onPreparationError={handlePreparationError} />} />
       ) : <>
       {/* ─── Body: passage | questions ─────────────────── */}
       <div className="yf-room-body">

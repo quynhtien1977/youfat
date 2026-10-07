@@ -7,9 +7,9 @@ import styles from './results-screen.module.css';
 
 type ResultsScreenProps = ({snapshot:SubmissionSnapshot; questions?:never;summary?:never;skill?:never;elapsedSeconds?:never}
   | {snapshot?:never;questions:Question[];summary:ExamGradingSummary;skill:SkillType;elapsedSeconds:number})
-  & {onReview?:()=>void; feedback?:ReactNode};
+  & {onReview?:()=>void; feedback?:ReactNode; reviewButtonLabel?: string};
 export function ResultsScreen(props: ResultsScreenProps) {
-  const {onReview, feedback} = props;
+  const {onReview, feedback, reviewButtonLabel} = props;
   const stats = props.snapshot ? summarizeSnapshot(props.snapshot) : summarizeResults(props.questions, props.summary, props.skill);
   const elapsedSeconds = props.snapshot ? props.snapshot.time_spent_seconds : props.elapsedSeconds;
   const circumference = 2 * Math.PI * 95;
@@ -42,7 +42,7 @@ export function ResultsScreen(props: ResultsScreenProps) {
               <div><dt><i className={styles.skipped} />Bỏ qua:</dt><dd>{stats.skipped} câu</dd></div>
             </dl>
           </div>
-          {onReview && <div className={styles.actions}><button type="button" onClick={onReview}>Xem giải thích <span>FREE</span></button></div>}
+          {onReview && <div className={styles.actions}><button type="button" onClick={onReview}>{reviewButtonLabel || 'Xem giải thích'} <span>FREE</span></button></div>}
         </section>
         <section className={styles.details} aria-labelledby="results-details-title">
           <h2 id="results-details-title">Bảng dữ liệu chi tiết</h2>

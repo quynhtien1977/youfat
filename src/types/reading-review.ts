@@ -2,10 +2,12 @@ import type {
   AnswerMode, Question, QuestionGradingResult, QuestionOption, Section,
   SubmissionQuestionResult, SubmissionSnapshot,
 } from './database';
+import type {ReadingLocateInfo, ReadingPassageStructure} from './reading-locate';
 
 export type ReviewLiveSection = Pick<Section, 'id' | 'test_id' | 'skill' | 'section_number' | 'title'> & {
   section_title?: string | null;
   passage_text?: string | null;
+  passage_structure?: unknown;
 };
 export type ReviewOption = Pick<QuestionOption, 'option' | 'text'>;
 export interface ReviewLiveQuestion {
@@ -28,7 +30,16 @@ export interface ReadingLiveContent {
   sections: ReviewLiveSection[];
   questions: ReviewLiveQuestion[];
 }
-export type ReviewQuestionContent = Omit<ReviewLiveQuestion, 'answer' | 'answer_mode'>;
+export type ReviewQuestionContent = Omit<ReviewLiveQuestion, 'answer' | 'answer_mode' | 'locate_info'> & {
+  locate_info: ReadingLocateInfo | null;
+};
+export type ReviewSectionContent = Omit<ReviewLiveSection, 'passage_structure'> & {
+  passage_structure: ReadingPassageStructure | null;
+};
+export interface ReadingReviewLoadOptions {
+  /** Rollout opt-in only after the user has applied/verified the nullable DB column. */
+  includePassageStructure?: boolean;
+}
 export type ReviewStatus = 'correct' | 'incorrect' | 'skipped' | 'partial';
 export type ReviewDrift = 'answer_mode' | 'correct_answers';
 export interface ReviewQuestion {
@@ -42,7 +53,7 @@ export interface ReviewQuestion {
 export interface ReviewSection {
   id: string;
   sectionNumber: number;
-  content: ReviewLiveSection | null;
+  content: ReviewSectionContent | null;
   questions: ReviewQuestion[];
 }
 export interface ReviewModel {

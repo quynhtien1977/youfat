@@ -65,7 +65,8 @@
     background: var(--yf-bg-page);
     color: var(--yf-text-primary);
     font-family: var(--font-nunito), 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 15px;
+    font-size: 16px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -1433,20 +1434,21 @@
   padding: 24px 28px;
 }
 .yf-passage-title {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
-  color: var(--yf-text-primary);
+  line-height: 36px;
+  color: #111827;
   margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 2px solid var(--yf-green);
 }
 .yf-passage-text {
-  font-size: 15px;
-  line-height: 1.8;
-  color: #212121;
+  font-size: 16px;
+  line-height: 1.6875;
+  color: #242424;
 }
 .yf-passage-text p {
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   text-align: justify;
 }
 .yf-passage-empty {
@@ -1474,13 +1476,14 @@
   margin-bottom: 24px;
 }
 .yf-qset-title {
-  margin-bottom: 6px;
-  color: #1d1d1f;
-  font-size: 15px;
+  margin-bottom: 8px;
+  color: #111827;
+  font-size: 18px;
   font-weight: 700;
+  line-height: 26px;
 }
 .yf-qset-instruction {
-  font-size: 14px;
+  font-size: 16px;
   color: #374151;
   margin-bottom: 16px;
   padding: 0;

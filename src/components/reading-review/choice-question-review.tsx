@@ -78,8 +78,8 @@ export function ChoiceQuestionReview({
   const order = q.historical.question_order;
   const isMultiMark = isMultipleMany && (q.historical.max_marks > 1 || correctTargets.length > 1);
 
-  const handleSpeechClick = () => {
-    onSelectQuestion?.(order);
+  const handleSpeechClick = (targetOrder?: number) => {
+    onSelectQuestion?.(targetOrder ?? order);
   };
 
   return (
@@ -111,18 +111,20 @@ export function ChoiceQuestionReview({
           const optKey = opt.option.trim().toUpperCase();
           const isSelected = userSelections.includes(optKey);
           const isCorrectTarget = correctTargets.includes(optKey);
+          const targetIdx = isMultiMark ? correctTargets.indexOf(optKey) : 0;
+          const targetOrder = isMultiMark && targetIdx >= 0 ? order + targetIdx : order;
 
-          let rowStyle = styles.optionRowNeutral;
+          let textStyle = '';
           let indicatorState: 'selected-correct' | 'selected-wrong' | 'target-missed' | 'neutral' = 'neutral';
 
           if (isSelected && isCorrectTarget) {
-            rowStyle = styles.optionRowCorrect;
+            textStyle = styles.optionTextCorrectPicked;
             indicatorState = 'selected-correct';
           } else if (isSelected && !isCorrectTarget) {
-            rowStyle = styles.optionRowWrong;
+            textStyle = styles.optionTextWrong;
             indicatorState = 'selected-wrong';
           } else if (!isSelected && isCorrectTarget) {
-            rowStyle = styles.optionRowTargetMissed;
+            textStyle = styles.optionTextCorrectMissed;
             indicatorState = 'target-missed';
           }
 
@@ -131,7 +133,7 @@ export function ChoiceQuestionReview({
           return (
             <div
               key={opt.option}
-              className={`${styles.choiceOptionRow} ${rowStyle}`}
+              className={styles.choiceOptionRow}
             >
               <div className={styles.optionLeft}>
                 {hasLetter && (
@@ -158,7 +160,7 @@ export function ChoiceQuestionReview({
                   </div>
                 )}
 
-                <span className={styles.optionText}>{opt.text}</span>
+                <span className={`${styles.optionText} ${textStyle}`}>{opt.text}</span>
               </div>
 
               {/* Speech bubble icon for correct targets */}
@@ -166,9 +168,9 @@ export function ChoiceQuestionReview({
                 <button
                   type="button"
                   className={styles.speechBubbleBtn}
-                  onClick={handleSpeechClick}
+                  onClick={() => handleSpeechClick(targetOrder)}
                   title="Xem vị trí"
-                  aria-label={`Xem vị trí câu ${order}`}
+                  aria-label={`Xem vị trí câu ${targetOrder}`}
                 >
                   <LocationSpeechIcon size={18} />
                 </button>

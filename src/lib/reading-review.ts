@@ -2,11 +2,12 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AnswerMode, SubmissionSnapshot } from '../types/database';
 import type {
   InlineReviewData, ReadingLiveContent, ReviewDrift, ReviewLiveQuestion,
-  ReviewLiveSection, ReviewModel, ReviewOption, ReviewQuestion,
+  ReviewLiveSection, ReviewModel, ReviewOption, ReviewQuestion, ReviewSectionContent, ReadingReviewLoadOptions,
 } from '../types/reading-review';
 import { normalizeAnswerString } from './gradingEngine';
 import { requireValid, SubmissionError } from './submission-errors';
 import { validateSnapshot } from './submission-snapshot';
+import {parsePassageStructure, parseReadingLocateInfo} from './reading-locate';
 
 export const REVIEW_UPDATE_WARNING = 'Đề đã được cập nhật sau khi bạn làm bài, điểm giữ nguyên theo lúc nộp';
 const choice = (value: string) => value.trim().toUpperCase();
@@ -23,7 +24,7 @@ export function buildReviewModel(raw: SubmissionSnapshot, liveContent: ReadingLi
   const snapshot = validateSnapshot(raw);
   requireValid(snapshot.skill === 'reading', 'REVIEW_READING_ONLY');
   requireValid(Array.isArray(liveContent.sections) && Array.isArray(liveContent.questions), 'LIVE_CONTENT_SHAPE');
-  const sections = new Map<string, ReviewLiveSection>();
+  const sections = new Map<string, ReviewSectionContent>();
   for (const section of liveContent.sections) {
     requireValid(section && typeof section.id === 'string', 'LIVE_SECTION_CONTENT');
     requireValid(!sections.has(section.id), 'DUPLICATE_LIVE_SECTION');
@@ -32,9 +33,11 @@ export function buildReviewModel(raw: SubmissionSnapshot, liveContent: ReadingLi
       && section.section_number === Number(historical.question_key.split(':')[4]), 'LIVE_SECTION_CONTEXT');
     requireValid(typeof section.title === 'string' && (section.passage_text == null || typeof section.passage_text === 'string')
       && (section.section_title == null || typeof section.section_title === 'string'), 'LIVE_SECTION_CONTENT');
+    const structure = parsePassageStructure(section.passage_structure);
     sections.set(section.id, {id: section.id, test_id: section.test_id, skill: section.skill,
       section_number: section.section_number, title: section.title,
-      section_title: section.section_title, passage_text: section.passage_text});
+      section_title: section.section_title, passage_text: section.passage_text,
+      passage_structure: structure?.reference_passage_text === section.passage_text ? structure : null});
   }
   const liveQuestions = new Map<string, ReviewLiveQuestion>();
   for (const question of liveContent.questions) {
@@ -65,11 +68,12 @@ export function buildReviewModel(raw: SubmissionSnapshot, liveContent: ReadingLi
     const selected = Array.isArray(historical.user_answer) ? historical.user_answer.length : historical.user_answer.trim().length;
     const status = !selected ? 'skipped' : historical.is_fully_correct ? 'correct'
       : historical.points_awarded > 0 ? 'partial' : 'incorrect';
-    // Explicit projection prevents renderers accidentally using live answer/locate/audio fields.
+    // No live grading targets/audio; locate is optional validated content, never guessed evidence.
     const content = availability === 'available' && live ? {
       id: live.id, section_id: live.section_id, question_order: live.question_order, type: live.type,
       prompt: live.prompt, instruction: live.instruction, question_set_title: live.question_set_title,
       image_url: live.image_url, explanation: live.explanation,
+      locate_info: parseReadingLocateInfo(live.locate_info),
       options: (live.options ?? []).map(option => ({option: option.option, text: option.text})),
     } : null;
     return {historical, status, availability, drift, content};
@@ -143,11 +147,14 @@ async function readPages<T>(client: AnonContentClient, table: string, select: st
 }
 
 /** GET only. Caller passes the existing anon client; no env/storage/client creation at import. */
-export async function fetchReadingLiveContent(raw: SubmissionSnapshot, anonClient: AnonContentClient): Promise<ReadingLiveContent> {
+export async function fetchReadingLiveContent(raw: SubmissionSnapshot, anonClient: AnonContentClient,
+  loadOptions: ReadingReviewLoadOptions = {}): Promise<ReadingLiveContent> {
   const snapshot = validateSnapshot(raw);
   requireValid(snapshot.skill === 'reading', 'REVIEW_READING_ONLY');
   const [sections, questions] = await Promise.all([
-    readPages<ReviewLiveSection>(anonClient,'sections','id,test_id,skill,section_number,title,section_title,passage_text','id',snapshot.section_ids),
+    readPages<ReviewLiveSection>(anonClient,'sections',
+      'id,test_id,skill,section_number,title,section_title,passage_text' + (loadOptions.includePassageStructure ? ',passage_structure' : ''),
+      'id',snapshot.section_ids),
     readPages<ReviewLiveQuestion>(anonClient,'questions',
       'id,section_id,question_order,type,answer_mode,answer,prompt,instruction,question_set_title,image_url,explanation,locate_info',
       'section_id',snapshot.section_ids),
@@ -163,6 +170,7 @@ export async function fetchReadingLiveContent(raw: SubmissionSnapshot, anonClien
 }
 
 /** Common loading adapter: post-submit snapshot OR repository.get(id) -> the same ReviewModel. */
-export async function loadReadingReview(snapshot: SubmissionSnapshot, anonClient: AnonContentClient): Promise<ReviewModel> {
-  return buildReviewModel(snapshot, await fetchReadingLiveContent(snapshot,anonClient));
+export async function loadReadingReview(snapshot: SubmissionSnapshot, anonClient: AnonContentClient,
+  options: ReadingReviewLoadOptions = {}): Promise<ReviewModel> {
+  return buildReviewModel(snapshot, await fetchReadingLiveContent(snapshot,anonClient,options));
 }

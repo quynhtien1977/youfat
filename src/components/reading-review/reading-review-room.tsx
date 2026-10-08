@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import type { SubmissionSnapshot } from '@/types/database';
-import type { ReviewModel, ReviewQuestion, ReviewSection } from '@/types/reading-review';
+import type { ReviewModel, ReviewQuestion, ReviewSection, ReviewStatus } from '@/types/reading-review';
 import { loadReadingReview } from '@/lib/reading-review';
+import { resolveReadingLocate } from '@/lib/reading-locate';
 import { supabase } from '@/lib/supabase';
 import { formatElapsedTime } from '@/lib/submission-controls';
 import { sanitizeReviewContentHtml } from '@/lib/sanitizer';
@@ -129,124 +130,7 @@ function groupReviewQuestions(questions: ReviewQuestion[]): ReviewQuestionGroup[
   return groups;
 }
 
-function extractCandidateQuotes(text: string): string[] {
-  const candidates: string[] = [];
-  const parenMatches = text.match(/\(([^)]{15,250})\)/g);
-  if (parenMatches) {
-    for (const m of parenMatches) {
-      const inner = m.slice(1, -1).trim();
-      if (inner.length >= 15 && !inner.startsWith('Bước') && !inner.startsWith('http')) {
-        candidates.push(inner);
-      }
-    }
-  }
-  const quoteMatches = text.match(/["“]([^"”]{15,250})["”]/g);
-  if (quoteMatches) {
-    for (const m of quoteMatches) {
-      const inner = m.slice(1, -1).trim();
-      if (inner.length >= 15 && !inner.startsWith('Bước')) {
-        candidates.push(inner);
-      }
-    }
-  }
-  return candidates;
-}
 
-function findEvidenceInParagraphs(
-  activeQuestion: ReviewQuestion | null,
-  paragraphs: string[]
-): { paragraphIndex: number | null; quote: string | null } {
-  if (!activeQuestion) return { paragraphIndex: null, quote: null };
-
-  const qType = activeQuestion.historical.question_type;
-
-  // 1. MATCHING_HEADING: Paragraph letter match
-  if (qType === 'MATCHING_HEADING') {
-    const prompt = activeQuestion.content?.prompt || '';
-    const match = prompt.match(/Paragraph\s+([A-Z])/i) || prompt.match(/^([A-Z])$/i);
-    if (match) {
-      const letter = match[1].toUpperCase();
-      const idx = paragraphs.findIndex((p) => new RegExp(`^${letter}[\\.\\s]`, 'i').test(p));
-      if (idx !== -1) return { paragraphIndex: idx, quote: null };
-    }
-  }
-
-  // 2. MATCHING_INFO: target answer is the paragraph letter
-  if (qType === 'MATCHING_INFO') {
-    const targetLetter = activeQuestion.historical.correct_answers[0]?.trim().toUpperCase();
-    if (targetLetter && /^[A-Z]$/.test(targetLetter)) {
-      const idx = paragraphs.findIndex((p) => new RegExp(`^${targetLetter}[\\.\\s]`, 'i').test(p));
-      if (idx !== -1) {
-        const expl = activeQuestion.content?.explanation || '';
-        const rawText = expl.replace(/<[^>]+>/g, ' ');
-        const quotes = extractCandidateQuotes(rawText);
-        for (const cand of quotes) {
-          const normC = cand.toLowerCase().replace(/\s+/g, ' ').trim();
-          if (normC.length < 15) continue;
-          const normP = paragraphs[idx].toLowerCase().replace(/\s+/g, ' ');
-          if (normP.includes(normC)) {
-            return { paragraphIndex: idx, quote: cand };
-          }
-        }
-        return { paragraphIndex: idx, quote: null };
-      }
-    }
-  }
-
-  // 3. Quoted evidence in explanation matching a paragraph
-  const expl = activeQuestion.content?.explanation || '';
-  if (expl) {
-    const rawText = expl.replace(/<[^>]+>/g, ' ');
-    const quotes = extractCandidateQuotes(rawText);
-    for (const cand of quotes) {
-      const normC = cand.toLowerCase().replace(/\s+/g, ' ').trim();
-      if (normC.length < 15) continue;
-      for (let i = 0; i < paragraphs.length; i++) {
-        const normP = paragraphs[i].toLowerCase().replace(/\s+/g, ' ');
-        if (normP.includes(normC)) {
-          return { paragraphIndex: i, quote: cand };
-        }
-      }
-    }
-
-    // Paragraph letter mention: "Đoạn C" or "Paragraph C"
-    const pLetter = rawText.match(/(?:Đoạn|Paragraph)\s+([A-Z])/i);
-    if (pLetter) {
-      const letter = pLetter[1].toUpperCase();
-      const idx = paragraphs.findIndex((p) => new RegExp(`^${letter}[\\.\\s]`, 'i').test(p));
-      if (idx !== -1) return { paragraphIndex: idx, quote: null };
-    }
-  }
-
-  // 4. Keyword overlap fallback from question prompt & options
-  const prompt = activeQuestion.content?.prompt || '';
-  const optionTexts = (activeQuestion.content?.options || []).map((o) => o.text).join(' ');
-  const combinedText = `${prompt} ${optionTexts}`;
-  const words = combinedText.match(/\b[A-Za-z0-9-]{4,}\b/g) || [];
-  const ignore = new Set([
-    'what', 'which', 'where', 'when', 'with', 'from', 'this', 'that', 'they', 'their',
-    'have', 'been', 'were', 'about', 'into', 'more', 'than', 'does', 'each', 'true', 'false', 'given'
-  ]);
-  const kws = words.map((w) => w.toLowerCase()).filter((w) => !ignore.has(w));
-  if (kws.length > 0) {
-    let bestIdx = -1;
-    let bestScore = 0;
-    for (let i = 0; i < paragraphs.length; i++) {
-      const pText = paragraphs[i].toLowerCase();
-      let score = 0;
-      for (const kw of kws) {
-        if (pText.includes(kw)) score++;
-      }
-      if (score > bestScore && score >= 2) {
-        bestScore = score;
-        bestIdx = i;
-      }
-    }
-    if (bestIdx !== -1) return { paragraphIndex: bestIdx, quote: null };
-  }
-
-  return { paragraphIndex: null, quote: null };
-}
 
 export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) {
   const [model, setModel] = useState<ReviewModel | null>(null);
@@ -265,7 +149,7 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
   useEffect(() => {
     let active = true;
 
-    loadReadingReview(snapshot, supabase)
+    loadReadingReview(snapshot, supabase, { includePassageStructure: true })
       .then((res) => {
         if (active) {
           setModel(res);
@@ -310,11 +194,39 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
     return map;
   }, [model]);
 
+  const capsulePills = useMemo(() => {
+    if (!model) return [];
+    const pills: { order: number; status: ReviewStatus; questionId: string }[] = [];
+    for (const q of model.questions) {
+      const maxMarks = q.historical.max_marks || 1;
+      if (maxMarks > 1) {
+        for (let k = 0; k < maxMarks; k++) {
+          const order = q.historical.question_order + k;
+          let status = q.status;
+          if (q.status === 'partial') {
+            status = k < q.historical.points_awarded ? 'correct' : 'incorrect';
+          }
+          pills.push({ order, status, questionId: `${q.historical.question_id}-${k}` });
+        }
+      } else {
+        pills.push({
+          order: q.historical.question_order,
+          status: q.status,
+          questionId: q.historical.question_id,
+        });
+      }
+    }
+    return pills;
+  }, [model]);
+
   const handlePillClick = useCallback((order: number) => {
     setActiveQuestionOrder(order);
-    const isHeading = model?.questions.some(
-      (q) => q.historical.question_order === order && q.historical.question_type === 'MATCHING_HEADING'
-    );
+    const targetQ = model?.questions.find((q) => {
+      if (q.historical.question_order === order) return true;
+      const maxMarks = q.historical.max_marks || 1;
+      return order >= q.historical.question_order && order < q.historical.question_order + maxMarks;
+    });
+    const isHeading = targetQ?.historical.question_type === 'MATCHING_HEADING';
     if (isHeading) {
       setOpenHeadingExplanations((prev) => {
         const next = new Set(prev);
@@ -329,6 +241,7 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
       setTimeout(() => {
         const el =
           document.getElementById(`q-${order}`) ||
+          document.getElementById(`q-${targetQ?.historical.question_order}`) ||
           document.getElementById(`review-gap-${order}`);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -353,40 +266,86 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
   const activeQuestion = useMemo(() => {
     if (!model || activeQuestionOrder === null) return null;
     return (
-      model.questions.find((q) => q.historical.question_order === activeQuestionOrder) ||
-      null
+      model.questions.find((q) => {
+        if (q.historical.question_order === activeQuestionOrder) return true;
+        const maxMarks = q.historical.max_marks || 1;
+        return (
+          activeQuestionOrder >= q.historical.question_order &&
+          activeQuestionOrder < q.historical.question_order + maxMarks
+        );
+      }) || null
     );
   }, [model, activeQuestionOrder]);
+
+  const activeSlot = useMemo(() => {
+    if (!activeQuestion || activeQuestionOrder === null) return undefined;
+    const locateInfo = activeQuestion.content?.locate_info;
+    if (!locateInfo || 'paragraph_ranges' in locateInfo) return undefined;
+    return Math.max(0, activeQuestionOrder - activeQuestion.historical.question_order);
+  }, [activeQuestion, activeQuestionOrder]);
 
   const sectionContent = activeSection?.content;
   const passageTitle = sectionContent?.section_title || sectionContent?.title || 'Bài đọc Reading';
   const passageText = sectionContent?.passage_text;
+  const passageStructure = sectionContent?.passage_structure ?? null;
+  const sectionNumber = activeSection?.sectionNumber ?? 1;
+  const sectionLabel = sectionContent?.title || `Reading passage ${sectionNumber}`;
+  const minQuestionOrder = useMemo(() => {
+    if (!model || model.questions.length === 0) return 1;
+    return Math.min(...model.questions.map((q) => q.historical.question_order));
+  }, [model]);
+  const maxQuestionOrder = useMemo(() => {
+    if (!model || model.questions.length === 0) return 40;
+    return Math.max(
+      ...model.questions.map(
+        (q) => q.historical.question_order + (q.historical.max_marks || 1) - 1
+      )
+    );
+  }, [model]);
+  const showMetaHeader = passageTitle !== sectionLabel;
+
+  const locateResolution = useMemo(() => {
+    if (!activeQuestion || !sectionContent) return null;
+    return resolveReadingLocate(
+      sectionContent.passage_structure,
+      activeQuestion.content?.locate_info,
+      {
+        passageText: sectionContent.passage_text,
+        slot: activeSlot,
+      }
+    );
+  }, [activeQuestion, sectionContent, activeSlot]);
+
+  const highlightedTokenIds = useMemo(() => {
+    if (!locateResolution || !locateResolution.available) return new Set<string>();
+    return new Set<string>(locateResolution.tokenIds);
+  }, [locateResolution]);
+
+  const activeParagraphNumber = useMemo(() => {
+    if (!locateResolution || !locateResolution.available) return null;
+    const firstToken = locateResolution.ranges[0]?.tokens[0];
+    return firstToken ? firstToken.paragraph : null;
+  }, [locateResolution]);
+
   const rawParagraphs = useMemo(() => {
     if (!passageText) return [];
     return passageText.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
   }, [passageText]);
 
-  // Filter out standalone paragraph numbers (e.g. Cambridge raw "14", "15" gap placeholders)
-  const paragraphs = useMemo(
+  // Fallback paragraphs when passage_structure is null
+  const fallbackParagraphs = useMemo(
     () => rawParagraphs.filter((p) => !/^\d+$/.test(p)),
     [rawParagraphs]
   );
 
-  const evidence = useMemo(
-    () => findEvidenceInParagraphs(activeQuestion, paragraphs),
-    [activeQuestion, paragraphs]
-  );
-  const activeParagraphIndex = evidence.paragraphIndex;
-  const activeEvidenceQuote = evidence.quote;
-
   useEffect(() => {
-    if (activeParagraphIndex !== null) {
-      const el = document.getElementById(`passage-para-${activeParagraphIndex}`);
+    if (activeParagraphNumber !== null) {
+      const el = document.getElementById(`passage-para-${activeParagraphNumber}`);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-  }, [activeParagraphIndex]);
+  }, [activeParagraphNumber]);
 
   if (loading) {
     return (
@@ -481,19 +440,33 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
           </div>
 
           <div className={styles.passageColumn}>
+            {showMetaHeader && (
+              <div className={styles.passageMetaHeader}>
+                <div className={styles.passageSectionLabel}>{sectionLabel}</div>
+                <p className={styles.passageInstructionMeta}>
+                  You should spend about 20 minutes on questions {minQuestionOrder} - {maxQuestionOrder} which are based on Reading Passage {sectionNumber} below.
+                </p>
+              </div>
+            )}
             <h2 className={styles.passageTitle}>{passageTitle}</h2>
             <div className={styles.passageContent}>
-              {paragraphs.length > 0 ? (
-                paragraphs.map((para, i) => {
-                  const paraLetterMatch = para.match(/^([A-Z])[\.\s]/);
+              {passageStructure ? (
+                passageStructure.paragraphs.map((p) => {
+                  if (p.sentences.length === 0) return null;
+                  const firstTokenText = p.sentences[0]?.tokens[0]?.text?.trim() || '';
+                  const paraLetterMatch = firstTokenText.match(/^([A-Z])[\.\s]?$/);
                   const letter = paraLetterMatch ? paraLetterMatch[1].toUpperCase() : null;
                   const headingQ = letter ? headingQuestionsByLetter.get(letter) : undefined;
                   const isParaActive =
-                    activeParagraphIndex === i ||
+                    activeParagraphNumber === p.paragraph ||
                     (headingQ && activeQuestionOrder === headingQ.historical.question_order);
 
                   let targetHeadingText = '';
+                  let userAnswerText = '';
+                  let isHeadingCorrect = false;
+
                   if (headingQ) {
+                    isHeadingCorrect = headingQ.status === 'correct';
                     const targetKey = headingQ.historical.correct_answers[0]?.trim().toLowerCase();
                     const targetOpt = headingQ.content?.options?.find(
                       (o) => o.option.trim().toLowerCase() === targetKey
@@ -501,34 +474,135 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
                     targetHeadingText = targetOpt
                       ? `${targetOpt.option}. ${targetOpt.text}`
                       : headingQ.historical.correct_answers[0] || '';
+
+                    const userRaw = Array.isArray(headingQ.historical.user_answer)
+                      ? headingQ.historical.user_answer[0]
+                      : headingQ.historical.user_answer;
+                    const userKey = userRaw ? userRaw.trim().toLowerCase() : '';
+                    const userOpt = headingQ.content?.options?.find(
+                      (o) => o.option.trim().toLowerCase() === userKey
+                    );
+                    userAnswerText = userOpt ? userOpt.text : userRaw || '';
                   }
 
-                  // Render paragraph text with highlighted quote if active
-                  let paraContent: React.ReactNode = para;
-                  if (isParaActive && activeEvidenceQuote) {
-                    const normQuote = activeEvidenceQuote.toLowerCase().replace(/\s+/g, ' ').trim();
-                    const normPara = para.toLowerCase();
-                    let matchIdx = normPara.indexOf(normQuote);
-                    let matchLen = normQuote.length;
+                  return (
+                    <div
+                      key={p.paragraph}
+                      id={`passage-para-${p.paragraph}`}
+                      className={isParaActive ? styles.passageParagraphHighlighted : undefined}
+                      style={{ marginBottom: '1.25rem' }}
+                    >
+                      {headingQ && targetHeadingText && (
+                        <div
+                          id={`passage-q-${headingQ.historical.question_order}`}
+                          className={styles.passageHeadingBlock}
+                        >
+                          <div className={styles.headingUserRow}>
+                            <div className={styles.headingOrderCircle}>
+                              {headingQ.historical.question_order}
+                            </div>
+                            <div className={styles.headingUserBox}>
+                              <span
+                                className={
+                                  isHeadingCorrect
+                                    ? styles.headingUserText
+                                    : styles.headingUserTextWrong
+                                }
+                              >
+                                {userAnswerText || ''}
+                              </span>
+                              {isParaActive && (
+                                <div className={styles.headingLocateTooltip}>
+                                  <span>Xem vị trí</span>
+                                </div>
+                              )}
+                              {isHeadingCorrect ? (
+                                <span className={styles.headingCorrectMark}>✓</span>
+                              ) : (
+                                <span className={styles.headingWrongMark}>✕</span>
+                              )}
+                            </div>
+                          </div>
 
-                    if (matchIdx === -1) {
-                      const shortQuote = normQuote.slice(0, Math.min(25, normQuote.length));
-                      matchIdx = normPara.indexOf(shortQuote);
-                      matchLen = Math.min(para.length - matchIdx, normQuote.length);
-                    }
+                          <div className={styles.headingAnswerRow}>
+                            <span className={styles.headingAnswerLabel}>Đáp án:</span>
+                            <span className={styles.headingAnswerTarget}>
+                              {targetHeadingText}
+                            </span>
+                            <button
+                              type="button"
+                              className={styles.passageSpeechBtn}
+                              onClick={() => handlePassageSpeechClick(headingQ.historical.question_order)}
+                              title={`Xem vị trí câu ${headingQ.historical.question_order}`}
+                              aria-label={`Xem vị trí câu ${headingQ.historical.question_order}`}
+                            >
+                              <LocationSpeechIcon size={18} />
+                            </button>
+                          </div>
+                        </div>
+                      )}
 
-                    if (matchIdx !== -1) {
-                      const before = para.slice(0, matchIdx);
-                      const matched = para.slice(matchIdx, matchIdx + matchLen);
-                      const after = para.slice(matchIdx + matchLen);
-                      paraContent = (
-                        <>
-                          {before}
-                          <span className={styles.passageEvidenceHighlight}>{matched}</span>
-                          {after}
-                        </>
-                      );
-                    }
+                      {isParaActive && !headingQ && (
+                        <div className={styles.passageLocateBadge}>
+                          <LocationSpeechIcon size={14} />
+                          <span>Xem vị trí</span>
+                        </div>
+                      )}
+
+                      <p>
+                        {p.sentences.map((s) => (
+                          <span key={s.sentence} className={styles.passageSentence}>
+                            {s.tokens.map((t) => {
+                              const tokenId = `word-${p.paragraph}-${s.sentence}-${t.index}`;
+                              const isHighlighted = highlightedTokenIds.has(tokenId);
+                              return (
+                                <span
+                                  key={t.index}
+                                  id={tokenId}
+                                  className={
+                                    isHighlighted ? styles.passageWordHighlighted : styles.passageWord
+                                  }
+                                >
+                                  {t.text}
+                                </span>
+                              );
+                            })}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  );
+                })
+              ) : fallbackParagraphs.length > 0 ? (
+                fallbackParagraphs.map((para, i) => {
+                  const paraLetterMatch = para.match(/^([A-Z])[\.\s]/);
+                  const letter = paraLetterMatch ? paraLetterMatch[1].toUpperCase() : null;
+                  const headingQ = letter ? headingQuestionsByLetter.get(letter) : undefined;
+                  const isParaActive =
+                    headingQ && activeQuestionOrder === headingQ.historical.question_order;
+
+                  let targetHeadingText = '';
+                  let userAnswerText = '';
+                  let isHeadingCorrect = false;
+
+                  if (headingQ) {
+                    isHeadingCorrect = headingQ.status === 'correct';
+                    const targetKey = headingQ.historical.correct_answers[0]?.trim().toLowerCase();
+                    const targetOpt = headingQ.content?.options?.find(
+                      (o) => o.option.trim().toLowerCase() === targetKey
+                    );
+                    targetHeadingText = targetOpt
+                      ? `${targetOpt.option}. ${targetOpt.text}`
+                      : headingQ.historical.correct_answers[0] || '';
+
+                    const userRaw = Array.isArray(headingQ.historical.user_answer)
+                      ? headingQ.historical.user_answer[0]
+                      : headingQ.historical.user_answer;
+                    const userKey = userRaw ? userRaw.trim().toLowerCase() : '';
+                    const userOpt = headingQ.content?.options?.find(
+                      (o) => o.option.trim().toLowerCase() === userKey
+                    );
+                    userAnswerText = userOpt ? userOpt.text : userRaw || '';
                   }
 
                   return (
@@ -541,34 +615,54 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
                       {headingQ && targetHeadingText && (
                         <div
                           id={`passage-q-${headingQ.historical.question_order}`}
-                          className={styles.passageHeadingBanner}
+                          className={styles.passageHeadingBlock}
                         >
-                          <span className={styles.passageHeadingOrder}>
-                            {headingQ.historical.question_order}
-                          </span>
-                          <span className={styles.passageHeadingText}>
-                            {targetHeadingText}
-                          </span>
-                          <button
-                            type="button"
-                            className={styles.passageSpeechBtn}
-                            onClick={() => handlePassageSpeechClick(headingQ.historical.question_order)}
-                            title={`Xem vị trí câu ${headingQ.historical.question_order}`}
-                            aria-label={`Xem vị trí câu ${headingQ.historical.question_order}`}
-                          >
-                            <LocationSpeechIcon size={18} />
-                          </button>
+                          <div className={styles.headingUserRow}>
+                            <div className={styles.headingOrderCircle}>
+                              {headingQ.historical.question_order}
+                            </div>
+                            <div className={styles.headingUserBox}>
+                              <span
+                                className={
+                                  isHeadingCorrect
+                                    ? styles.headingUserText
+                                    : styles.headingUserTextWrong
+                                }
+                              >
+                                {userAnswerText || ''}
+                              </span>
+                              {isParaActive && (
+                                <div className={styles.headingLocateTooltip}>
+                                  <span>Xem vị trí</span>
+                                </div>
+                              )}
+                              {isHeadingCorrect ? (
+                                <span className={styles.headingCorrectMark}>✓</span>
+                              ) : (
+                                <span className={styles.headingWrongMark}>✕</span>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className={styles.headingAnswerRow}>
+                            <span className={styles.headingAnswerLabel}>Đáp án:</span>
+                            <span className={styles.headingAnswerTarget}>
+                              {targetHeadingText}
+                            </span>
+                            <button
+                              type="button"
+                              className={styles.passageSpeechBtn}
+                              onClick={() => handlePassageSpeechClick(headingQ.historical.question_order)}
+                              title={`Xem vị trí câu ${headingQ.historical.question_order}`}
+                              aria-label={`Xem vị trí câu ${headingQ.historical.question_order}`}
+                            >
+                              <LocationSpeechIcon size={18} />
+                            </button>
+                          </div>
                         </div>
                       )}
 
-                      {isParaActive && !headingQ && (
-                        <div className={styles.passageLocateBadge}>
-                          <LocationSpeechIcon size={14} />
-                          <span>Xem vị trí</span>
-                        </div>
-                      )}
-
-                      <p>{paraContent}</p>
+                      <p>{para}</p>
                     </div>
                   );
                 })
@@ -659,7 +753,7 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
             >
               <div className={styles.dockedDrawerHeader}>
                 <span className={styles.dockedDrawerTitle}>
-                  Câu {activeQuestion.historical.question_order} - Giải thích đáp án
+                  Câu {activeQuestionOrder ?? activeQuestion.historical.question_order} - Giải thích đáp án
                 </span>
                 <button
                   type="button"
@@ -671,14 +765,21 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
                   <CloseIcon size={14} />
                 </button>
               </div>
-              <div
-                className={styles.dockedDrawerContent}
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeReviewContentHtml(
-                    activeQuestion.content?.explanation || '<p>Chưa có giải thích chi tiết cho câu hỏi này.</p>'
-                  ),
-                }}
-              />
+              <div className={styles.dockedDrawerContent}>
+                {locateResolution && !locateResolution.available && (
+                  <div className={styles.locateUnavailableNotice}>
+                    <span>ℹ️</span>
+                    <span>Vị trí dẫn chứng trong bài đọc chưa khả dụng cho câu hỏi này.</span>
+                  </div>
+                )}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeReviewContentHtml(
+                      activeQuestion.content?.explanation || '<p>Chưa có giải thích chi tiết cho câu hỏi này.</p>'
+                    ),
+                  }}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -688,17 +789,17 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
       <footer className={styles.bottomNav}>
         <div className={styles.bottomNavCenter}>
           <div className={styles.capsuleContainer}>
-            {model.questions.map((q) => (
+            {capsulePills.map((p) => (
               <button
-                key={q.historical.question_id}
+                key={p.questionId}
                 type="button"
-                className={`${styles.questionPill} ${styles[q.status]} ${
-                  activeQuestionOrder === q.historical.question_order ? styles.active : ''
+                className={`${styles.questionPill} ${styles[p.status]} ${
+                  activeQuestionOrder === p.order ? styles.active : ''
                 }`}
-                onClick={() => handlePillClick(q.historical.question_order)}
-                title={`Câu ${q.historical.question_order} (${q.status})`}
+                onClick={() => handlePillClick(p.order)}
+                title={`Câu ${p.order} (${p.status})`}
               >
-                {q.historical.question_order}
+                {p.order}
               </button>
             ))}
           </div>

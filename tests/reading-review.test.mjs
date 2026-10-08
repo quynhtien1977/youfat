@@ -33,6 +33,16 @@ test('no drift: historical marks/answers + live content; raw live answers exclud
   assert.equal(Object.hasOwn(model.questions[0].content,'answer'),false);
   assert.deepEqual(plain(model.snapshot),snapshot);
 });
+test('locate projection is typed/validated, without changing snapshot or exposing live targets', () => {
+  const {snapshot,live} = fixture();
+  const locate={paragraph_ranges:[{start:{paragraph:1,sentence:1,index:1},end:{paragraph:1,sentence:1,index:1}}]};
+  live.questions[0].locate_info=locate;
+  const model=api().buildReviewModel(snapshot,live);
+  assert.deepEqual(plain(model.questions[0].content.locate_info),locate);
+  assert.deepEqual(plain(model.snapshot),snapshot);
+  live.questions[0].locate_info={paragraph_ranges:'invalid'};
+  assert.equal(api().buildReviewModel(snapshot,live).questions[0].content.locate_info,null);
+});
 test('single changes and ordering differences warn, without regrading historical score', () => {
   const {snapshot,live} = fixture(); live.questions[0].answer = ['B'];
   const model = api().buildReviewModel(snapshot,live);
@@ -153,16 +163,41 @@ test('reject non-Reading snapshot and duplicate live IDs/wrong section context',
 function fakeClient({sections=[],questions=[],options=[]}, failure = null, maxPage = 500) {
   const calls = [];
   return {calls, from(table) {
-    let values = [], field;
-    return {select() {return this;}, in(name,ids) {field=name;values=ids;return this;},
+    let values = [], field, select;
+    return {select(value) {select=value;return this;}, in(name,ids) {field=name;values=ids;return this;},
       order() {return this;}, async range(from,to) {
-        calls.push({table,from,to});
+        calls.push({table,from,to,select});
         if (failure === table) return {data:null,error:{message:'Do not expose server response'}};
         const source = {sections,questions,options}[table].filter(row=>values.includes(row[field]));
         return {data:source.slice(from,Math.min(to+1,from+maxPage)),error:null};
       }};
   }};
 }
+
+test('structure projection requires exact passage binding, remains optional and never aliases live input',()=>{
+  const {snapshot,live}=fixture();
+  const s={schema_version:1,coordinate_system:'youpass-dom-word-v1',reference_passage_text:'Live passage',
+    paragraphs:[{paragraph:1,sentences:[{sentence:1,tokens:[{index:1,text:'Live '},{index:2,text:'passage '}]}]}]};
+  live.sections[0].passage_structure=s;
+  const m=api().buildReviewModel(snapshot,live);
+  assert.deepEqual(plain(m.sections[0].content.passage_structure),s);
+  m.sections[0].content.passage_structure.paragraphs[0].sentences[0].tokens[0].text='changed';
+  assert.equal(s.paragraphs[0].sentences[0].tokens[0].text,'Live ');
+  live.sections[0].passage_text='Changed text';
+  assert.equal(api().buildReviewModel(snapshot,live).sections[0].content.passage_structure,null);
+  live.sections[0].passage_structure={invalid:true};
+  assert.equal(api().buildReviewModel(snapshot,live).sections[0].content.passage_structure,null);
+});
+test('new DB column SELECT is gated until migration; opt-in keeps GET errors visible',async()=>{
+  const {snapshot,live}=fixture(), c=fakeClient({sections:live.sections,questions:live.questions});
+  await api().fetchReadingLiveContent(snapshot,c);
+  assert.ok(c.calls.filter(x=>x.table==='sections').every(x=>!x.select.includes('passage_structure')));
+  const enabled=fakeClient({sections:live.sections,questions:live.questions});
+  await api().loadReadingReview(snapshot,enabled,{includePassageStructure:true});
+  assert.ok(enabled.calls.filter(x=>x.table==='sections').every(x=>x.select.includes('passage_structure')));
+  await assert.rejects(api().loadReadingReview(snapshot,fakeClient({},'sections'),{includePassageStructure:true}),
+    e=>e.code==='UNAVAILABLE');
+});
 test('GET loader reads beyond 1000 questions AND options, without embedded-option limit', async () => {
   const {snapshot,live} = fixture();
   const questions = Array.from({length:1201},(_,i)=>({...live.questions[0],id:uid(100+i)}));

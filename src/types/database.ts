@@ -81,6 +81,8 @@ export interface Section {
   title: string;
   section_title?: string;
   passage_text?: string;
+  /** Optional untrusted JSONB content; validate before use (not submission data). */
+  passage_structure?: unknown;
   thumbnail_url?: string;
   audio_url?: string;
   listen_from_second?: number;

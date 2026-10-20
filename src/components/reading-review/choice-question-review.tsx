@@ -28,7 +28,8 @@ function normalizeValues(val: string | string[] | null | undefined): string[] {
     return val.map((v) => v.trim().toUpperCase()).filter(Boolean);
   }
   if (typeof val === 'string') {
-    return val.split(/[,;\s]+/).map((v) => v.trim().toUpperCase()).filter(Boolean);
+    // Single answers are whole labels (e.g. NOT GIVEN); all_of uses arrays.
+    return [val.trim().toUpperCase()].filter(Boolean);
   }
   return [];
 }

@@ -41,6 +41,13 @@ export interface ReadingReviewLoadOptions {
   includePassageStructure?: boolean;
 }
 export type ReviewStatus = 'correct' | 'incorrect' | 'skipped' | 'partial';
+export interface ReviewPill {
+  order: number;
+  status: ReviewStatus | 'unknown';
+  questionId: string;
+  /** Missing legacy click order or inconsistent imported historical points. */
+  reason?: 'legacy_selection_order' | 'inconsistent_points';
+}
 export type ReviewDrift = 'answer_mode' | 'correct_answers';
 export interface ReviewQuestion {
   historical: SubmissionQuestionResult;

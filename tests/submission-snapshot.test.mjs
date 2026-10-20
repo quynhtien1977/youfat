@@ -24,7 +24,7 @@ test('snapshot records question_type, keys, blank result and fixed grading versi
   assert.equal(snapshot.test_key, 'cambridge:20:1');
   assert.equal(snapshot.results[0].question_key, 'cambridge:20:1:reading:1:1');
   assert.equal(snapshot.grading_version, 'marks-v1');
-  assert.equal(snapshot.schema_version, 1);
+  assert.equal(snapshot.schema_version, 2);
   assert.equal(snapshot.started_at, '2026-10-06T01:00:00.000Z');
   assert.deepEqual(plain(input), before);
   assert.ok(!JSON.stringify(snapshot).includes('not stored'));

@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import type { SubmissionSnapshot } from '@/types/database';
-import type { ReviewModel, ReviewQuestion, ReviewSection, ReviewStatus } from '@/types/reading-review';
+import type { ReviewModel, ReviewQuestion, ReviewSection } from '@/types/reading-review';
 import { loadReadingReview } from '@/lib/reading-review';
+import { buildReviewPills } from '@/lib/reading-review-slots';
 import { resolveReadingLocate } from '@/lib/reading-locate';
 import { supabase } from '@/lib/supabase';
 import { formatElapsedTime } from '@/lib/submission-controls';
@@ -17,9 +18,6 @@ import {
   LocationSpeechIcon,
   CloseIcon,
   ClockIcon,
-  NoteIcon,
-  GearIcon,
-  ShareIcon,
   HighlightToolIcon,
   NotesToolIcon,
   DictionaryToolIcon,
@@ -196,27 +194,7 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
 
   const capsulePills = useMemo(() => {
     if (!model) return [];
-    const pills: { order: number; status: ReviewStatus; questionId: string }[] = [];
-    for (const q of model.questions) {
-      const maxMarks = q.historical.max_marks || 1;
-      if (maxMarks > 1) {
-        for (let k = 0; k < maxMarks; k++) {
-          const order = q.historical.question_order + k;
-          let status = q.status;
-          if (q.status === 'partial') {
-            status = k < q.historical.points_awarded ? 'correct' : 'incorrect';
-          }
-          pills.push({ order, status, questionId: `${q.historical.question_id}-${k}` });
-        }
-      } else {
-        pills.push({
-          order: q.historical.question_order,
-          status: q.status,
-          questionId: q.historical.question_id,
-        });
-      }
-    }
-    return pills;
+    return buildReviewPills(model);
   }, [model]);
 
   const handlePillClick = useCallback((order: number) => {
@@ -289,7 +267,7 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
   const passageText = sectionContent?.passage_text;
   const passageStructure = sectionContent?.passage_structure ?? null;
   const sectionNumber = activeSection?.sectionNumber ?? 1;
-  const sectionLabel = sectionContent?.title || `Reading passage ${sectionNumber}`;
+  const sectionLabel = `Reading passage ${sectionNumber}`;
   const minQuestionOrder = useMemo(() => {
     if (!model || model.questions.length === 0) return 1;
     return Math.min(...model.questions.map((q) => q.historical.question_order));
@@ -392,20 +370,7 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
           </div>
         </div>
 
-        <div className={styles.topbarActions}>
-          <button type="button" className={styles.topbarActionBtn}>
-            <NoteIcon size={15} />
-            <span>Xem note</span>
-          </button>
-          <button type="button" className={styles.topbarActionBtn}>
-            <GearIcon size={15} />
-            <span>Cài đặt</span>
-          </button>
-          <button type="button" className={`${styles.topbarActionBtn} ${styles.topbarShareBtn}`}>
-            <ShareIcon size={15} />
-            <span>Chia sẻ bài làm</span>
-          </button>
-        </div>
+        <div className={styles.topbarActions} />
       </header>
 
       {/* Drift/Missing Warning Banner */}
@@ -793,23 +758,27 @@ export function ReadingReviewRoom({ snapshot, onBack }: ReadingReviewRoomProps) 
               <button
                 key={p.questionId}
                 type="button"
-                className={`${styles.questionPill} ${styles[p.status]} ${
+                className={`${styles.questionPill} ${styles[p.status] || ''} ${
                   activeQuestionOrder === p.order ? styles.active : ''
                 }`}
                 onClick={() => handlePillClick(p.order)}
-                title={`Câu ${p.order} (${p.status})`}
+                title={p.status === 'unknown'
+                  ? `Câu ${p.order}: chưa xác định (${p.reason === 'legacy_selection_order' ? 'bài cũ thiếu thứ tự lựa chọn' : 'điểm lưu không khớp lựa chọn'})`
+                  : `Câu ${p.order} (${p.status})`}
               >
                 {p.order}
               </button>
             ))}
           </div>
+          {capsulePills.some((p) => p.status === 'unknown') && (
+            <div className={styles.unknownLegend} role="note" aria-label="Bài cũ thiếu thứ tự lựa chọn">
+              <span className={styles.unknownLegendBadge} aria-hidden="true" />
+              <span>Bài cũ thiếu thứ tự lựa chọn</span>
+            </div>
+          )}
         </div>
 
         <div className={styles.bottomNavActions}>
-          <button type="button" className={styles.btnStepByStep}>
-            <span>Sửa từng bước</span>
-            <span style={{ fontSize: '0.625rem', backgroundColor: '#ffffff', color: '#ff5722', padding: '0.1rem 0.35rem', borderRadius: '4px', fontWeight: 800 }}>PRO</span>
-          </button>
           <button type="button" className={styles.btnOtherTest} onClick={onBack}>
             Làm bài khác
           </button>

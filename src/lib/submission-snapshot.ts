@@ -40,10 +40,10 @@ export function canonicalJson(value: unknown): string {
 }
 export function utf8Bytes(text: string): number { return new TextEncoder().encode(text).byteLength; }
 
-/** Validate portable v1 without live content or regrading; return an independent normalized copy. */
+/** Read v1/v2 without live content or regrading; never invent legacy selection order. */
 export function validateSnapshot(raw: unknown): SubmissionSnapshot {
   object(raw); exactKeys(raw,SNAPSHOT_KEYS);
-  requireValid(raw.schema_version === 1 && raw.grading_version === 'marks-v1', 'VERSION');
+  requireValid((raw.schema_version === 1 || raw.schema_version === 2) && raw.grading_version === 'marks-v1', 'VERSION');
   validateSubmissionId(raw.id); validateSubmissionId(raw.test_id);
   requireValid(raw.skill === 'reading' || raw.skill === 'listening', 'SKILL');
   requireValid(raw.mode === 'practice' || raw.mode === 'exam', 'MODE');
@@ -84,7 +84,8 @@ export function validateSnapshot(raw: unknown): SubmissionSnapshot {
     let answer: string | string[];
     if (item.answer_mode === 'all_of') {
       requireValid(Array.isArray(item.user_answer) && item.user_answer.every(a => typeof a === 'string'), 'USER_ANSWER');
-      answer = [...new Set((item.user_answer as string[]).map(choice).filter(Boolean))].sort();
+      answer = [...new Set((item.user_answer as string[]).map(choice).filter(Boolean))];
+      if (raw.schema_version === 1) answer.sort();
       requireValid(answer.length <= correct.length, 'OVER_SELECTION');
       correct.sort();
     } else {
@@ -136,7 +137,7 @@ export function buildSnapshot(input: BuildSnapshotInput): SubmissionSnapshot {
   requireValid(graded.results.length === questions.length && new Set(graded.results.map(r=>r.questionId)).size === questions.length
     && graded.questionCount === questions.length, 'RESULT_COVERAGE');
   const testKey = `cambridge:${test.book}:${test.test_number}`;
-  return validateSnapshot({schema_version:1, id:input.attempt_id, test_id:test.id, test_key:testKey, skill,
+  return validateSnapshot({schema_version:2, id:input.attempt_id, test_id:test.id, test_key:testKey, skill,
     mode:input.mode, scope, section_ids:sections.map(s=>s.id), started_at:input.started_at,
     submitted_at:input.submitted_at, time_spent_seconds:input.time_spent_seconds, question_count:graded.questionCount,
     correct_marks:graded.correctMarks, total_marks:graded.totalMarks, band_score:graded.bandScore,

@@ -31,7 +31,8 @@ export interface ExamGradingSummary {
 
 /** One JSON contract for local storage and later cloud payloads; not a DB row. */
 export interface SubmissionSnapshot {
-  schema_version: 1;
+  /** v1 sorted all_of choices; v2 preserves remaining selection order. */
+  schema_version: 1 | 2;
   id: string;
   test_id: string;
   test_key: string;

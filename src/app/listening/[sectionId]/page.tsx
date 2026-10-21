@@ -13,6 +13,7 @@ import {
   VolumeX,
   ArrowLeft,
   Headphones,
+  ChevronLeft,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import {
@@ -224,6 +225,7 @@ export default function ListeningPracticePage() {
       if (section) setPendingSave({...timing,graded:examSummary,sections:[section],questions,answers,
         skill:"listening",mode:"practice",scope:"section"});
       audioRef.current?.pause();
+      setPlaying(false);
       setSummary(examSummary);
       const rMap: Record<string, QuestionGradingResult> = {};
       for (const r of examSummary.results) rMap[r.questionId] = r;
@@ -236,6 +238,13 @@ export default function ListeningPracticePage() {
       setGradingError("Không chấm được bài này, thử lại hoặc báo lỗi");
     }
   }, [submitted, questions, answers, stopTimer, section]);
+
+  // Audio must always be paused when returning to or viewing the results screen
+  useEffect(() => {
+    if (submitted && !reviewing) {
+      audioRef.current?.pause();
+    }
+  }, [submitted, reviewing]);
 
   const handlePillClick = useCallback(
     (questionOrder: number) => {
@@ -298,6 +307,16 @@ export default function ListeningPracticePage() {
   const audioUrl = section.audio_url ?? null;
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
+  // Review score: use marks (not question rows) - MCQ-many earns partial marks
+  const reviewCorrect = summary ? summary.correctMarks : 0;
+  const reviewTotal = summary
+    ? summary.totalMarks
+    : questions.reduce(
+        (acc, q) =>
+          acc + (q.answer_mode === "all_of" && q.answer ? q.answer.length : 1),
+        0
+      );
+
   return (
     <div className="yf-room-layout yf-listening-room">
       {/* Hidden native audio element */}
@@ -310,19 +329,48 @@ export default function ListeningPracticePage() {
         />
       )}
 
-      {/* ─── Top Bar ──────────────────────────────────── */}
-      <header className="yf-room-topbar">
-        <Link href="/listening" className="yf-room-back">
-          <ArrowLeft size={16} /> Quay lại
-        </Link>
-        <span className="yf-room-divider">|</span>
-        <h1 className="yf-room-title" title={topTitle}>
-          <Headphones size={16} className="inline mr-2 text-primary-01" />
-          {topTitle}
-        </h1>
-        <span className="yf-room-meta">{questions.length} câu hỏi</span>
-        <span className="yf-practice-timer" aria-label="Thời gian làm bài">⏱ {formatElapsedTime(elapsedSeconds)}</span>
-      </header>
+      {/* ─── Top Bar: practice mode vs review mode ─── */}
+      {reviewing ? (
+        <header className="yf-listening-review-topbar" aria-label="Xem giải thích">
+          {/* Left: Back to listing */}
+          <button
+            type="button"
+            className="yf-listening-review-back"
+            onClick={() => { audioRef.current?.pause(); setPlaying(false); setReviewing(false); }}
+            aria-label="Quay lại kết quả"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          {/* Center: timer + score */}
+          <div className="yf-listening-review-center">
+            <span className="yf-listening-review-timer">
+              {formatElapsedTime(elapsedSeconds)}
+            </span>
+            <span className="yf-listening-review-score" aria-label={`${reviewCorrect} trên ${reviewTotal} câu đúng`}>
+              {reviewCorrect}/{reviewTotal} câu đúng
+            </span>
+          </div>
+
+          {/* Right: hidden action placeholders (no handler yet) */}
+          <div className="yf-listening-review-actions" aria-hidden="true">
+            {/* Xem note, Cài đặt, Chia sẻ intentionally hidden — no handler */}
+          </div>
+        </header>
+      ) : (
+        <header className="yf-room-topbar">
+          <Link href="/listening" className="yf-room-back">
+            <ArrowLeft size={16} /> Quay lại
+          </Link>
+          <span className="yf-room-divider">|</span>
+          <h1 className="yf-room-title" title={topTitle}>
+            <Headphones size={16} className="inline mr-2 text-primary-01" />
+            {topTitle}
+          </h1>
+          <span className="yf-room-meta">{questions.length} câu hỏi</span>
+          <span className="yf-practice-timer" aria-label="Thời gian làm bài">⏱ {formatElapsedTime(elapsedSeconds)}</span>
+        </header>
+      )}
 
       {submitted && summary && !reviewing ? (
         <ResultsScreen questions={questions} summary={summary} skill="listening"
@@ -491,7 +539,16 @@ export default function ListeningPracticePage() {
           submitted={submitted}
           results={results}
           fullWidth
+          hideSubmit={reviewing}
         />
+        {/* In review mode: only show Làm bài khác, hide PRO button */}
+        {reviewing && (
+          <div className="yf-listening-review-footer">
+            <Link href="/listening" className="yf-listening-review-other-btn">
+              Làm bài khác
+            </Link>
+          </div>
+        )}
       </div>
       </>}
       <SubmitConfirmation open={confirmOpen}

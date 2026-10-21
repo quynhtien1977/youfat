@@ -2309,13 +2309,13 @@
   box-shadow: 0 0 0 2px var(--yf-green);
 }
 .yf-navpill.correct-pill {
-  background: #16a34a;
-  border-color: #16a34a;
+  background: rgb(52, 199, 89); /* YouPass teritary-03 exact */
+  border-color: rgb(52, 199, 89);
   color: #fff;
 }
 .yf-navpill.incorrect-pill {
-  background: var(--yf-incorrect);
-  border-color: var(--yf-incorrect);
+  background: rgb(255, 59, 48); /* YouPass teritary-01 exact */
+  border-color: rgb(255, 59, 48);
   color: #fff;
 }
 
@@ -2636,6 +2636,104 @@
   background: #e2e8f0;
   color: #05a93f;
   border-color: #05a93f;
+}
+
+/* ============================================================
+   Listening Review Topbar (YouPass clone)
+   ============================================================ */
+.yf-listening-review-topbar {
+  height: 63px; /* matches YouPass h-[3.9375rem] */
+  min-height: 63px;
+  background: #fff;
+  border-bottom: 1px solid var(--yf-border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  z-index: 30;
+  position: relative;
+}
+
+.yf-listening-review-back {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--yf-border);
+  background: transparent;
+  color: var(--yf-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.yf-listening-review-back:hover {
+  border-color: var(--yf-green);
+  color: var(--yf-green);
+}
+
+.yf-listening-review-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.yf-listening-review-timer {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--yf-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.yf-listening-review-score {
+  /* YouPass: 0/10 câu đúng — green bold pill */
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(19, 166, 46); /* YouPass --yf-green-dark measured */
+  background: rgba(52, 199, 89, 0.08);
+  border-radius: 9999px;
+  padding: 4px 14px;
+  white-space: nowrap;
+}
+
+.yf-listening-review-actions {
+  /* Right side placeholder — hidden until handlers exist */
+  width: 32px;
+  flex-shrink: 0;
+}
+
+/* Review footer: Làm bài khác only */
+.yf-listening-review-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 20px;
+  border-top: 1px solid var(--yf-border);
+  background: #fff;
+}
+
+.yf-listening-review-other-btn {
+  /* YouPass: Làm bài khác — orange text, 16px 700 */
+  font-family: Nunito, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(255, 109, 58); /* measured from YouPass: rgb(255,109,58) */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  border: 1.5px solid rgb(255, 109, 58);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.yf-listening-review-other-btn:hover {
+  background: rgba(255, 109, 58, 0.06);
 }
 
 .yf-loading-container,

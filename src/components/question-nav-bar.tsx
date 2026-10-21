@@ -18,6 +18,8 @@ interface QuestionNavBarProps {
   results?: Record<string, QuestionGradingResult>;
   /** true = Listening mode (full width), false = Reading mode (right 50%) */
   fullWidth?: boolean;
+  /** true = hide the submit/Đã nộp button (review mode) */
+  hideSubmit?: boolean;
 }
 
 
@@ -30,6 +32,7 @@ export function QuestionNavBar({
   submitted,
   results = {},
   fullWidth = false,
+  hideSubmit = false,
 }: QuestionNavBarProps) {
   return (
     <div
@@ -37,29 +40,31 @@ export function QuestionNavBar({
       style={fullWidth ? { width: "100%", left: 0, right: 0 } : undefined}
     >
       {questions.flatMap((q) => {
-        const isMultiMany =
-          q.type === "MULTIPLE_CHOICE_MANY" && q.answer && q.answer.length > 1;
-        const count = isMultiMany ? q.answer.length : 1;
-        const userAns = answers[q.id];
-        const userList = Array.isArray(userAns)
-          ? userAns
-          : typeof userAns === "string" && userAns
-          ? [userAns]
-          : [];
-        const correctList = q.answer || [];
-        const matched = userList.filter((a) => correctList.includes(a)).length;
+        const isAllOf = q.answer_mode === "all_of";
         const result = results[q.id];
+        // After submission the engine owns normalization, slot count and targets.
+        // Never fall back to mutable raw answers or infer marks from display type.
+        const userAnswer = submitted ? result?.userAnswer : answers[q.id];
+        const count = submitted && result
+          ? result.maxPoints
+          : isAllOf ? Math.max(1, q.answer?.length ?? 0) : 1;
+        const selections = Array.isArray(userAnswer) ? userAnswer : [];
+        const targets = new Set((result?.correctAnswers ?? []).map((answer) => answer.trim().toUpperCase()));
         const active = activeId === q.id;
 
         return Array.from({ length: count }, (_, idx) => {
           const pillOrder = q.question_order + idx;
-          const answered = userList.length > idx;
+          const answered = isAllOf
+            ? idx < selections.length
+            : typeof userAnswer === "string" && Boolean(userAnswer.trim());
 
           let cls = "yf-navpill";
-          if (submitted && result) {
-            const isPointCorrect = matched > idx;
-            cls += isPointCorrect ? " correct-pill" : " incorrect-pill";
-          } else if (answered) {
+          if (submitted && result && answered) {
+            const correct = isAllOf
+              ? targets.has(selections[idx].trim().toUpperCase())
+              : result.isCorrect;
+            cls += correct ? " correct-pill" : " incorrect-pill";
+          } else if (!submitted && answered) {
             cls += " answered";
           }
           if (active) cls += " current";
@@ -78,14 +83,16 @@ export function QuestionNavBar({
         });
       })}
 
-      <button
-        className="yf-submit-btn"
-        onClick={onSubmit}
-        disabled={submitted}
-        type="button"
-      >
-        {submitted ? "✅ Đã nộp" : "Nộp bài 🔶"}
-      </button>
+      {!hideSubmit && (
+        <button
+          className="yf-submit-btn"
+          onClick={onSubmit}
+          disabled={submitted}
+          type="button"
+        >
+          {submitted ? "Đã nộp" : "Hoàn thành"}
+        </button>
+      )}
     </div>
   );
 }

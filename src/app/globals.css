@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+/* Test/browser artifacts are not UI sources (Chrome profile files may be locked). */
+@source not "../../scratch";
 
 /* ============================================================
    YouFat Design System – Clone YouPass 1:1
@@ -30,6 +32,19 @@
   --foreground: #1e293b;
 }
 
+/* Submission timer: green pill measured in the practice-room source/audit. */
+.yf-practice-timer {
+  flex-shrink: 0;
+  border-radius: 9999px;
+  padding: 6px 8px;
+  background: var(--yf-green-dark);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -50,7 +65,8 @@
     background: var(--yf-bg-page);
     color: var(--yf-text-primary);
     font-family: var(--font-nunito), 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 15px;
+    font-size: 16px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
 }
@@ -1418,20 +1434,21 @@
   padding: 24px 28px;
 }
 .yf-passage-title {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
-  color: var(--yf-text-primary);
+  line-height: 36px;
+  color: #111827;
   margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 2px solid var(--yf-green);
 }
 .yf-passage-text {
-  font-size: 15px;
-  line-height: 1.8;
-  color: #212121;
+  font-size: 16px;
+  line-height: 1.6875;
+  color: #242424;
 }
 .yf-passage-text p {
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   text-align: justify;
 }
 .yf-passage-empty {
@@ -1459,13 +1476,14 @@
   margin-bottom: 24px;
 }
 .yf-qset-title {
-  margin-bottom: 6px;
-  color: #1d1d1f;
-  font-size: 15px;
+  margin-bottom: 8px;
+  color: #111827;
+  font-size: 18px;
   font-weight: 700;
+  line-height: 26px;
 }
 .yf-qset-instruction {
-  font-size: 14px;
+  font-size: 16px;
   color: #374151;
   margin-bottom: 16px;
   padding: 0;
@@ -2291,13 +2309,13 @@
   box-shadow: 0 0 0 2px var(--yf-green);
 }
 .yf-navpill.correct-pill {
-  background: #16a34a;
-  border-color: #16a34a;
+  background: rgb(52, 199, 89); /* YouPass teritary-03 exact */
+  border-color: rgb(52, 199, 89);
   color: #fff;
 }
 .yf-navpill.incorrect-pill {
-  background: var(--yf-incorrect);
-  border-color: var(--yf-incorrect);
+  background: rgb(255, 59, 48); /* YouPass teritary-01 exact */
+  border-color: rgb(255, 59, 48);
   color: #fff;
 }
 
@@ -2618,6 +2636,104 @@
   background: #e2e8f0;
   color: #05a93f;
   border-color: #05a93f;
+}
+
+/* ============================================================
+   Listening Review Topbar (YouPass clone)
+   ============================================================ */
+.yf-listening-review-topbar {
+  height: 63px; /* matches YouPass h-[3.9375rem] */
+  min-height: 63px;
+  background: #fff;
+  border-bottom: 1px solid var(--yf-border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  z-index: 30;
+  position: relative;
+}
+
+.yf-listening-review-back {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--yf-border);
+  background: transparent;
+  color: var(--yf-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.yf-listening-review-back:hover {
+  border-color: var(--yf-green);
+  color: var(--yf-green);
+}
+
+.yf-listening-review-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.yf-listening-review-timer {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--yf-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.yf-listening-review-score {
+  /* YouPass: 0/10 câu đúng — green bold pill */
+  font-family: Nunito, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(19, 166, 46); /* YouPass --yf-green-dark measured */
+  background: rgba(52, 199, 89, 0.08);
+  border-radius: 9999px;
+  padding: 4px 14px;
+  white-space: nowrap;
+}
+
+.yf-listening-review-actions {
+  /* Right side placeholder — hidden until handlers exist */
+  width: 32px;
+  flex-shrink: 0;
+}
+
+/* Review footer: Làm bài khác only */
+.yf-listening-review-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 20px;
+  border-top: 1px solid var(--yf-border);
+  background: #fff;
+}
+
+.yf-listening-review-other-btn {
+  /* YouPass: Làm bài khác — orange text, 16px 700 */
+  font-family: Nunito, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(255, 109, 58); /* measured from YouPass: rgb(255,109,58) */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  border: 1.5px solid rgb(255, 109, 58);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.yf-listening-review-other-btn:hover {
+  background: rgba(255, 109, 58, 0.06);
 }
 
 .yf-loading-container,

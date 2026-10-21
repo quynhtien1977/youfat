@@ -12,7 +12,7 @@ import {
   type ListeningSectionFilter,
   type SidebarFilterOption,
 } from "@/components/practice-listing-shared";
-import { getCardLabels, LISTENING_FILTER_GROUPS } from "@/lib/type-labels";
+import { getCardLabels, getTypeFilterOptions, LISTENING_FILTER_GROUPS } from "@/lib/type-labels";
 
 export interface ListeningListingItem {
   sectionId: string;
@@ -28,15 +28,7 @@ export interface ListeningListingItem {
 
 const FILTER_TYPES = LISTENING_FILTER_GROUPS;
 
-const FILTER_OPTIONS: SidebarFilterOption[] = [
-  ["GAP_FILLING", "Gap Filling"],
-  ["MAP_DIAGRAM_LABEL", "Map, Diagram Label"],
-  ["MULTIPLE_CHOICE_ONE", "Multiple Choice (One Answer)"],
-  ["MATCHING_INFO", "Matching Information"],
-  ["MULTIPLE_CHOICE_MANY", "Multiple Choice (Many Answers)"],
-  ["MATCHING", "Matching"],
-  ["OTHER", "Other Types"],
-].map(([value, label]) => ({ value, label }));
+const FILTER_OPTIONS: SidebarFilterOption[] = getTypeFilterOptions('listening');
 
 const PAGE_SIZE = 20;
 

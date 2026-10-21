@@ -1,5 +1,70 @@
 export type SkillType = 'reading' | 'listening';
 export type AnswerMode = 'single' | 'any_of' | 'all_of';
+export type SubmissionScope = 'section' | 'full_skill' | 'custom';
+export type SubmissionMode = 'practice' | 'exam';
+export type BandReason = 'partial_scope' | 'incomplete_content' | 'not_displayed_mvp';
+
+export interface QuestionGradingResult {
+  questionId: string;
+  questionOrder: number;
+  userAnswer: string | string[];
+  correctAnswers: string[];
+  isCorrect: boolean;
+  pointsAwarded: number;
+  maxPoints: number;
+  explanation?: string;
+}
+
+export interface ExamGradingSummary {
+  questionCount: number;
+  correctMarks: number;
+  totalMarks: number;
+  /** Compatibility aliases: both count marks, not question rows. */
+  totalQuestions: number;
+  totalCorrect: number;
+  scorePercentage: number;
+  scope: SubmissionScope;
+  bandScore: number | null;
+  bandReason: BandReason | null;
+  results: QuestionGradingResult[];
+}
+
+/** One JSON contract for local storage and later cloud payloads; not a DB row. */
+export interface SubmissionSnapshot {
+  /** v1 sorted all_of choices; v2 preserves remaining selection order. */
+  schema_version: 1 | 2;
+  id: string;
+  test_id: string;
+  test_key: string;
+  skill: SkillType;
+  mode: SubmissionMode;
+  scope: SubmissionScope;
+  section_ids: string[];
+  started_at: string;
+  submitted_at: string;
+  time_spent_seconds: number;
+  question_count: number;
+  correct_marks: number;
+  total_marks: number;
+  band_score: number | null;
+  band_reason: BandReason | null;
+  grading_version: string;
+  results: SubmissionQuestionResult[];
+}
+
+export interface SubmissionQuestionResult {
+  question_id: string;
+  question_key: string;
+  section_id: string;
+  question_order: number;
+  question_type: Question['type'];
+  answer_mode: AnswerMode;
+  user_answer: string | string[];
+  correct_answers: string[];
+  points_awarded: number;
+  max_marks: number;
+  is_fully_correct: boolean;
+}
 
 export interface Test {
   id: string;
@@ -17,6 +82,8 @@ export interface Section {
   title: string;
   section_title?: string;
   passage_text?: string;
+  /** Optional untrusted JSONB content; validate before use (not submission data). */
+  passage_structure?: unknown;
   thumbnail_url?: string;
   audio_url?: string;
   listen_from_second?: number;
@@ -70,18 +137,14 @@ export interface WritingTask {
 }
 
 export interface UserSubmission {
-  id: string;
-  user_id?: string;
+  id?: string;
+  user_id?: string | null;
   test_id: string;
   skill: 'reading' | 'listening' | 'writing' | 'full';
-  section_id?: string;
-  answers: Record<string, string | string[]>;
-  score?: number;
-  band_score?: number;
-  total_correct?: number;
-  total_questions?: number;
-  essay_text?: string;
-  ai_feedback?: unknown;
-  duration_seconds?: number;
-  submitted_at: string;
+  user_answers: Record<string, string | string[]>;
+  correct_count: number;
+  total_count: number;
+  band_score?: number | null;
+  time_spent_seconds: number;
+  created_at?: string;
 }

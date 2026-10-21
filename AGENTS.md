@@ -13,6 +13,60 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **NEVER run `git commit` or `git push`.** The user manages all commits and pushes manually. Do not suggest or execute these commands under any circumstances.
 - **CodeGraph:** A `.codegraph/` directory exists at repo root. Use `codegraph_explore` MCP tool (or `codegraph explore "<query>"`) BEFORE grep/find when you need to understand or locate code. If `.codegraph/` is missing, skip CodeGraph entirely. After significant code changes, run `codegraph sync` to keep the index up to date.
 
+## Agent Routing — GPT / Antigravity
+
+This is a project workflow decision to reduce visual-iteration cost and protect complex logic, not a general claim about model capabilities. Classify the work by its behavior, **not by frontend/backend folders or file extensions**.
+
+### Ownership
+
+| Work | Primary agent |
+| --- | --- |
+| Visual UI: layout, CSS, typography, responsive behavior, cloning YouPass screens, browser measurements and screenshot comparisons | **Antigravity (Anti)** |
+| Backend/domain logic: schema, RLS, grading, storage, validation, security, concurrency, retries/idempotency, complex state flows and their tests | **GPT (Codex)** |
+| Mixed UI + complex behavior | **GPT defines/implements and tests the logic contract first; Anti integrates and verifies the UI after user approval** |
+
+- Determine your role from the actual agent/runtime context. Do not claim to be the other agent to bypass routing. If the role is unclear, ask the user before implementation.
+- A user's explicit assignment to perform otherwise cross-role work overrides this default for that task only. A generic "continue" does not override routing or an approval checkpoint.
+- Read the relevant approved spec/contracts before implementation. For submission work, use `docs/backend/submission-storage-design.md`; older overview notes must not override the approved contract.
+
+### Before implementing
+
+1. State the classification and the part you own in a short update.
+2. If the task belongs to the other agent, **stop before implementation**. Do only the minimal read-only inspection needed to prepare a useful Handoff Brief; do not spend tokens completing the other role's audit or exploratory work.
+3. Give the brief to the user to move to the other agent. Do not automatically switch sessions, invoke another agent, or resume the handed-off work without the user's direction.
+4. For mixed tasks, split explicit logic and UI checkpoints. GPT must not continue into visual implementation after its logic checkpoint; Anti must not invent or change the logic contract during UI integration.
+
+### Small integration exception
+
+The owning agent may make a small, necessary cross-role change to complete its assigned slice, then report it explicitly. Examples: GPT adds a null guard or connects an existing callback; Anti connects UI to an approved repository/helper or applies an already specified selection limit.
+
+This exception does **not** authorize a visual redesign by GPT or changes to grading, schema/RLS, storage semantics, concurrency, validation rules or error contracts by Anti, regardless of line count. If a contract is missing or must change, stop and write a Handoff Brief for the user; do not silently invent a fallback.
+
+### Handoff Brief
+
+Use this compact structure. Include it in the reply; for a multi-step task also save it in `docs/handoffs/<task-slug>.md` and link it. Do not duplicate whole source files, logs or prior prompts.
+
+```markdown
+# Handoff: <task> — <GPT -> Anti / Anti -> GPT>
+- Goal and reason for transfer:
+- Completed / remaining work:
+- In scope / explicitly out of scope:
+- Approved spec, contracts and checkpoint decisions:
+- Relevant files and entry points:
+- Verified evidence: commands/results, screenshots or fixtures (with paths):
+- Unknowns / required user decisions:
+- Acceptance checks and next approval checkpoint:
+```
+
+Distinguish verified facts from assumptions, name any proposed contract change, preserve the user's worktree changes, and identify the exact safe starting point. If transferring partially completed work, list the touched files and incomplete checks; do not claim completion.
+
+### Quality gates — both roles
+
+- For code changes, run whole-project TypeScript, ESLint on changed files, `npm test`, and `npm run build`; report actual results and any unrun/blocked checks. Neither role may weaken tests/contracts to obtain a pass.
+- For UI changes, Anti must verify on `npm run dev`: open the actual route, capture **and view** screenshots, inspect computed styles, and check 320/768/1024px (plus any task-specific states). Production-only screenshots, DOM assertions or "0 page errors" are not sufficient. A user-authorized GPT UI exception must meet the same gate.
+- For documentation-only changes, check the diff and Markdown structure; runtime gates are not required.
+- Routing does not expand authority: retain all task-specific DB/security restrictions and approval checkpoints. Never continue into the next phase just because the current phase passes.
+
 ## Overview
 
 IELTS Cambridge 10-20 practice web app. Students pick a test, do Reading/Listening/Writing, get auto-graded results with IELTS Band Score conversion.

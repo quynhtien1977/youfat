@@ -44,4 +44,6 @@ next-env.d.ts
 .agents/
 
 docs/
-data/
+/data/
+!src/data/
+scratch/

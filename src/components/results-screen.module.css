@@ -1,0 +1,39 @@
+/* Source audit: max 900px content, 520px score card, 12px/6px radii,
+   16px/24px Nunito headers, 42px review control, 200px donut. */
+.page { flex: 1; overflow-y: auto; background: #efefef; color: #213547; padding: 20px; }
+.container { width: 100%; max-width: 900px; margin: 0 auto; }
+.scoreCard { max-width: 520px; margin: 0 auto 20px; background: #fff; border-radius: 12px; box-shadow: 0 2px 4px #00000012; }
+.header { padding: 10px 16px; min-height: 55px; border-bottom: 1px solid #e5e5ea; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.header h2, .details h2 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; }
+.header div { text-align: right; }
+.header span { display: block; font-size: 12px; line-height: 16px; color: #64748b; }
+.header time { font-size: 14px; line-height: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.brand { padding: 8px 16px 0; text-align: right; font-size: 18px; font-weight: 800; color: var(--yf-orange); }
+.summary { display: flex; align-items: center; justify-content: center; gap: 32px; padding: 16px 24px; }
+.chart { position: relative; width: 210px; height: 210px; flex-shrink: 0; }
+.chart svg { display: block; width: 100%; height: 100%; }
+.chartLabel { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; text-align: center; font-size: 20px; line-height: 24px; font-weight: 700; }
+.legend { margin: 0; min-width: 145px; }
+.legend div { display: flex; align-items: center; gap: 16px; margin: 20px 0; }
+.legend dt { display: flex; align-items: center; gap: 4px; width: 56px; white-space: nowrap; font-size: 12px; color: #64748b; }
+.legend dd { margin: 0; font-size: 16px; font-weight: 700; white-space: nowrap; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.correct { background: #22c55e; }.wrong { background: #ef4444; }.skipped { background: #e5e7eb; }
+.actions { display: flex; justify-content: center; padding: 0 16px 16px; }
+.actions button { border: 1px solid #e5e5ea; border-radius: 28px; padding: 10px 18px; min-height: 42px; background: #fff; color: #1d1d1f; font: 700 16px/20px var(--font-nunito), Nunito, sans-serif; cursor: pointer; }
+.actions button:hover { border-color: #1d1d1f; }
+.actions button:focus-visible { outline: 2px solid var(--yf-green); outline-offset: 3px; }
+.actions button span { background: #0085ff; color: #fff; border-radius: 4px; padding: 0 4px; margin-left: 8px; font-size: 14px; }
+.details { border: 1px solid #e5e5ea; background: #fff; border-radius: 6px; overflow: hidden; }
+.details h2 { padding: 16px; }
+.tableScroll { overflow-x: auto; }
+.details table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 16px; }
+.details th, .details td { border: 1px solid #e5e5ea; text-align: center; }
+.details thead th { background: #f2f2f7; padding: 12px 16px; font-size: 14px; line-height: 18px; font-weight: 400; }
+.details th:first-child { text-align: left; width: 33.333%; }
+.details thead .correctHeader { background: #34c759; color: #fff; font-weight: 700; }
+.details tbody th { padding: 16px; font-weight: 700; }
+.details td { width: 16.666%; padding: 10px; }
+.badge { display: inline-flex; width: 42px; height: 42px; align-items: center; justify-content: center; border-radius: 50%; background: #f4f5f7; color: #64748b; }
+.correctBadge { background: #eaf8f0; color: #15803d; }.wrongBadge { background: #fceae5; color: #e34c28; }
+@media (max-width: 540px) { .page { padding: 16px; }.summary { flex-direction: column; gap: 0; padding: 16px; }.legend { width: 160px; }.legend div { margin: 12px 0; }.header { align-items: flex-start; }.header h2 { max-width: 120px; } }

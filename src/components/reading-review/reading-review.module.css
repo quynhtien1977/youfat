@@ -1,0 +1,1840 @@
+/* Reading Review Room Styles - YouPass 1:1 Aesthetic */
+.reviewRoom {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: #faf5ee;
+  overflow: hidden;
+  font-family: var(--font-nunito), 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #242424;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1.5rem;
+  background-color: #faf5ee;
+  z-index: 20;
+  gap: 1rem;
+}
+
+.topbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.closeCircleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  border: 1px solid rgb(209, 209, 214);
+  color: #4b5563;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+}
+
+.closeCircleBtn:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.topbarCenter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.clockBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.scoreCapsule {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.875rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: 1px solid rgb(209, 209, 214);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.topbarActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.topbarActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  color: #374151;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid rgb(209, 209, 214);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.topbarActionBtn:hover {
+  background-color: #f9fafb;
+}
+
+.topbarShareBtn {
+  border-color: #10b981;
+  color: #059669;
+}
+
+.topbarShareBtn:hover {
+  background-color: #ecfdf5;
+}
+
+/* Tool Palette Sidebar ("Công cụ") */
+.toolPalette {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.toolPaletteTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-align: center;
+  margin-bottom: 0.15rem;
+}
+
+.toolCard {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: #ffffff;
+  border: 1px solid rgb(209, 209, 214);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.toolCard:hover {
+  border-color: #10b981;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.15);
+}
+
+.toolLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.1;
+}
+
+.toolSub {
+  font-size: 0.52rem;
+  color: #6b7280;
+  line-height: 1;
+}
+
+/* Warning Banner */
+.warningBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background-color: #fffbeb;
+  border-bottom: 1px solid #fde68a;
+  color: #92400e;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* Body: Split View - YouPass 1:1 Seamless Two-Pane Layout */
+.bodyContainer {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  gap: 0;
+}
+
+.passageWrapper {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+.passageColumn {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.25rem 1.75rem;
+  background-color: #ffffff;
+  border: 1px solid rgb(229, 231, 235);
+  border-right: 1px solid rgb(229, 231, 235);
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.passageMetaHeader {
+  margin-bottom: 0.75rem;
+}
+
+.passageSectionLabel {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  color: #242424;
+  margin-bottom: 0.35rem;
+}
+
+.passageInstructionMeta {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #242424;
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+}
+
+.passageTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 2rem;
+  text-align: left;
+  margin-bottom: 1.25rem;
+  color: #242424;
+  letter-spacing: normal;
+}
+
+.passageContent {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #242424;
+  letter-spacing: normal;
+  word-break: normal;
+}
+
+.passageContent p {
+  margin-bottom: 1.25rem;
+}
+
+.passageParagraphHighlighted {
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.questionsColumn {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 1px solid rgb(229, 231, 235);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.questionsScrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Docked Bottom Explanation Drawer inside Questions Column */
+.dockedExplanationDrawer {
+  border-top: 1.5px solid #ff5722;
+  background-color: #ffffff;
+  padding: 1rem 1.25rem;
+  max-height: 38vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.dockedDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.dockedDrawerTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.5rem;
+}
+
+.dockedDrawerCloseBtn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dockedDrawerCloseBtn:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.dockedDrawerContent {
+  font-size: 1rem;
+  line-height: 1.625;
+  color: #242424;
+}
+
+.dockedDrawerContent strong,
+.dockedDrawerContent b {
+  color: #111827;
+  font-weight: 700;
+}
+
+.dockedDrawerContent u {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Question Group Card */
+.questionGroupCard {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.groupHeader {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.groupTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #213547;
+  line-height: 1.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.groupInstruction {
+  font-size: 1rem;
+  color: #213547;
+  line-height: 1.5rem;
+}
+
+/* Question Item */
+.reviewItem {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.reviewItem.correct {
+  border-color: #86efac;
+  background-color: #fcfdfc;
+}
+
+.reviewItem.incorrect {
+  border-color: #fca5a5;
+  background-color: #fffafb;
+}
+
+.reviewItem.skipped {
+  border-color: #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.reviewItem.partial {
+  border-color: #fcd34d;
+  background-color: #fffdfa;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.orderBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.orderBadge.correct {
+  background-color: #22c55e;
+  color: #ffffff;
+}
+
+.orderBadge.incorrect {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.orderBadge.skipped {
+  background-color: transparent;
+  border: 2px solid #22c55e;
+  color: #15803d;
+}
+
+.orderBadge.partial {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+.itemPrompt {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #213547;
+  line-height: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Answer Feedback Row */
+.answerRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 0.75rem;
+}
+
+.ansUserWrong {
+  text-decoration: line-through;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.ansArrow {
+  color: #4b5563;
+  font-weight: 500;
+  margin: 0 0.15rem;
+}
+
+.ansTarget {
+  color: #15803d;
+  font-weight: 700;
+}
+
+.ansUserCorrect {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.ansSkippedMark {
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+/* Inline Template Review Gap - YouPass 1:1 */
+.inlineReviewGap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  vertical-align: baseline;
+  margin: 0 0.25rem;
+  padding: 0.125rem 0.25rem;
+  font-size: 1rem;
+}
+
+.gapPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.35rem;
+  background-color: #e8f8ee;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  border-radius: 9999px;
+  border: 1px solid #bbf7d0;
+  margin-right: 0.25rem;
+}
+
+.gapUnderline {
+  border-bottom: 1.5px solid #242424;
+  padding: 0 0.25rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  min-height: 1.75rem;
+}
+
+.explanationIconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0 0.25rem;
+  cursor: pointer;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+  transition: transform 0.15s ease;
+}
+
+.explanationIconBtn:hover {
+  transform: scale(1.15);
+}
+
+/* Template Images & Lists (MAP_DIAGRAM_LABEL, etc.) */
+:global(.yf-gap-template) img,
+.gapFillingReviewContainer img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+:global(.yf-gap-template) ul,
+.gapFillingReviewContainer ul {
+  padding-left: 1.5rem;
+  margin: 0.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+:global(.yf-gap-template) li,
+.gapFillingReviewContainer li {
+  line-height: 1.8;
+  color: #334155;
+}
+
+/* Explanation Drawer */
+.explanationDrawer {
+  border-top: 3px solid #e5e7eb;
+  background-color: #ffffff;
+  border-radius: 0.25rem;
+  margin-top: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.explanationDrawer.correct {
+  border-top-color: #22c55e;
+}
+
+.explanationDrawer.incorrect {
+  border-top-color: #ef4444;
+}
+
+.explanationDrawer.skipped {
+  border-top-color: #9ca3af;
+}
+
+.explanationDrawer.partial {
+  border-top-color: #f59e0b;
+}
+
+.explanationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background-color: #f9fafb;
+  border: none;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+}
+
+.explanationHeader:hover {
+  background-color: #f3f4f6;
+}
+
+.explanationTitle {
+  font-weight: 600;
+}
+
+.toggleIcon {
+  font-size: 0.625rem;
+  color: #6b7280;
+}
+
+.explanationContent {
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #374151;
+  background-color: #ffffff;
+}
+
+.explanationContent strong,
+.explanationContent b {
+  color: #111827;
+  font-weight: 600;
+}
+
+.explanationContent u {
+  text-decoration: underline;
+}
+
+.explanationContent ul,
+.explanationContent ol {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.noExplanation {
+  padding: 0.75rem;
+  font-size: 0.8125rem;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Bottom Nav Bar - YouPass Signature Warm Bar */
+.bottomNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem 0.75rem 1.5rem;
+  background-color: #faf5ee;
+  z-index: 20;
+  gap: 1rem;
+}
+
+.bottomNavCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 0.25rem;
+}
+
+.unknownLegend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.6875rem;
+  color: #6b7280;
+  font-weight: 500;
+  line-height: 1;
+  user-select: none;
+}
+
+.unknownLegendBadge {
+  display: inline-block;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 9999px;
+  background-color: #f3f4f6;
+  border: 1px dashed #9ca3af;
+  flex-shrink: 0;
+}
+
+.capsuleContainer {
+  background: #ffffff;
+  border-radius: 9999px;
+  border: 1px solid rgb(209, 209, 214);
+  padding: 0.35rem 0.85rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  max-width: 65vw;
+}
+
+.questionPill {
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.125rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.questionPill:hover {
+  transform: scale(1.1);
+}
+
+.questionPill.correct {
+  background-color: rgb(52, 199, 89);
+  color: #ffffff;
+}
+
+.questionPill.incorrect {
+  background-color: rgb(255, 59, 48);
+  color: #ffffff;
+}
+
+.questionPill.skipped {
+  background-color: rgba(52, 199, 89, 0.1);
+  color: rgb(19, 166, 46);
+  border: 1px solid rgba(52, 199, 89, 0.35);
+}
+
+.questionPill.partial {
+  background-color: #ff9500;
+  color: #ffffff;
+}
+
+.questionPill.unknown {
+  background-color: #f3f4f6;
+  border: 1.5px dashed #9ca3af;
+  color: #4b5563;
+}
+
+.questionPill.active {
+  box-shadow: 0 0 0 2px #ff5722, 0 0 0 4px rgba(255, 87, 34, 0.25);
+  transform: scale(1.12);
+}
+
+.bottomNavActions {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.btnStepByStep {
+  background: linear-gradient(135deg, #ff5722, #f97316);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+  transition: all 0.15s ease;
+}
+
+.btnStepByStep:hover {
+  opacity: 0.95;
+  box-shadow: 0 4px 6px rgba(249, 115, 22, 0.4);
+}
+
+.btnOtherTest {
+  background: #ffffff;
+  border: 1px solid rgb(209, 209, 214);
+  color: #ff5722;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 9999px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnOtherTest:hover {
+  background-color: #fff7ed;
+  border-color: #ff5722;
+}
+
+/* Choice Question Review */
+.choiceQuestionCard {
+  background-color: #ffffff;
+  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.choiceHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+
+.choiceOrderPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.5rem;
+  border-radius: 9999px;
+  background-color: #e8f8ee;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: 1px solid #bbf7d0;
+  flex-shrink: 0;
+}
+
+.multiOrderPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pillDash {
+  color: #86efac;
+}
+
+.choicePrompt {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.choiceOptionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.choiceOptionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.choiceOptionRow:hover {
+  background-color: #f9fafb;
+}
+
+.optionRowNeutral {
+  background-color: transparent;
+  color: #242424;
+}
+
+.optionRowCorrect {
+  background-color: transparent;
+}
+
+.optionRowWrong {
+  background-color: transparent;
+}
+
+.optionRowTargetMissed {
+  background-color: transparent;
+}
+
+.optionLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.optionLetterBadge {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  min-width: 1.5rem;
+  color: #374151;
+}
+
+.optionText {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #242424;
+  word-break: break-word;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  flex: 1;
+}
+
+.optionTextCorrectPicked {
+  background-color: #e8f8ee;
+  color: #15803d;
+  font-weight: 700;
+}
+
+.optionTextCorrectMissed {
+  color: #15803d;
+  font-weight: 700;
+}
+
+.optionTextWrong {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Radio button indicator */
+.choiceRadio {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  border: 1.5px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.radio-neutral {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+}
+
+.radio-selected-correct {
+  border-color: #15803d;
+  background-color: #ffffff;
+}
+
+.radio-selected-wrong {
+  border-color: #ef4444;
+  background-color: #ffffff;
+}
+
+.radio-target-missed {
+  border-color: #15803d;
+  background-color: #ffffff;
+}
+
+.radioDot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+}
+
+.radio-selected-correct .radioDot {
+  background-color: #15803d;
+}
+
+.radio-selected-wrong .radioDot {
+  background-color: #ef4444;
+}
+
+/* Checkbox indicator */
+.choiceCheckbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 0.25rem;
+  border: 1.5px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.cb-neutral {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+}
+
+.cb-selected-correct {
+  border-color: #15803d;
+  background-color: #15803d;
+  color: #ffffff;
+}
+
+.cb-selected-wrong {
+  border-color: #ef4444;
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.cb-target-missed {
+  border-color: #15803d;
+  background-color: #ffffff;
+  color: #15803d;
+}
+
+/* Speech bubble button - YouPass pure icon */
+.speechBubbleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0 0.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  transition: transform 0.15s ease;
+}
+
+.speechBubbleBtn:hover {
+  transform: scale(1.15);
+}
+
+.speechIcon {
+  display: block;
+}
+
+/* Feedback summary */
+.choiceFeedbackSummary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #f8fafc;
+  border-radius: 0.375rem;
+  border: 1px solid #e2e8f0;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.feedbackLabel {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.feedbackTarget {
+  color: #15803d;
+  font-weight: 700;
+}
+
+.feedbackPartial {
+  color: #d97706;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Checkpoint 3: Matching Matrix Review (MATCHING_INFO, MATCHING_FEATURES, MATCHING) */
+.matrixReviewContainer {
+  margin-bottom: 1.5rem;
+}
+
+.matrixTableWrapper {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.matrixTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.matrixPromptTh {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+}
+
+.matrixOptTh {
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-weight: 700;
+  padding: 0.45rem 0.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #f1f5f9;
+  min-width: 32px;
+  font-size: 0.8125rem;
+}
+
+.matrixOptTh:last-child {
+  border-right: none;
+}
+
+.matrixRow {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s ease;
+}
+
+.matrixRow:last-child {
+  border-bottom: none;
+}
+
+.matrixRow:hover {
+  background-color: #fafbfc;
+}
+
+.matrixPromptTd {
+  padding: 0.4rem 0.75rem;
+  border-right: 1px solid #e2e8f0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.matrixPromptFlex {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.matrixOrderPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.35rem;
+  border-radius: 9999px;
+  background-color: #e8f8ee;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  border: 1px solid #bbf7d0;
+  flex-shrink: 0;
+}
+
+.matrixPromptText {
+  font-size: 0.8125rem;
+  color: #1e293b;
+  line-height: 1.35;
+  flex: 1;
+}
+
+.matrixOptTd {
+  padding: 0.35rem 0.25rem;
+  border-right: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.matrixOptTd:last-child {
+  border-right: none;
+}
+
+.matrixCellNeutral {
+  background-color: #ffffff;
+}
+
+.matrixCellCorrect {
+  background-color: #e8f8ee;
+}
+
+.matrixCellWrong {
+  background-color: #fee2e2;
+}
+
+.matrixCellTargetMissed {
+  background-color: #f0fdf4;
+}
+
+.matrixRadioCircle {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  border: 2px solid;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.matrixRadioNeutral {
+  border-color: #cbd5e1;
+}
+
+.matrixRadioSelectedCorrect {
+  border-color: #22c55e;
+  background-color: #ffffff;
+}
+
+.matrixRadioSelectedWrong {
+  border-color: #ef4444;
+  background-color: #ffffff;
+}
+
+.matrixRadioTargetMissed {
+  border-color: #22c55e;
+  background-color: #ffffff;
+}
+
+.matrixRadioDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.matrixRadioSelectedCorrect .matrixRadioDot {
+  background-color: #22c55e;
+}
+
+.matrixRadioSelectedWrong .matrixRadioDot {
+  background-color: #ef4444;
+}
+
+.matrixExplanationRow {
+  background-color: #f8fafc;
+}
+
+.matrixExplanationTd {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.matrixExplanationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Checkpoint 3: Matching Headings (MATCHING_HEADING) */
+.headingReviewContainer {
+  margin-bottom: 1.5rem;
+}
+
+.unusedHeadingsCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.unusedHeadingsTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.unusedHeadingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.unusedHeadingItem {
+  font-size: 1rem;
+  color: #242424;
+  background: #ffffff;
+  border: 1px solid #c7c7cc;
+  padding: 0.5rem 0.95rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.headingQuestionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.headingQuestionCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
+  transition: border-color 0.15s ease;
+}
+
+.headingQuestionCard.correct {
+  border-left: 4px solid #22c55e;
+}
+
+.headingQuestionCard.incorrect {
+  border-left: 4px solid #ef4444;
+}
+
+.headingQuestionCard.skipped {
+  border-left: 4px solid #9ca3af;
+}
+
+.headingCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.625rem;
+}
+
+.headingOrderFlex {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.headingOrderPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.375rem;
+  border-radius: 9999px;
+  background-color: #e8f8ee;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.75rem;
+  border: 1px solid #bbf7d0;
+}
+
+.headingParagraphLabel {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: #1e293b;
+}
+
+.headingMatchedBanner {
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.headingMatchedCorrect {
+  background-color: #e8f8ee;
+  border: 1px solid #86efac;
+  color: #15803d;
+}
+
+.headingMatchedWrong {
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+}
+
+.headingMatchedSkipped {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+.headingCorrectText {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.headingFeedbackFlow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.headingSkippedMark {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.headingUserWrongText {
+  text-decoration: line-through;
+  color: #dc2626;
+}
+
+.headingTargetText {
+  color: #15803d;
+  font-weight: 700;
+}
+
+/* Passage Paragraph & Evidence Highlighting (YouPass 1:1) */
+.passageParagraphHighlighted {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.passageEvidenceHighlight {
+  background-color: #9ad1b7;
+  border-radius: 3px;
+  padding: 0.1rem 0.2rem;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.passageWordHighlighted {
+  background-color: #9ad1b7;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.passageWord {
+  display: inline;
+}
+
+.locateUnavailableNotice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.passageLocateBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+  color: #4b5563;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  margin-bottom: 0.35rem;
+}
+
+/* Passage matched heading banner (Left Column) */
+/* ============================================================
+   Matching Headings In-Passage Blocks (YouPass 1:1)
+   ============================================================ */
+.passageHeadingBlock {
+  margin-bottom: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.headingUserRow {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.headingOrderCircle {
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  background-color: #e8f8ee;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  flex-shrink: 0;
+}
+
+.headingUserBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid rgb(209, 209, 214);
+  background: #ffffff;
+  padding: 0.35rem 0.875rem;
+  min-height: 2.25rem;
+  flex: 1;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.headingUserText {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.headingUserTextWrong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #ef4444;
+  text-decoration: line-through;
+}
+
+.headingLocateTooltip {
+  position: absolute;
+  right: 2rem;
+  top: -1.75rem;
+  background-color: #ff5722;
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(255, 87, 34, 0.3);
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.headingLocateTooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #ff5722;
+}
+
+.headingWrongMark {
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.headingCorrectMark {
+  color: #15803d;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.headingAnswerRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 2.625rem;
+  font-size: 0.9375rem;
+}
+
+.headingAnswerLabel {
+  font-weight: 700;
+  color: #242424;
+  white-space: nowrap;
+}
+
+.headingAnswerTarget {
+  font-weight: 700;
+  color: #15803d;
+  line-height: 1.4;
+}
+
+.passageSpeechBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0.15rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: 0.25rem;
+  color: #242424;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.passageSpeechBtn:hover {
+  transform: scale(1.15);
+  color: #10b981;
+}
+
+/* ============================================================
+   Matching Headings Right Pane: List of Headings (YouPass 1:1)
+   ============================================================ */
+.headingReviewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.allHeadingsCard {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.allHeadingsTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.allHeadingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.headingOptionPill {
+  border: 1px solid #c7c7cc;
+  background-color: #ffffff;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #242424;
+  line-height: 1.4;
+  transition: border-color 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.headingOptionPill:hover {
+  border-color: #10b981;
+}
+
+.headingExplanationsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.headingExplanationWrapper {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.targetedExplanation {
+  scroll-margin-top: 1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .toolPalette {
+    margin-right: 0.35rem;
+  }
+  .toolCard {
+    width: 3rem;
+    height: 3rem;
+  }
+  .toolLabel {
+    font-size: 0.55rem;
+  }
+  .toolSub {
+    display: none;
+  }
+  .passageColumn {
+    padding: 1rem 1.25rem;
+  }
+  .questionsScrollArea {
+    padding: 1rem 1.25rem;
+  }
+  .capsuleContainer {
+    max-width: 68vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolPalette {
+    display: none;
+  }
+  .bodyContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+  }
+  .passageWrapper {
+    flex: 1 1 50%;
+    height: 50%;
+    min-height: 0;
+    width: 100%;
+  }
+  .passageColumn {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border-radius: 8px;
+    border-right: 1px solid rgb(229, 231, 235);
+    padding: 1rem 1.25rem;
+  }
+  .questionsColumn {
+    flex: 1 1 50%;
+    height: 50%;
+    min-height: 0;
+    width: 100%;
+    border-radius: 8px;
+    border-left: 1px solid rgb(229, 231, 235);
+  }
+  .questionsScrollArea {
+    padding: 1rem 1.25rem;
+  }
+  .dockedExplanationDrawer {
+    padding: 0.75rem 1rem;
+    max-height: 40%;
+  }
+  .topbar {
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+  }
+  .bottomNav {
+    padding: 0.5rem 0.75rem 0.625rem 0.75rem;
+    gap: 0.5rem;
+  }
+  .capsuleContainer {
+    max-width: 72vw;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0.35rem 0.5rem;
+    gap: 0.35rem;
+  }
+  .closeCircleBtn {
+    width: 2rem;
+    height: 2rem;
+  }
+  .topbarCenter {
+    gap: 0.5rem;
+  }
+  .clockBox {
+    font-size: 0.8125rem;
+    gap: 0.25rem;
+  }
+  .scoreCapsule {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+  }
+  .passageColumn {
+    padding: 0.75rem 1rem;
+  }
+  .questionsScrollArea {
+    padding: 0.75rem 1rem;
+  }
+  .bottomNav {
+    padding: 0.35rem 0.5rem 0.5rem 0.5rem;
+    gap: 0.35rem;
+  }
+  .bottomNavCenter {
+    min-width: 0;
+  }
+  .capsuleContainer {
+    max-width: 100%;
+    padding: 0.25rem 0.45rem;
+    gap: 0.3rem;
+  }
+  .questionPill {
+    width: 1.25rem;
+    height: 1.25rem;
+    min-width: 1.25rem;
+    font-size: 0.75rem;
+  }
+  .btnOtherTest {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 320px) {
+  .topbar {
+    padding: 0.25rem 0.35rem;
+    gap: 0.25rem;
+  }
+  .closeCircleBtn {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+  .clockBox {
+    font-size: 0.7rem;
+    gap: 0.2rem;
+  }
+  .scoreCapsule {
+    font-size: 0.6875rem;
+    padding: 0.15rem 0.4rem;
+    white-space: nowrap;
+  }
+  .passageColumn {
+    padding: 0.625rem 0.75rem;
+  }
+  .passageSectionLabel {
+    font-size: 1rem;
+  }
+  .passageTitle {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .passageContent {
+    font-size: 0.9375rem;
+  }
+  .questionsScrollArea {
+    padding: 0.625rem 0.75rem;
+  }
+  .bottomNav {
+    padding: 0.25rem 0.35rem 0.4rem 0.35rem;
+    gap: 0.25rem;
+  }
+  .capsuleContainer {
+    padding: 0.2rem 0.35rem;
+    gap: 0.25rem;
+  }
+  .questionPill {
+    width: 1.25rem;
+    height: 1.25rem;
+    min-width: 1.25rem;
+    font-size: 0.75rem;
+  }
+  .btnOtherTest {
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+  }
+}

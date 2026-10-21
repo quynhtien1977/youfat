@@ -1,0 +1,458 @@
+{
+  "c10_t1_task1": {
+    "quiz_id": 5871,
+    "title": "[C10T1] - Australian household energy use and emissions",
+    "thumbnail_url": "https://cms.youpass.vn/assets/16ec2dd2-258d-4593-9b11-1f1772a14a38",
+    "category": "Pie Chart"
+  },
+  "c10_t1_task2": {
+    "quiz_id": 4887,
+    "title": "[C10T1] - Punishment in child education",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8256d121-2bb1-4e5f-aee2-9ca0b1113394",
+    "category": null
+  },
+  "c10_t2_task2": {
+    "quiz_id": 4896,
+    "title": "[C10T2] - University subject choice",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b546d8df-c6ae-4e49-a1ec-77863ebcd457",
+    "category": null
+  },
+  "c10_t3_task1": {
+    "quiz_id": 10859,
+    "title": "[C10T3] - Destination of UK Graduates and Postgraduates in 2008",
+    "thumbnail_url": "https://cms.youpass.vn/assets/613d4412-6465-4195-9a1b-c5d40aed81af",
+    "category": "Bar Chart"
+  },
+  "c10_t3_task2": {
+    "quiz_id": 4818,
+    "title": "[C10T3] - Global product similarity",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a19ab599-b0b2-4edd-88f8-af75845ae3d8",
+    "category": null
+  },
+  "c10_t4_task1": {
+    "quiz_id": 5942,
+    "title": "[C10T4] - Life cycle of Salmon",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1bfba2ec-67ce-4503-a1e6-8e0c138cb3be",
+    "category": "Process"
+  },
+  "c10_t4_task2": {
+    "quiz_id": 4819,
+    "title": "[C10T4] - Museum admission fees",
+    "thumbnail_url": "https://cms.youpass.vn/assets/3c8c3328-7c0d-4913-96f3-6aa369ab9c6b",
+    "category": null
+  },
+  "c11_t1_task2": {
+    "quiz_id": 4888,
+    "title": "[C11T1] - Rail funding Vs. Road funding",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2ff7d18e-89f2-493a-ab6e-e6ba67524e3f",
+    "category": null
+  },
+  "c11_t2_task2": {
+    "quiz_id": 4889,
+    "title": "[C11T2] - Should governments make recycling legally required?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/9ad95cb3-df37-405e-9767-ad37ccf4c2e6",
+    "category": null
+  },
+  "c11_t3_task2": {
+    "quiz_id": 4890,
+    "title": "[C11T3] - Why do we learn foreign languages?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d0e5d744-7eb5-4586-b6f4-daaaf33831ca",
+    "category": null
+  },
+  "c11_t4_task2": {
+    "quiz_id": 4840,
+    "title": "[C11T4] - Economic Vs. Other progress",
+    "thumbnail_url": "https://cms.youpass.vn/assets/fb8837c9-ef3d-4e86-8b17-f728ecb49a33",
+    "category": null
+  },
+  "c12_t1_task2": {
+    "quiz_id": 4817,
+    "title": "[C12T1] - Sharing information in various fields",
+    "thumbnail_url": "https://cms.youpass.vn/assets/7d7fd92d-b64d-4801-bf06-ecaeaa0bfa99",
+    "category": null
+  },
+  "c12_t2_task1": {
+    "quiz_id": 5427,
+    "title": "[C12T2] - Islip town center development plans",
+    "thumbnail_url": "https://cms.youpass.vn/assets/76204753-77b4-4d86-812e-13a5f09f55e2",
+    "category": "Map"
+  },
+  "c12_t2_task2": {
+    "quiz_id": 4801,
+    "title": "[C12T2] - Population: more young than old",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a4c7d187-363a-4d4f-849a-a88e5fc4cda4",
+    "category": null
+  },
+  "c12_t3_task1": {
+    "quiz_id": 5437,
+    "title": "[C12T3] - Patterns of Fast Food Restaurant Visits in the USA",
+    "thumbnail_url": "https://cms.youpass.vn/assets/881e7cf0-9729-4d9f-b9c2-15d013713bef",
+    "category": "Bar Chart"
+  },
+  "c12_t3_task2": {
+    "quiz_id": 4802,
+    "title": "[C12T3] - Fast trains Vs. public transport",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2b0cd3b7-54ff-4109-b47e-ce041ec3faef",
+    "category": null
+  },
+  "c12_t4_task1": {
+    "quiz_id": 5870,
+    "title": "[C12T4] - Understanding geothermal power generation",
+    "thumbnail_url": "https://cms.youpass.vn/assets/51c78654-c696-44fc-99e4-e1b92f161a9e",
+    "category": "Process"
+  },
+  "c12_t4_task2": {
+    "quiz_id": 4803,
+    "title": "[C12T4] - Children making their own choices.",
+    "thumbnail_url": "https://cms.youpass.vn/assets/40c6251a-c0bc-4981-8aed-ba31c0f2c2ed",
+    "category": null
+  },
+  "c13_t1_task2": {
+    "quiz_id": 4766,
+    "title": "[C13T1] - Language barriers",
+    "thumbnail_url": "https://cms.youpass.vn/assets/effb4ded-6e92-4a14-8d5a-586d1e334744",
+    "category": null
+  },
+  "c13_t2_task1": {
+    "quiz_id": 5833,
+    "title": "[C13T2] - Owned and rented accommodation in England and Wales",
+    "thumbnail_url": "https://cms.youpass.vn/assets/f65fac35-683e-41ba-893f-97c1ffda4c80",
+    "category": "Bar Chart"
+  },
+  "c13_t3_task1": {
+    "quiz_id": 3198,
+    "title": "[C13T3] Top ten countries for the production and consumption of electricity in 2014",
+    "thumbnail_url": "https://cms.youpass.vn/assets/71655ae8-a304-4615-89d2-bdcd184831fc",
+    "category": "Bar Chart"
+  },
+  "c13_t3_task2": {
+    "quiz_id": 4811,
+    "title": "[C13T3] - History Vs. Science and Technology",
+    "thumbnail_url": "https://cms.youpass.vn/assets/322a28b1-51ef-4b30-9e59-92ae0d21c944",
+    "category": null
+  },
+  "c13_t4_task1": {
+    "quiz_id": 5883,
+    "title": "[C13T4] - University Sports Centre Redevelopment",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a5d2c9ba-c789-47eb-a09b-fd445e4f308e",
+    "category": "Map"
+  },
+  "c13_t4_task2": {
+    "quiz_id": 4812,
+    "title": "[C13T4] - World hunger despite agricultural advances",
+    "thumbnail_url": "https://cms.youpass.vn/assets/181aaf9b-f3cf-4b59-87ab-c64586224e38",
+    "category": null
+  },
+  "c14_t1_task1": {
+    "quiz_id": 4784,
+    "title": "[C14T1] - Average percentages in typical meals ",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b6a7331b-5300-4e45-9545-8ac373e15ad7",
+    "category": "Pie Chart"
+  },
+  "c14_t1_task2": {
+    "quiz_id": 4787,
+    "title": "[C14T1] Accepting Vs. Trying to improve difficult situations",
+    "thumbnail_url": "https://cms.youpass.vn/assets/0e9588bc-fe5c-49a3-bb4f-425c8a20a013",
+    "category": null
+  },
+  "c14_t2_task1": {
+    "quiz_id": 4777,
+    "title": "[C14T2] - Export earnings",
+    "thumbnail_url": "https://cms.youpass.vn/assets/6c7b8eb4-974c-4b7c-a941-b04472db2b15",
+    "category": "Mixed Graph"
+  },
+  "c14_t3_task1": {
+    "quiz_id": 5389,
+    "title": "[C14T3] - Hydroelectricity generation ",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e80c9614-b963-4545-9918-9d68a707eef9",
+    "category": "Process"
+  },
+  "c14_t3_task2": {
+    "quiz_id": 4778,
+    "title": "[C14T3] - The Role of Music",
+    "thumbnail_url": "https://cms.youpass.vn/assets/53b55fc7-828f-40f8-84b9-3101d7779f5c",
+    "category": null
+  },
+  "c14_t4_task1": {
+    "quiz_id": 5390,
+    "title": "[C14T4] - Grange Park",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e176c60d-86c0-4f20-8b7a-7daac6a80993",
+    "category": "Map"
+  },
+  "c14_t4_task2": {
+    "quiz_id": 4783,
+    "title": "[C14T4] - Self-employment",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b68d8261-670a-4082-a8b5-12880e96b914",
+    "category": null
+  },
+  "c15_t1_task1": {
+    "quiz_id": 4790,
+    "title": "[C15T1] -  Australians' coffee and tea buying and drinking habits",
+    "thumbnail_url": "https://cms.youpass.vn/assets/7e3b43d0-49d2-4067-83f8-91b8e2da7e06",
+    "category": "Bar Chart"
+  },
+  "c15_t1_task2": {
+    "quiz_id": 4781,
+    "title": "[C15T1] - Homeownership vs Renting",
+    "thumbnail_url": "https://cms.youpass.vn/assets/bc0811ab-2ee4-4a39-83e9-39b6deb53457",
+    "category": null
+  },
+  "c15_t2_task1": {
+    "quiz_id": 4785,
+    "title": "[C15T2] - Tourists visiting a particular Caribbean island",
+    "thumbnail_url": "https://cms.youpass.vn/assets/96476297-135e-48b8-bcd7-c814439aa43a",
+    "category": "Line Graph"
+  },
+  "c15_t2_task2": {
+    "quiz_id": 4782,
+    "title": "[C15T2] - Future of Printed Newspapers and Books",
+    "thumbnail_url": "https://cms.youpass.vn/assets/cc561f91-6ece-4797-9469-68c1edce4361",
+    "category": null
+  },
+  "c15_t3_task1": {
+    "quiz_id": 5391,
+    "title": "[C15T3]  - Instant Noodles manufacture",
+    "thumbnail_url": "https://cms.youpass.vn/assets/bb0763f4-d92f-4a90-a016-6e57cb28db86",
+    "category": "Process"
+  },
+  "c15_t3_task2": {
+    "quiz_id": 4786,
+    "title": "[C15T3] - Effectiveness of Advertising",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4adeea03-15a1-4ca9-91c9-58124226c8a9",
+    "category": null
+  },
+  "c15_t4_task1": {
+    "quiz_id": 4792,
+    "title": "[C15T4] - Anthropology graduates",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a4caf5bb-c566-497f-a6c6-8e6bedb09f87",
+    "category": "Mixed Graph"
+  },
+  "c15_t4_task2": {
+    "quiz_id": 4789,
+    "title": "[C15T4] - Children’s Belief in Achievement Through Hard Work",
+    "thumbnail_url": "https://cms.youpass.vn/assets/27c5e820-3c46-4752-a5fe-6e7226fbfcd8",
+    "category": null
+  },
+  "c16_t1_task1": {
+    "quiz_id": 3452,
+    "title": "[C16T1] Percentage of households with electrical appliances",
+    "thumbnail_url": "https://cms.youpass.vn/assets/0792e36d-9a95-4fbb-851d-c82a941dd962",
+    "category": "Line Graph"
+  },
+  "c16_t1_task2": {
+    "quiz_id": 3450,
+    "title": "[C16T1] Interest in the History of Houses or Buildings",
+    "thumbnail_url": "https://cms.youpass.vn/assets/3c42d352-7795-4928-8920-e7609d19941b",
+    "category": null
+  },
+  "c16_t2_task1": {
+    "quiz_id": 3453,
+    "title": "[C16T2] The production of sugar from sugar cane",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e94e2fd5-37e9-4949-8348-059d89f9ff6a",
+    "category": "Process"
+  },
+  "c16_t2_task2": {
+    "quiz_id": 3451,
+    "title": "[C16T2] Businesses Emphasizing Product Novelty in Advertising",
+    "thumbnail_url": "https://cms.youpass.vn/assets/0ffdb17e-a5f4-4300-b426-5801e180bb1f",
+    "category": null
+  },
+  "c16_t3_task1": {
+    "quiz_id": 5407,
+    "title": "[C16T3]  Airport Site Development",
+    "thumbnail_url": "https://cms.youpass.vn/assets/292a71fe-fd36-4722-b30b-e7e827be4bb7",
+    "category": "Map"
+  },
+  "c16_t4_task1": {
+    "quiz_id": 4937,
+    "title": "[C16T4] - Recycling plastic bottles",
+    "thumbnail_url": "https://cms.youpass.vn/assets/dca489f9-b1b6-4504-96fa-9a053d190e70",
+    "category": "Process"
+  },
+  "c17_t1_task1": {
+    "quiz_id": 4936,
+    "title": "[C17T1] - Norbiton now and in the future",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8431923e-cf8d-4a45-987c-2b84398de7d6",
+    "category": "Map"
+  },
+  "c17_t1_task2": {
+    "quiz_id": 3376,
+    "title": "[C17T1] Taking Risks in Personal and Professional Lives",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a6d3302b-b684-4890-9682-042c5d973e98",
+    "category": null
+  },
+  "c17_t2_task1": {
+    "quiz_id": 5434,
+    "title": "[C17T2] Police Budget 2017-2018",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d0151005-2e04-4443-91be-e7c6c21fd0fd",
+    "category": "Mixed Graph"
+  },
+  "c17_t2_task2": {
+    "quiz_id": 3377,
+    "title": "[C17T2] Children's Excessive Smartphone Use",
+    "thumbnail_url": "https://cms.youpass.vn/assets/0b09d08d-f76e-4ac3-815c-9721dcc20254",
+    "category": null
+  },
+  "c17_t3_task1": {
+    "quiz_id": 4045,
+    "title": "[C17T3] Average Weekly Spending by families",
+    "thumbnail_url": "https://cms.youpass.vn/assets/cb0b69f5-383f-48b7-a916-5a4a2f903c38",
+    "category": "Bar Chart"
+  },
+  "c17_t3_task2": {
+    "quiz_id": 3387,
+    "title": "[C17T3] - Mandatory Work Location for Trained Professionals",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2885b356-e4bd-450c-a733-f4c125380d95",
+    "category": null
+  },
+  "c17_t4_task2": {
+    "quiz_id": 3388,
+    "title": "[C17T4] - Alternative Medicines Versus Traditional Doctors",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2da1b68f-eac6-4edf-bb38-9256d339e5ad",
+    "category": null
+  },
+  "c18_t1_task1": {
+    "quiz_id": 3370,
+    "title": "[C18T1] - Percentage of the population living in cities",
+    "thumbnail_url": "https://cms.youpass.vn/assets/5f48e789-8253-459b-b7f8-b16be4a03758",
+    "category": "Line Graph"
+  },
+  "c18_t1_task2": {
+    "quiz_id": 3367,
+    "title": "[C18T1] Science's role in improving lives",
+    "thumbnail_url": "https://cms.youpass.vn/assets/278cedab-1c01-4346-b9da-1f472ae7317a",
+    "category": null
+  },
+  "c18_t2_task1": {
+    "quiz_id": 3371,
+    "title": "[C18T2] - Number of US households by annual income",
+    "thumbnail_url": "https://cms.youpass.vn/assets/0846eb2e-6982-4a5c-b376-0feee4f098c7",
+    "category": "Bar Chart"
+  },
+  "c18_t2_task2": {
+    "quiz_id": 3369,
+    "title": "[C18T2] University students: specialized study vs broader learning ",
+    "thumbnail_url": "https://cms.youpass.vn/assets/888da912-b654-4ed0-b7dc-a2c6c3dc1ef7",
+    "category": null
+  },
+  "c18_t3_task1": {
+    "quiz_id": 3389,
+    "title": "[C18T3] Central Library 20 years ago vs. today",
+    "thumbnail_url": "https://cms.youpass.vn/assets/eb197b43-6da7-45af-9a41-80fc5e6e4dec",
+    "category": "Map"
+  },
+  "c18_t3_task2": {
+    "quiz_id": 3372,
+    "title": "[C18T3] Rural to urban migration: positive or negative?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/90930538-7229-4fbf-8c29-3c2590666cad",
+    "category": null
+  },
+  "c18_t4_task1": {
+    "quiz_id": 3391,
+    "title": "[C18T4] Average monthly change in prices of three metals",
+    "thumbnail_url": "https://cms.youpass.vn/assets/f35af2c6-c6db-4ce9-97a4-7a48441da6e1",
+    "category": "Line Graph"
+  },
+  "c18_t4_task2": {
+    "quiz_id": 3373,
+    "title": "[C18T4] Ageing population: advantages vs disadvantages",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e162b9c5-dfd7-4b88-8284-33ad10d1852e",
+    "category": null
+  },
+  "c19_t1_task1": {
+    "quiz_id": 3149,
+    "title": "[Livestream 15/10/2024] [C19T1] Numbers of participants for different activities at one social center in Melbourne, Australia for the period 2000 to 2020",
+    "thumbnail_url": "https://cms.youpass.vn/assets/ab349ccc-1d6a-44fd-ab45-926789ac6e3d",
+    "category": "Line Graph"
+  },
+  "c19_t1_task2": {
+    "quiz_id": 2151,
+    "title": "[C19T1] Competition vs. Cooperation ",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e9761d25-7085-437c-a78d-363889c0559e",
+    "category": null
+  },
+  "c19_t2_task1": {
+    "quiz_id": 4938,
+    "title": "[C19T2] - Harbour in 2000 and today",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1444443b-51be-41fe-9715-31bab77daa56",
+    "category": "Map"
+  },
+  "c19_t2_task2": {
+    "quiz_id": 2173,
+    "title": "[C19T2] The working week should be shorter ",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b0d83f2e-cd90-4b31-95ee-f58429697a34",
+    "category": null
+  },
+  "c19_t3_task1": {
+    "quiz_id": 3378,
+    "title": "[C19T3] - The production of ethanol",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1bb6cf05-6f68-44cc-a463-e5a42373ed7e",
+    "category": "Process"
+  },
+  "c19_t3_task2": {
+    "quiz_id": 3374,
+    "title": "[C19T3] - Importance of saving money for the future",
+    "thumbnail_url": "https://cms.youpass.vn/assets/13bf8351-5b2a-4801-8393-d33a679020fe",
+    "category": null
+  },
+  "c19_t4_task1": {
+    "quiz_id": 3151,
+    "title": "[Livestream 14/11/2024] [C19T4] Locations and types of dance classes young people in a town in Australia are currently attending",
+    "thumbnail_url": "https://cms.youpass.vn/assets/43c99225-45cf-424c-adb9-c0d7c565c288",
+    "category": "Mixed Graph"
+  },
+  "c19_t4_task2": {
+    "quiz_id": 3375,
+    "title": "[C19T4] - Global food availability in supermarkets",
+    "thumbnail_url": "https://cms.youpass.vn/assets/faf03d57-67df-4cf3-a54e-9b7d02d2a133",
+    "category": null
+  },
+  "c20_t1_task1": {
+    "quiz_id": 5006,
+    "title": "[C20T1] - Population changes in New York City and other districts",
+    "thumbnail_url": "https://cms.youpass.vn/assets/261b2009-1b10-4155-9c58-f4cebf35fe82",
+    "category": "Table"
+  },
+  "c20_t1_task2": {
+    "quiz_id": 4950,
+    "title": "[C20T1] - Free clean water access",
+    "thumbnail_url": "https://cms.youpass.vn/assets/9ce7fa57-acd1-446c-b32c-79cc607a0d82",
+    "category": null
+  },
+  "c20_t2_task1": {
+    "quiz_id": 5024,
+    "title": "[C20T2] - Beechwood farm in 1950 and today",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8092fc2b-d6bb-485d-be08-242062384d4d",
+    "category": "Map"
+  },
+  "c20_t2_task2": {
+    "quiz_id": 4908,
+    "title": "[C20T2] - Long summer school holidays",
+    "thumbnail_url": "https://cms.youpass.vn/assets/aba2d261-aa6a-4bcb-88da-62011707fc6c",
+    "category": null
+  },
+  "c20_t3_task1": {
+    "quiz_id": 5007,
+    "title": "[C20T3] - A public library in Little Chalfont",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4704d2d3-fbac-471f-aff4-e00dbc42af97",
+    "category": "Mixed Graph"
+  },
+  "c20_t3_task2": {
+    "quiz_id": 4995,
+    "title": "[C20T3] - Reducing air travel for the environment",
+    "thumbnail_url": "https://cms.youpass.vn/assets/bf5a7f84-07dd-4cd3-b0ef-dc1258b2726d",
+    "category": null
+  },
+  "c20_t4_task1": {
+    "quiz_id": 5020,
+    "title": "[C20T4] - How bamboo fabric is made",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1a1221ab-325e-466f-96ce-46d4e7e5ac2f",
+    "category": "Process"
+  },
+  "c20_t4_task2": {
+    "quiz_id": 4931,
+    "title": "[C20T4]  - The influence of global fashion trends",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8a5deebf-60e8-48f6-9cce-9ee82a808708",
+    "category": null
+  }
+}

@@ -1,0 +1,662 @@
+{
+  "c10_t1_p1": {
+    "quiz_id": 7366,
+    "title": "[C10T1] - Stepwells",
+    "thumbnail_url": "https://cms.youpass.vn/assets/fd172f58-64fa-442f-af8f-c30adbd6d35c"
+  },
+  "c10_t1_p2": {
+    "quiz_id": 7367,
+    "title": "[C10T1] - European transport systems 1990 - 2010",
+    "thumbnail_url": "https://cms.youpass.vn/assets/5ef5baf5-6b06-4ce5-8a29-16c4235d24d7"
+  },
+  "c10_t1_p3": {
+    "quiz_id": 7365,
+    "title": "[C10T1] - The psychology of innovation",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2c20a09d-7704-4b30-ab79-8ec1a753e443"
+  },
+  "c10_t2_p1": {
+    "quiz_id": 7362,
+    "title": "[C10T2] - Tea and the Industrial Revolution",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d33c8498-2df9-40d0-8f44-2b81bc897c6d"
+  },
+  "c10_t2_p2": {
+    "quiz_id": 7364,
+    "title": "[C10T2] - Gifted children and learning",
+    "thumbnail_url": "https://cms.youpass.vn/assets/6b18d90c-8a53-46f7-823b-6801b61e6615"
+  },
+  "c10_t2_p3": {
+    "quiz_id": 7363,
+    "title": "[C10T2] - Museums of fine art and their public",
+    "thumbnail_url": "https://cms.youpass.vn/assets/02b63c91-1cf5-4175-942d-f7e5d85cd51b"
+  },
+  "c10_t3_p1": {
+    "quiz_id": 7555,
+    "title": "[C10T3] - The Context, Meaning and Scope of Tourism",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1c01c7e9-b5c7-4a77-978c-598a6bc98de1"
+  },
+  "c10_t3_p2": {
+    "quiz_id": 7361,
+    "title": "[C10T3] - Autumn Leaves",
+    "thumbnail_url": "https://cms.youpass.vn/assets/ec4fb059-e725-4b53-ad54-83978d07c4b8"
+  },
+  "c10_t3_p3": {
+    "quiz_id": 7360,
+    "title": "[C10T3] - Beyond the blue horizon",
+    "thumbnail_url": "https://cms.youpass.vn/assets/6ec6b79a-ed28-40fd-9752-d99e854e4cfd"
+  },
+  "c10_t4_p1": {
+    "quiz_id": 7359,
+    "title": "[C10T4] - The megafires of California",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b736c7d7-440c-4930-b7d0-2b5550856544"
+  },
+  "c10_t4_p2": {
+    "quiz_id": 7554,
+    "title": "[C10T4] - Second nature",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a6058d0a-95f0-492e-8d57-3c8743a47866"
+  },
+  "c10_t4_p3": {
+    "quiz_id": 7358,
+    "title": "[C10T4] - When evolution runs backwards",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a052eb8a-43f8-4f3a-846b-85be2a79b322"
+  },
+  "c11_t1_p1": {
+    "quiz_id": 7357,
+    "title": "[C11T1] - Crop-growing Skyscrapers",
+    "thumbnail_url": "https://cms.youpass.vn/assets/19dbc7f2-02b2-42f3-8670-9a3995680782"
+  },
+  "c11_t1_p2": {
+    "quiz_id": 7355,
+    "title": "[C11T1] - The Falkirk Wheel",
+    "thumbnail_url": "https://cms.youpass.vn/assets/c3127376-5bda-4ce2-8697-18f771b8c27a"
+  },
+  "c11_t1_p3": {
+    "quiz_id": 7356,
+    "title": "[C11T1] - Reducing the Effects of Climate Change",
+    "thumbnail_url": "https://cms.youpass.vn/assets/85f1df0b-2a42-4c9e-b48c-9e10b5b672d6"
+  },
+  "c11_t2_p1": {
+    "quiz_id": 7353,
+    "title": "[C11T2] - Raising the Mary Rose",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1bd3bec6-e999-49e2-b350-8323330fd090"
+  },
+  "c11_t2_p2": {
+    "quiz_id": 7352,
+    "title": "[C11T2] - What destroyed the civilisation of Easter Island?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/929b7b93-5b56-4ebe-9b86-09e5c9c8bbbc"
+  },
+  "c11_t2_p3": {
+    "quiz_id": 7354,
+    "title": "[C11T2] - Neuroaesthetics",
+    "thumbnail_url": "https://cms.youpass.vn/assets/18b12fb7-bd81-414f-b6cb-077722367173"
+  },
+  "c11_t3_p1": {
+    "quiz_id": 7349,
+    "title": "[C11T3] - The story of silk",
+    "thumbnail_url": "https://cms.youpass.vn/assets/24cb7d84-9355-4042-9058-5d64a73d0d25"
+  },
+  "c11_t3_p2": {
+    "quiz_id": 7351,
+    "title": "[C11T3] - Great Migrations",
+    "thumbnail_url": "https://cms.youpass.vn/assets/448b655f-af4e-49f8-9bba-6babeba90102"
+  },
+  "c11_t3_p3": {
+    "quiz_id": 7350,
+    "title": "[C11T3] - Preface to ‘How the other half thinks: Adventures in mathematical reasoning’",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e478e3b9-8adc-4748-aa75-d4e7242e4e6f"
+  },
+  "c11_t4_p1": {
+    "quiz_id": 7347,
+    "title": "[C11T4] - Research using twins",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b1d8dc4e-b9b5-41c8-8cc8-e93f9378a6c9"
+  },
+  "c11_t4_p2": {
+    "quiz_id": 7348,
+    "title": "[C11T4] - An Introduction to Film Sound",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8d473627-fd5e-4c5e-aefe-32be5d91b3dc"
+  },
+  "c11_t4_p3": {
+    "quiz_id": 7346,
+    "title": "[C11T4] - ‘This Marvellous Invention’",
+    "thumbnail_url": "https://cms.youpass.vn/assets/f71fbbfd-97c1-4d6b-8fca-6b2bb23250b4"
+  },
+  "c12_t1_p1": {
+    "quiz_id": 7344,
+    "title": "[C12T1] - Cork",
+    "thumbnail_url": "https://cms.youpass.vn/assets/c0d6cac0-1d2f-4980-abf9-309888c42f79"
+  },
+  "c12_t1_p2": {
+    "quiz_id": 7345,
+    "title": "[C12T1] - Collecting as a hobby",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2b6f7fe7-c349-41d1-aa4d-4357c919a461"
+  },
+  "c12_t1_p3": {
+    "quiz_id": 7343,
+    "title": "[C12T1] - What’s the purpose of gaining knowledge?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/924e55cd-c37a-40fd-9c5f-9f4768965b01"
+  },
+  "c12_t2_p1": {
+    "quiz_id": 7340,
+    "title": "[C12T2] - The risks agriculture faces in developing countries",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e22bfd32-2584-41e0-81e7-03ac2b974278"
+  },
+  "c12_t2_p2": {
+    "quiz_id": 7341,
+    "title": "[C12T2] - The Lost City",
+    "thumbnail_url": "https://cms.youpass.vn/assets/20b2b442-8b07-4dfe-a31a-4b61e50cbe96"
+  },
+  "c12_t2_p3": {
+    "quiz_id": 7342,
+    "title": "[C12T2] - The benefits of being bilingual",
+    "thumbnail_url": "https://cms.youpass.vn/assets/c6ee4f99-9602-41a6-987a-32fe2611a014"
+  },
+  "c12_t3_p1": {
+    "quiz_id": 7339,
+    "title": "[C12T3] - Flying tortoises",
+    "thumbnail_url": "https://cms.youpass.vn/assets/91d21b9b-706f-4cba-8719-18d9eaf49114"
+  },
+  "c12_t3_p2": {
+    "quiz_id": 7337,
+    "title": "[C12T3] - The Intersection of Health Sciences and Geography",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4dfba985-50b6-44b0-b9c0-fe74457d0f06"
+  },
+  "c12_t3_p3": {
+    "quiz_id": 7338,
+    "title": "[C12T3] - Music and the emotions",
+    "thumbnail_url": "https://cms.youpass.vn/assets/606e83c3-ca76-4fa2-b9de-653df1c20010"
+  },
+  "c12_t4_p1": {
+    "quiz_id": 7335,
+    "title": "[C12T4] - The History of Glass",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4699cf88-c680-473f-99ef-3c9712f417fe"
+  },
+  "c12_t4_p2": {
+    "quiz_id": 7336,
+    "title": "[C12T4] - Bring back the big cats",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a80e7216-e9da-42a4-a8f1-b079f4b14f11"
+  },
+  "c12_t4_p3": {
+    "quiz_id": 7553,
+    "title": "[C12T4] - UK companies need more effective boards of directors",
+    "thumbnail_url": "https://cms.youpass.vn/assets/f0a8894b-3d5a-4875-977e-95ca8af80b40"
+  },
+  "c13_t1_p1": {
+    "quiz_id": 7333,
+    "title": "[C13T1] - Case Study: Tourism New Zealand website",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1369bb02-952d-48e7-8226-e891dc295c98"
+  },
+  "c13_t1_p2": {
+    "quiz_id": 7332,
+    "title": "[C13T1] - Why being bored is stimulating – and useful, too",
+    "thumbnail_url": "https://cms.youpass.vn/assets/7a29c04e-8423-4189-9c9b-1e946b1c75d2"
+  },
+  "c13_t1_p3": {
+    "quiz_id": 7334,
+    "title": "[C13T1] - Artificial artists",
+    "thumbnail_url": "https://cms.youpass.vn/assets/05bea468-d59a-40b8-be5f-4fb0cbec0037"
+  },
+  "c13_t2_p1": {
+    "quiz_id": 7331,
+    "title": "[C13T2] - Bringing cinnamon to Europe",
+    "thumbnail_url": "https://cms.youpass.vn/assets/c721a804-f16a-498e-a86e-c05932fc8baf"
+  },
+  "c13_t2_p2": {
+    "quiz_id": 7329,
+    "title": "[C13T2] - Oxytocin",
+    "thumbnail_url": "https://cms.youpass.vn/assets/c8334376-6fa4-47a2-a333-62e09a172c02"
+  },
+  "c13_t2_p3": {
+    "quiz_id": 7330,
+    "title": "[C13T2] - Making the most of trends",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e5ea6403-f14f-4765-ac86-d61f0effa886"
+  },
+  "c13_t3_p1": {
+    "quiz_id": 7327,
+    "title": "[C13T3] - The coconut palm",
+    "thumbnail_url": "https://cms.youpass.vn/assets/bfe2801d-a370-4f5f-807e-d253a4ce71f4"
+  },
+  "c13_t3_p2": {
+    "quiz_id": 7328,
+    "title": "[C13T3] - How baby talk gives infant brains a boost",
+    "thumbnail_url": "https://cms.youpass.vn/assets/6ba2bf2a-c399-4201-8670-fbf3124f44ad"
+  },
+  "c13_t3_p3": {
+    "quiz_id": 7326,
+    "title": "[C13T3] - Whatever happened to the Harappan Civilisation?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/37999a6e-42d1-4b92-9d86-eed5651f4f45"
+  },
+  "c13_t4_p1": {
+    "quiz_id": 7324,
+    "title": "[C13T4] - Cutty Sark: the fastest sailing ship of all time",
+    "thumbnail_url": "https://cms.youpass.vn/assets/698955c1-32f3-4bb2-81cf-c115efbc49e1"
+  },
+  "c13_t4_p2": {
+    "quiz_id": 7323,
+    "title": "[C13T4] - Saving the soil",
+    "thumbnail_url": "https://cms.youpass.vn/assets/98d3aa65-56ab-4de5-a923-248544e0fd53"
+  },
+  "c13_t4_p3": {
+    "quiz_id": 7325,
+    "title": "[C13T4] - Book Review",
+    "thumbnail_url": "https://cms.youpass.vn/assets/139d47bb-967d-4a0c-bc58-cf6b2fc19829"
+  },
+  "c14_t1_p1": {
+    "quiz_id": 7320,
+    "title": "[C14T1] - The importance of Children's play",
+    "thumbnail_url": "https://cms.youpass.vn/assets/64dd2841-f05f-4267-ac6f-0ecacd5ee8cb"
+  },
+  "c14_t1_p2": {
+    "quiz_id": 7321,
+    "title": "[C14T1] - The growth of bike-sharing schemes around the world",
+    "thumbnail_url": "https://cms.youpass.vn/assets/585777fd-66d5-4692-97d2-98dda96edffe"
+  },
+  "c14_t1_p3": {
+    "quiz_id": 7322,
+    "title": "[C14T1] - Motivational factors and the hospitality industry",
+    "thumbnail_url": "https://cms.youpass.vn/assets/9060858f-a1db-4578-affa-ab3b9e0fba4a"
+  },
+  "c14_t2_p1": {
+    "quiz_id": 7319,
+    "title": "[C14T2] - Alexander Henderson (1831-1913)",
+    "thumbnail_url": "https://cms.youpass.vn/assets/aa1937de-42f0-43cc-8ee2-f97730b1379e"
+  },
+  "c14_t2_p2": {
+    "quiz_id": 7318,
+    "title": "[C14T2] - Back to the future of skyscraper design",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4bc3dfa0-870a-4e7d-b9e4-39a6bcfffc7e"
+  },
+  "c14_t2_p3": {
+    "quiz_id": 7317,
+    "title": "[C14T2] - Why companies should welcome disorder?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d4732b50-90bd-45cc-94a2-64aa2cd059d2"
+  },
+  "c14_t3_p1": {
+    "quiz_id": 7315,
+    "title": "[C14T3] - The concept of intelligence",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8b681f23-47b0-4736-99a3-dcb233269f60"
+  },
+  "c14_t3_p2": {
+    "quiz_id": 7316,
+    "title": "[C14T3] - Saving bugs to find new drugs",
+    "thumbnail_url": "https://cms.youpass.vn/assets/315936f0-4d8f-4f22-8a12-a26c0b75f318"
+  },
+  "c14_t3_p3": {
+    "quiz_id": 7314,
+    "title": "[C14T3] - The power of play",
+    "thumbnail_url": "https://cms.youpass.vn/assets/6f03038b-e512-47fd-9988-09f56c2ecca8"
+  },
+  "c14_t4_p1": {
+    "quiz_id": 7312,
+    "title": "[C14T4] - The secret of staying young",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2ce84cb2-8d5f-4b02-8e29-c9f950d65b55"
+  },
+  "c14_t4_p2": {
+    "quiz_id": 7311,
+    "title": "[C14T4] - Why zoos are good?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4fa4e010-a59a-4d8f-897e-b112ed8f8ce8"
+  },
+  "c14_t4_p3": {
+    "quiz_id": 7313,
+    "title": "[C14T4] - Assessing the threat of marine debris",
+    "thumbnail_url": "https://cms.youpass.vn/assets/9f1b8c50-0cd1-4753-b5e4-6180b2f6f9bf"
+  },
+  "c15_t1_p1": {
+    "quiz_id": 7309,
+    "title": "[C15T1] - Nutmeg – a valuable spice",
+    "thumbnail_url": "https://cms.youpass.vn/assets/fa84ef8b-9264-49c9-a661-2e91edfd12da"
+  },
+  "c15_t1_p2": {
+    "quiz_id": 7310,
+    "title": "[C15T1] - Driverless cars",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d3be890f-cb61-47e8-b991-e6c44afa137c"
+  },
+  "c15_t1_p3": {
+    "quiz_id": 7308,
+    "title": "[C15T1] - What is exploration?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/cfe86e26-d048-4af0-a78c-3656545b3dee"
+  },
+  "c15_t2_p1": {
+    "quiz_id": 7307,
+    "title": "[C15T2] - Could urban engineers learn from dance?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/3c94c058-217d-4a1f-82a6-d319cc84ff60"
+  },
+  "c15_t2_p2": {
+    "quiz_id": 7305,
+    "title": "[C15T2] - Should we try to bring extinct species back to life?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/eab528a1-03f7-498a-8c61-51d6a4b96ab1"
+  },
+  "c15_t2_p3": {
+    "quiz_id": 7306,
+    "title": "[C15T2] - Having a laugh",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d0a9d52d-a2d4-43ec-b0cc-af237f9be350"
+  },
+  "c15_t3_p1": {
+    "quiz_id": 7304,
+    "title": "[C15T3] - Henry Moore (1898-1986)",
+    "thumbnail_url": "https://cms.youpass.vn/assets/89bcebff-6f5a-4bc2-859d-5806e5bb1f6f"
+  },
+  "c15_t3_p2": {
+    "quiz_id": 7303,
+    "title": "[C15T3] - The Desolenator: producing clean water",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2539e4a0-4a2d-49be-bc92-85150e18d297"
+  },
+  "c15_t3_p3": {
+    "quiz_id": 7302,
+    "title": "[C15T3] - Why fairy tales are really scary tales?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/c5aec9d1-ab7c-44e3-9b45-7cdf842cee76"
+  },
+  "c15_t4_p1": {
+    "quiz_id": 7299,
+    "title": "[C15T4] - The return of the huarango",
+    "thumbnail_url": "https://cms.youpass.vn/assets/21f9485c-cc2a-4111-b992-c8ccef087c3e"
+  },
+  "c15_t4_p2": {
+    "quiz_id": 7300,
+    "title": "[C15T4] - Silbo Gomero – the whistle ‘language’ of the Canary Islands",
+    "thumbnail_url": "https://cms.youpass.vn/assets/18217eaf-a563-4a7f-95c5-b23a21bb1414"
+  },
+  "c15_t4_p3": {
+    "quiz_id": 7301,
+    "title": "[C15T4] - Environmental practices of big businesses",
+    "thumbnail_url": "https://cms.youpass.vn/assets/957fdaee-e86b-4988-b8f5-83128a5c3229"
+  },
+  "c16_t1_p1": {
+    "quiz_id": 7296,
+    "title": "[C16T1] - Why we need to protect polar bears?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/00356ed7-44e7-4f55-89a7-ed73eedb8219"
+  },
+  "c16_t1_p2": {
+    "quiz_id": 7297,
+    "title": "[C16T1] - The Step Pyramid of Djoser",
+    "thumbnail_url": "https://cms.youpass.vn/assets/36d414e4-86ed-4790-ab10-b8961840a429"
+  },
+  "c16_t1_p3": {
+    "quiz_id": 7298,
+    "title": "[C16T1] - The future of work",
+    "thumbnail_url": "https://cms.youpass.vn/assets/05f2df16-c14d-45bc-8c16-e38ddac6441a"
+  },
+  "c16_t2_p1": {
+    "quiz_id": 7293,
+    "title": "[C16T2] - The White Horse of Uffington",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d56777c5-3b90-47d6-9737-85661afc951e"
+  },
+  "c16_t2_p2": {
+    "quiz_id": 7294,
+    "title": "[C16T2] - I contain multitudes",
+    "thumbnail_url": "https://cms.youpass.vn/assets/3779d812-ffc1-4ee4-9d51-e10de60cefb5"
+  },
+  "c16_t2_p3": {
+    "quiz_id": 7295,
+    "title": "[C16T2] - How to make wise decisions?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/20a1579c-9234-4a79-a8a2-02311032fc39"
+  },
+  "c16_t3_p1": {
+    "quiz_id": 7290,
+    "title": "[C16T3] - Roman shipbuilding and navigation",
+    "thumbnail_url": "https://cms.youpass.vn/assets/28dc1ba1-178b-4b30-a80f-1726e15e4128"
+  },
+  "c16_t3_p2": {
+    "quiz_id": 7292,
+    "title": "[C16T3] - Climate change reveals ancient artefacts in Norway’s glaciers",
+    "thumbnail_url": "https://cms.youpass.vn/assets/3698e402-79dd-4865-8148-af327eeaf686"
+  },
+  "c16_t3_p3": {
+    "quiz_id": 7291,
+    "title": "[C16T3] - Plant ‘thermometer’ triggers springtime growth by measuring night-time heat",
+    "thumbnail_url": "https://cms.youpass.vn/assets/61afe6f1-9b2b-4464-b499-b2971eae82e0"
+  },
+  "c16_t4_p1": {
+    "quiz_id": 7289,
+    "title": "[C16T4] - Roman tunnels",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e7bd8b02-e2b3-469c-a7f0-77e73995911a"
+  },
+  "c16_t4_p2": {
+    "quiz_id": 7551,
+    "title": "[C16T4] - Changes in reading habits",
+    "thumbnail_url": "https://cms.youpass.vn/assets/cd1e9833-eec2-4215-9aa4-dc92a7a59132"
+  },
+  "c16_t4_p3": {
+    "quiz_id": 7552,
+    "title": "[C16T4] - Attitudes towards Artificial Intelligence",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d22890ed-ab03-47fc-b29a-9d4f3a63b74d"
+  },
+  "c17_t1_p1": {
+    "quiz_id": 7287,
+    "title": "[C17T1] - The development of the London underground railway",
+    "thumbnail_url": "https://cms.youpass.vn/assets/c6ddbfaa-32a5-45a2-a88b-3192d2370bf4"
+  },
+  "c17_t1_p2": {
+    "quiz_id": 7288,
+    "title": "[C17T1] - Stadiums: past, present and future",
+    "thumbnail_url": "https://cms.youpass.vn/assets/bec19ee3-0d7a-4d73-af86-62ba55b4a06f"
+  },
+  "c17_t1_p3": {
+    "quiz_id": 7286,
+    "title": "[C17T1] - To catch a king",
+    "thumbnail_url": "https://cms.youpass.vn/assets/216dae1b-5c1e-46e2-aef6-dfe12b8e64bb"
+  },
+  "c17_t2_p1": {
+    "quiz_id": 7283,
+    "title": "[C17T2] - The Dead Sea Scrolls",
+    "thumbnail_url": "https://cms.youpass.vn/assets/5422354a-7940-48d5-baa3-4fb8dbb80f2f"
+  },
+  "c17_t2_p2": {
+    "quiz_id": 7285,
+    "title": "[C17T2] - A second attempt at domesticating the tomato",
+    "thumbnail_url": null
+  },
+  "c17_t2_p3": {
+    "quiz_id": 7284,
+    "title": "[C17T2] - Insight or evolution?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/0fbf8721-4a33-4d00-9536-cf9414fcc782"
+  },
+  "c17_t3_p1": {
+    "quiz_id": 7547,
+    "title": "[C17T3] - The thylacine",
+    "thumbnail_url": "https://cms.youpass.vn/assets/245dd72b-d82d-42a8-b198-cc33f589e17f"
+  },
+  "c17_t3_p2": {
+    "quiz_id": 7548,
+    "title": "[C17T3] - Palm oil",
+    "thumbnail_url": "https://cms.youpass.vn/assets/cd733b28-3979-41c5-b316-14c10e827c16"
+  },
+  "c17_t3_p3": {
+    "quiz_id": 7550,
+    "title": "[C17T3] - Building the Skyline: The Birth and Growth of Manhattan’s Skyscrapers",
+    "thumbnail_url": "https://cms.youpass.vn/assets/837e3cfb-04c4-459e-9307-6b7e839b9f59"
+  },
+  "c17_t4_p1": {
+    "quiz_id": 7545,
+    "title": "[C17T4] - Bats to the rescue",
+    "thumbnail_url": "https://cms.youpass.vn/assets/01e8f400-aca2-4bf3-9213-c41d2f428f7e"
+  },
+  "c17_t4_p2": {
+    "quiz_id": 7546,
+    "title": "[C17T4] - Does education fuel economic growth?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/5f8cbd2d-9940-47cd-8230-5adf6bf73df2"
+  },
+  "c17_t4_p3": {
+    "quiz_id": 7282,
+    "title": "[C17T4] - Timur Gareyev – blindfold chess champion",
+    "thumbnail_url": "https://cms.youpass.vn/assets/54950900-d78b-42c9-b317-cddd96a78df9"
+  },
+  "c18_t1_p1": {
+    "quiz_id": 7279,
+    "title": "[C18T1] - Urban farming",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b31a629a-307f-4b4d-8108-d2cb34a9cd9e"
+  },
+  "c18_t1_p2": {
+    "quiz_id": 7280,
+    "title": "[C18T1] - Forest management in Pennsylvania, USA",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a52bb7b0-6391-48ad-9280-9567d44c6bd7"
+  },
+  "c18_t1_p3": {
+    "quiz_id": 7281,
+    "title": "[C18T1] - Conquering Earth’s space junk problem",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b4dd5503-29cc-4ae9-8e89-8dad2ab4c777"
+  },
+  "c18_t2_p1": {
+    "quiz_id": 7276,
+    "title": "[C18T2] - Stonehenge",
+    "thumbnail_url": "https://cms.youpass.vn/assets/21649a52-f1e6-4535-bd3a-105789986848"
+  },
+  "c18_t2_p2": {
+    "quiz_id": 7277,
+    "title": "[C18T2] - Living with artificial intelligence",
+    "thumbnail_url": "https://cms.youpass.vn/assets/fa60eb84-7ee9-44d3-8977-bd48145f6b15"
+  },
+  "c18_t2_p3": {
+    "quiz_id": 7278,
+    "title": "[C18T2] - An ideal city",
+    "thumbnail_url": "https://cms.youpass.vn/assets/fdd0b990-0b7b-4e76-976d-50030ea66703"
+  },
+  "c18_t3_p1": {
+    "quiz_id": 7275,
+    "title": "[C18T3] - Materials to take us beyond concrete",
+    "thumbnail_url": "https://cms.youpass.vn/assets/20a7ddac-dd76-486d-ba50-fca2853b07ef"
+  },
+  "c18_t3_p2": {
+    "quiz_id": 7273,
+    "title": "[C18T3] - The steam car",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e700f326-4696-4087-bccf-2db5dac86359"
+  },
+  "c18_t3_p3": {
+    "quiz_id": 7274,
+    "title": "[C18T3] - The case for mixed-ability classes",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8c012871-d8cb-4676-a595-8ad8b85b8ca0"
+  },
+  "c18_t4_p1": {
+    "quiz_id": 7271,
+    "title": "[C18T4] - Green roofs",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8df71a96-1958-44ac-a474-f7abcf791e6e"
+  },
+  "c18_t4_p2": {
+    "quiz_id": 7270,
+    "title": "[C18T4] - The growth mindset",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e6ced00b-cdb9-4f30-a2be-8720c3b3cd55"
+  },
+  "c18_t4_p3": {
+    "quiz_id": 7272,
+    "title": "[C18T4] - Alfred Wegener: science, exploration and the theory of continental drift",
+    "thumbnail_url": "https://cms.youpass.vn/assets/128ee926-6204-4e93-a8b4-119c6f7bfcfa"
+  },
+  "c19_t1_p1": {
+    "quiz_id": 7269,
+    "title": "[C19T1] - How Tennis Rackets Have Changed",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1e2cedac-9309-45ec-a063-dd2555832bb5"
+  },
+  "c19_t1_p2": {
+    "quiz_id": 7267,
+    "title": "[C19T1] - The pirates of the ancient Mediterranean",
+    "thumbnail_url": "https://cms.youpass.vn/assets/59f2766f-fbd9-4230-8c3c-37ae9a84c9b6"
+  },
+  "c19_t1_p3": {
+    "quiz_id": 7268,
+    "title": "[C19T1] - The persistence and peril of misinformation",
+    "thumbnail_url": "https://cms.youpass.vn/assets/69d5a8a3-a45e-4903-86f3-fb50fe3f9dbf"
+  },
+  "c19_t2_p1": {
+    "quiz_id": 7264,
+    "title": "[C19T2] - The Industrial Revolution in Britain",
+    "thumbnail_url": "https://cms.youpass.vn/assets/15bbcf66-e990-46f6-b659-896f16e17f54"
+  },
+  "c19_t2_p2": {
+    "quiz_id": 7265,
+    "title": "[C19T2] - Athletes and stress",
+    "thumbnail_url": "https://cms.youpass.vn/assets/6ef4c79c-83cb-4bb7-b74f-1342231790c9"
+  },
+  "c19_t2_p3": {
+    "quiz_id": 7266,
+    "title": "[C19T2] - An inquiry into the existence of the gifted child ",
+    "thumbnail_url": "https://cms.youpass.vn/assets/573869c9-02e5-418c-aa72-1fcbeebdae6e"
+  },
+  "c19_t3_p1": {
+    "quiz_id": 7263,
+    "title": "[C19T3] - Archaeologists discover evidence of prehistoric island settlers",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b82aac6b-b273-4a93-b40f-344930d72aab"
+  },
+  "c19_t3_p2": {
+    "quiz_id": 7261,
+    "title": "[C19T3] - The global importance of wetlands",
+    "thumbnail_url": "https://cms.youpass.vn/assets/e40632f9-40d0-4500-abc8-818f6f6a33a0"
+  },
+  "c19_t3_p3": {
+    "quiz_id": 7262,
+    "title": "[C19T3] - Is the era of artificial speech translation upon us?",
+    "thumbnail_url": "https://cms.youpass.vn/assets/ef495c71-ac3a-4bcc-bbee-eae3446ed8cb"
+  },
+  "c19_t4_p1": {
+    "quiz_id": 7259,
+    "title": "[C19T4] - The impact of climate change on butterflies in Britain",
+    "thumbnail_url": "https://cms.youpass.vn/assets/a115cf05-d6f5-48cf-ac11-c2e16dd9527d"
+  },
+  "c19_t4_p2": {
+    "quiz_id": 7260,
+    "title": "[C19T4] - Deep-sea mining",
+    "thumbnail_url": "https://cms.youpass.vn/assets/67af8f7f-1e7d-4e62-baf9-32b7da3a5054"
+  },
+  "c19_t4_p3": {
+    "quiz_id": 7258,
+    "title": "[C19T4] - The Unselfish Gene",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4368dbbc-e029-4eb0-8d45-443140eacd0f"
+  },
+  "c20_t1_p1": {
+    "quiz_id": 7255,
+    "title": "[C20T1] - The kākāpō",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b3fcbb1e-3d9c-4d6d-bcfd-7485d0048ec3"
+  },
+  "c20_t1_p2": {
+    "quiz_id": 7256,
+    "title": "[C20T1] - Reintroducing elms to Britain",
+    "thumbnail_url": "https://cms.youpass.vn/assets/b4725a6d-d1ad-4f06-b204-24c5a58c075e"
+  },
+  "c20_t1_p3": {
+    "quiz_id": 7257,
+    "title": "[C20T1] - How stress affects our judgement",
+    "thumbnail_url": "https://cms.youpass.vn/assets/d554ed4d-a368-4a70-b347-610e484df0a6"
+  },
+  "c20_t2_p1": {
+    "quiz_id": 7253,
+    "title": "[C20T2] - Manatees",
+    "thumbnail_url": "https://cms.youpass.vn/assets/bc4bda7e-ce95-4682-a501-0fae143ff714"
+  },
+  "c20_t2_p2": {
+    "quiz_id": 7252,
+    "title": "[C20T2] - Procrastination",
+    "thumbnail_url": "https://cms.youpass.vn/assets/6ac6906d-e593-48d3-93bd-ecff10dd3c4e"
+  },
+  "c20_t2_p3": {
+    "quiz_id": 7254,
+    "title": "[C20T2] - Invasion of the Robot Umpires",
+    "thumbnail_url": "https://cms.youpass.vn/assets/1efaecd6-ca72-4721-8dbe-d0a582728d43"
+  },
+  "c20_t3_p1": {
+    "quiz_id": 7544,
+    "title": "[C20T3] - Frozen Food",
+    "thumbnail_url": "https://cms.youpass.vn/assets/9adf0094-4104-4fbe-b621-fd9740563439"
+  },
+  "c20_t3_p2": {
+    "quiz_id": 7251,
+    "title": "[C20T3] - Coral reefs",
+    "thumbnail_url": "https://cms.youpass.vn/assets/5a41f693-3698-4acc-a03d-60556762c900"
+  },
+  "c20_t3_p3": {
+    "quiz_id": 7250,
+    "title": "[C20T3] - Robots and us",
+    "thumbnail_url": "https://cms.youpass.vn/assets/8aacf64c-8bd7-4136-a623-a1e37035ff64"
+  },
+  "c20_t4_p1": {
+    "quiz_id": 7247,
+    "title": "[C20T4] - Georgia O’Keeffe",
+    "thumbnail_url": "https://cms.youpass.vn/assets/4b0d33fc-9d82-4292-a856-04fea2fd2d80"
+  },
+  "c20_t4_p2": {
+    "quiz_id": 7249,
+    "title": "[C20T4] - Adapting to the effects of climate change",
+    "thumbnail_url": "https://cms.youpass.vn/assets/2ac4b227-2517-44ab-ba3d-9203e10d9d23"
+  },
+  "c20_t4_p3": {
+    "quiz_id": 7248,
+    "title": "[C20T4] - A new role for livestock guard dogs",
+    "thumbnail_url": "https://cms.youpass.vn/assets/01237206-8155-46e6-b73c-63507838843a"
+  }
+}
